@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GameForest — Demo</title>
+
+  <!-- new styles -->
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- (optional) icons font could be added later, not needed now -->
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <button class="iconbtn" id="btnMenu" title="Menu">☰</button>
+
+      <div class="brand" onclick="GF.nav('home')">
+        <div class="brand__logo">GF</div>
+        <div class="brand__name">GameForest</div>
+      </div>
+
+      <nav class="topnav">
+        <button class="topnav__btn is-active" data-page="home" onclick="GF.nav('home')">Каталог</button>
+        <button class="topnav__btn" data-page="about" onclick="GF.nav('about')">Про проєкт</button>
+      </nav>
+    </div>
+
+    <div class="topbar__center">
+      <div class="search">
+        <input id="q" class="search__input" type="search" placeholder="Пошук гри..." />
+        <button class="search__btn" id="btnSearch">🔎</button>
+      </div>
+    </div>
+
+    <div class="topbar__right">
+      <button class="chip" id="langToggle" title="UA / EN">UA</button>
+
+      <div class="auth">
+        <span class="auth__user" id="userBadge" hidden></span>
+        <button class="btn btn--ghost" id="btnLogin">Увійти</button>
+        <button class="btn btn--primary" id="btnRegister">Реєстрація</button>
+        <button class="btn btn--ghost" id="btnLogout" hidden>Вийти</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <main class="layout">
+
+    <!-- PAGE: HOME (CATALOG) -->
+    <section class="page" id="page-home">
+      <div class="hero">
+        <div class="hero__title">Каталог ігор</div>
+        <div class="hero__sub">Порівняння платформ, фільтри, рейтинг, “best deal”. (Демо)</div>
+
+        <div class="chips" id="activeChips">
+          <!-- chips rendered by JS -->
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- TABLE AREA -->
+        <section class="panel">
+          <div class="panel__head">
+            <div class="panel__left">
+              <div class="panel__kpi">
+                <div class="kpi__num" id="kpiCount">0</div>
+                <div class="kpi__lbl">знайдено</div>
+              </div>
+            </div>
+
+            <div class="panel__right">
+              <label class="mini">
+                Entries:
+                <select id="pageSize" class="select select--mini">
+                  <option>25</option>
+                  <option selected>50</option>
+                  <option>100</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="tablewrap">
+            <table class="table" id="gamesTable">
+              <thead>
+                <tr>
+                  <th class="col-cover"> </th>
+                  <th class="col-name" data-sort="name">Name</th>
+                  <th class="col-discount" data-sort="discount">% Off</th>
+                  <th class="col-price" data-sort="price">Price</th>
+                  <th class="col-rating" data-sort="sentiment">Rating</th>
+                  <th class="col-plat">Platforms</th>
+                </tr>
+              </thead>
+              <tbody id="gamesTbody">
+                <!-- rows rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pager">
+            <button class="btn btn--ghost" id="prevPage">←</button>
+            <div class="pager__mid" id="pageInfo">1 / 1</div>
+            <button class="btn btn--ghost" id="nextPage">→</button>
+          </div>
+        </section>
+
+        <!-- RIGHT SIDEBAR FILTERS -->
+        <aside class="sidebar">
+          <div class="sidecard">
+            <div class="sidecard__title">Фільтри</div>
+
+            <div class="field">
+              <label class="label">Платформа</label>
+              <select id="platform" class="select"></select>
+            </div>
+
+            <div class="field">
+              <label class="label">Жанр</label>
+              <select id="genre" class="select"></select>
+            </div>
+
+            <div class="field">
+              <label class="label">Монетизація</label>
+              <select id="model" class="select"></select>
+            </div>
+
+            <div class="field">
+              <label class="label">Макс ціна ($)</label>
+              <input id="priceMax" class="input" type="number" min="0" step="1" placeholder="60" />
+            </div>
+
+            <label class="check">
+              <input type="checkbox" id="onlyTop" />
+              <span>Тільки Top picks</span>
+            </label>
+
+            <div class="sideactions">
+              <button class="btn btn--primary" id="applyFilters">Apply</button>
+              <button class="btn btn--ghost" id="clearFilters">Reset</button>
+            </div>
+          </div>
+
+          <div class="sidecard">
+            <div class="sidecard__title">Швидкі дії</div>
+            <button class="btn btn--ghost w100" id="openCompare">Compare</button>
+            <button class="btn btn--ghost w100" id="openPitch">Pitch / Demo</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PAGE: ABOUT -->
+    <section class="page hidden" id="page-about">
+      <div class="hero">
+        <div class="hero__title">Про проєкт</div>
+        <div class="hero__sub">
+          GameForest — це панель аналітики ігор по різних платформах в одному місці.
+        </div>
+      </div>
+
+      <section class="panel">
+        <h2 class="h2">Для чого це?</h2>
+        <ul class="list">
+          <li>Швидко знаходити, де гра дешевша і де краща знижка.</li>
+          <li>Порівнювати платформи та тренди.</li>
+          <li>Показувати бізнесу/інвестору “як виглядатиме продукт”.</li>
+          <li>Потенціал: B2B підписка, API, партнерства, афіліат.</li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <h2 class="h2">Власник проєкту</h2>
+        <div class="owner">
+          <div class="owner__avatar">M</div>
+          <div>
+            <div class="owner__name">Malbaro</div>
+            <div class="owner__meta">Founder / Product vision</div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+  </main>
+
+  <!-- MODALS (we’ll implement later in next parts) -->
+  <div class="modal hidden" id="authModal">
+    <div class="modal__backdrop" data-close="1"></div>
+    <div class="modal__card">
+      <div class="modal__head">
+        <div class="modal__title" id="authTitle">Auth</div>
+        <button class="iconbtn" data-close="1">✕</button>
+      </div>
+      <div class="modal__body" id="authBody">
+        <!-- next part -->
+      </div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="pitchModal">
+    <div class="modal__backdrop" data-close="1"></div>
+    <div class="modal__card modal__card--wide">
+      <div class="modal__head">
+        <div class="modal__title">Pitch / Demo</div>
+        <button class="iconbtn" data-close="1">✕</button>
+      </div>
+      <div class="modal__body" id="pitchBody">
+        <!-- next part -->
+      </div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="compareModal">
+    <div class="modal__backdrop" data-close="1"></div>
+    <div class="modal__card modal__card--wide">
+      <div class="modal__head">
+        <div class="modal__title">Compare</div>
+        <button class="iconbtn" data-close="1">✕</button>
+      </div>
+      <div class="modal__body" id="compareBody">
+        <!-- next part -->
+      </div>
+    </div>
+  </div>
+
+  <!-- scripts -->
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
