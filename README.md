@@ -34,6 +34,19 @@ python -m http.server 8000
 - **Vercel / Netlify**: deploy static folder. Add serverless function `POST /api/create-checkout-session` that calls `stripe.checkout.sessions.create` (Test Mode) and returns `session.url`. Point success/cancel URLs to `success.html` and `cancel.html`.
 - **Firebase / Supabase**: host static files; implement equivalent edge function for Stripe session creation. Use Supabase/Firebase Auth for real accounts (local auth stores passwords in the browser; do not use in production).
 
+## Supabase auth & profile storage
+The UI is wired to Supabase Auth. Configure your project values in `supabase-config.js`:
+
+```js
+window.GF_SUPABASE_CONFIG = { url: "https://<PROJECT>.supabase.co", anonKey: "<PUBLIC_ANON_KEY>" };
+```
+
+- Users: Supabase dashboard → **Authentication → Users**.
+- Profile data: table **profiles** (columns `id` (uuid, PK, references auth.users), `email`, `avatar_url`, `bio`, `updated_at`).
+- Avatars: storage bucket **avatars** (public policy recommended for this demo). File names are `{userId}/{timestamp}.ext`.
+
+Sessions persist via Supabase client auto-refresh; Google OAuth is enabled via the `Sign in with Google` button in the auth modal.
+
 ## Notes
 - Covers use `steamstatic` links to avoid broken assets.
 - Images are `loading="lazy"` for performance; table scrolls horizontally on mobile.
