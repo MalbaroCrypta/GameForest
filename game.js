@@ -41,7 +41,15 @@
     $("#gameTags").innerHTML = tags.join("");
 
     const cover = $("#gameCover");
-    if (cover) cover.innerHTML = `<img src="${g.coverUrl}" alt="${nameOf(g)}">`;
+    if (cover){
+      const img = new Image();
+      img.alt = nameOf(g);
+      img.src = g.coverUrl;
+      img.onload = () => cover.classList.remove("skeleton");
+      img.onerror = () => cover.classList.remove("skeleton");
+      cover.innerHTML = "";
+      cover.appendChild(img);
+    }
     $("#gameName").textContent = nameOf(g);
 
     const meta = [];
@@ -104,6 +112,7 @@
   function renderChart(g, range){
     const svg = $("#priceChart");
     if (!svg) return;
+    const box = $("#chartBox");
     const pts = chartPoints(g, range);
     if (!pts.length){ svg.innerHTML = ""; return; }
     const w = svg.clientWidth || 640;
@@ -151,6 +160,7 @@
         <path class="chart__line" d="${path}"></path>
         ${coords.map(c => `<circle class="chart__point" cx="${c.x}" cy="${c.y}" r="3.5" data-date="${c.date}" data-price="${c.price}"></circle>`).join("")}
       </g>`;
+    box?.classList.remove("is-loading");
 
     const tooltip = $("#chartTooltip");
     svg.onmousemove = (ev) => {
@@ -214,6 +224,20 @@
     });
   }
 
+  function bindBack(){
+    const btn = $("#backBtn");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const hasHistory = window.history.length > 1;
+      const sameOrigin = document.referrer && document.referrer.startsWith(location.origin);
+      if (hasHistory && sameOrigin){
+        window.history.back();
+      }else{
+        window.location.href = "index.html";
+      }
+    });
+  }
+
   function init(){
     GF_SHELL.initShell("catalog");
     const game = findGame();
@@ -227,6 +251,7 @@
     renderChart(game, "1y");
     bindShare(game);
     bindCompare(game);
+    bindBack();
     GF_I18N.apply(document);
     document.addEventListener("gf:lang", () => { renderHero(game); renderChart(game, "1y"); });
   }
