@@ -180,7 +180,7 @@
     if (btnRegister) { btnRegister.textContent = GF_I18N.t("register"); btnRegister.hidden = logged; }
     if (btnLogout) { btnLogout.textContent = GF_I18N.t("logout"); btnLogout.hidden = !logged; }
     if (userBadge){ userBadge.hidden = !logged; if (logged) userBadge.textContent = s.email; }
-    if (userMenuEmail){ userMenuEmail.textContent = logged ? s.email : "guest@demo.app"; }
+    if (userMenuEmail){ userMenuEmail.textContent = logged ? s.email : "guest@gameforest.app"; }
   }
 
   function bindPitch(){

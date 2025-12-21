@@ -35,7 +35,7 @@
     const cartCount = $("#cartCount");
     const compareCount = $("#compareCount");
     const session = window.GF_SHELL?.getSession?.();
-    if (emailEl) emailEl.textContent = session?.email || "guest@demo.app";
+    if (emailEl) emailEl.textContent = session?.email || "guest@gameforest.app";
     if (wishCount) wishCount.textContent = window.GF_STORE?.wishlist?.get()?.length || 0;
     if (cartCount) cartCount.textContent = window.GF_STORE?.cart?.get()?.length || 0;
     if (compareCount){

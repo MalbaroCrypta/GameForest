@@ -193,6 +193,7 @@
         discount: t("thOff"),
         price: t("thPrice"),
         sentiment: t("thRating"),
+        release: t("thRelease"),
       };
       const dir = state.sortDir === "asc" ? "↑" : "↓";
       dom.sortState.textContent = `${t("sortBadge")}: ${sortMap[state.sortKey] || state.sortKey} ${dir}`;
@@ -210,6 +211,7 @@
       if (key === "discount") return discountPct(g);
       if (key === "price") return priceNow(g);
       if (key === "sentiment") return rating(g);
+      if (key === "release") return safeNum(g?.releaseYear || 0, 0);
       return 0;
     };
     return items.slice().sort((a,b) => {
@@ -280,10 +282,17 @@
       const plats = g.platforms || [];
       const topLabel = t("badgeTop");
       const tags = [];
-      if (g.topPick) tags.push(`<span class="tag tag--glow">${topLabel}</span>`);
-      if (g.model) tags.push(`<span class="tag">${g.model}</span>`);
-      const platformsHtml = plats.slice(0,3).map(p => `<span class="chip chip--mini chip--ghost">${p}</span>`).join("") + (plats.length > 3 ? `<span class="chip chip--mini chip--ghost">+${plats.length - 3}</span>` : "");
+      if (g.topPick) tags.push(`<span class="pillstat pillstat--success">${topLabel}</span>`);
+      if (g.model) tags.push(`<span class="pillstat">${g.model}</span>`);
+      const metaBits = [
+        g.genre || null,
+        g.publisher || null,
+        plats.slice(0,3).join(" / ") || null,
+      ].filter(Boolean);
+      const metaText = metaBits.length ? metaBits.join(" · ") : "—";
+      const release = g.releaseYear ? `${g.releaseYear}` : "—";
       const wishActive = state.wishlist.has(g.id);
+      const tagsHtml = `<div class="namecell__tags">${tags.join("") || "&nbsp;"}</div>`;
       tr.innerHTML = `
         <td>
           <div class="covercell">
@@ -293,7 +302,8 @@
         <td title="${nameOf(g)}">
           <div class="namecell">
             <div class="namecell__title"><a class="link--ghost" data-action="detail" href="game.html?id=${encodeURIComponent(g.id)}">${nameOf(g)}</a></div>
-            <div class="namecell__tags">${tags.join("")}</div>
+            <div class="rowmeta">${metaText}</div>
+            ${tagsHtml}
           </div>
         </td>
         <td><span class="badge badge--primary badge--pill">-${disc}%</span></td>
@@ -305,7 +315,7 @@
           <div class="meter"><div class="meter__fill" style="width:${rat}%"></div></div>
           <div class="meter__label">${rat}%</div>
         </td>
-        <td><div class="platlist">${platformsHtml}</div></td>`;
+        <td><div class="meter__label">${release}</div></td>`;
       if (state.compare.has(g.id)) tr.classList.add("is-selected");
       tr.addEventListener("click", () => goToDetail(g.id));
 
@@ -324,10 +334,6 @@
         if (added) window.GF_STORE?.stats?.save(g.id);
         render();
       });
-
-      const wishLabel = document.createElement("span");
-      wishLabel.className = "wishlabel";
-      wishLabel.textContent = wishActive ? t("wishlistAdded") : "";
 
       const compareBtn = document.createElement("button");
       compareBtn.className = "btn btn--ghost btn--mini";
@@ -351,7 +357,6 @@
 
       const tdActions = document.createElement("td");
       actionsWrap.appendChild(wishBtn);
-      actionsWrap.appendChild(wishLabel);
       actionsWrap.appendChild(compareBtn);
       tdActions.appendChild(actionsWrap);
       tr.appendChild(tdActions);
@@ -412,7 +417,7 @@
     if (ths[2]) ths[2].textContent = t("thOff");
     if (ths[3]) ths[3].textContent = t("thPrice");
     if (ths[4]) ths[4].textContent = t("thRating");
-    if (ths[5]) ths[5].textContent = t("thPlatforms");
+    if (ths[5]) ths[5].textContent = t("thRelease");
     if (ths[6]) ths[6].textContent = t("actions");
     $$("[data-i18n]").forEach(() => GF_I18N.apply(document));
   }

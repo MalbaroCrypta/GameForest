@@ -3,7 +3,8 @@
 (function(){
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-  const data = window.GF_MARKET_DATA || { topupProducts: [], demoListings: [] };
+  const data = window.GF_MARKET_DATA || { topupProducts: [], listings: [] };
+  const listings = Array.isArray(data.listings) ? data.listings : (data.demoListings || []);
 
   const state = {
     tab: "topup",
@@ -11,7 +12,7 @@
     region: data.topupProducts[0]?.regions?.[0] || "",
     amount: data.topupProducts[0]?.amounts?.[0] || 0,
     customAmount: "",
-    checkoutMode: "demo"
+    checkoutMode: "sandbox"
   };
 
   const t = (k) => window.GF_I18N.t(k);
@@ -106,7 +107,7 @@
     const fee = 0.035; // 3.5% acquiring buffer
     const base = amount * rate;
     const total = base + base * fee;
-    return { amount, currency: prod?.currency || "USD", total: Math.max(0, total.toFixed(2)) };
+    return { amount, currency: prod?.currency || "USD", total: Math.max(0, Number(total.toFixed(2))) };
   }
 
   function renderSummary(){
@@ -167,7 +168,7 @@
   function renderListings(){
     const query = (dom.listingSearch?.value || "").toLowerCase();
     const type = dom.listingType?.value || "";
-    const items = data.demoListings.filter(l => {
+    const items = listings.filter(l => {
       const text = `${l.title?.[GF_I18N.lang] || l.title?.en} ${l.game}`.toLowerCase();
       const okQ = !query || text.includes(query);
       const okType = !type || l.type === type;
@@ -178,20 +179,31 @@
       dom.listingWrap.innerHTML = `<div class="empty">${t("marketEmpty")}</div>`;
       return;
     }
-    dom.listingWrap.innerHTML = items.map(item => `
-      <article class="card">
-        <div class="card__head">
-          <span class="badge badge--primary">${t("marketBadge")}</span>
-          <span class="chip chip--mini chip--ghost">${item.type}</span>
+    const header = `
+      <div class="marketrow marketrow--head">
+        <div class="marketrow__title">${t("thName")}</div>
+        <div class="marketrow__meta">${t("marketType")}</div>
+        <div class="marketrow__meta">${t("marketGame")}</div>
+        <div class="marketrow__price">${t("thPrice")}</div>
+        <div class="marketrow__cta">${t("actions")}</div>
+      </div>`;
+    const rows = items.map(item => `
+      <div class="marketrow">
+        <div>
+          <div class="marketrow__title">${item.title?.[GF_I18N.lang] || item.title?.en}</div>
+          <div class="marketrow__meta">${item.game} · ${item.platform}</div>
         </div>
-        <div class="card__title">${item.title?.[GF_I18N.lang] || item.title?.en}</div>
-        <div class="muted">${item.game} · ${item.platform}</div>
-        <div class="card__meta">
-          <span class="tag tag--glow">${item.badge}</span>
-          <span class="price">$${item.priceUSD}</span>
-        </div>
-        <div class="muted" style="font-size:12px;">${t("marketDisclaimer")}</div>
-      </article>`).join("");
+        <div class="marketrow__meta"><span class="marketrow__tag">${item.type}</span></div>
+        <div class="marketrow__meta"><span class="marketrow__tag marketrow__tag--accent">${item.badge || t("marketBadge")}</span></div>
+        <div class="marketrow__price">$${item.priceUSD}</div>
+        <div class="marketrow__cta"><button class="btn btn--primary btn--mini" type="button">${t("marketAction")}</button></div>
+      </div>`).join("");
+    dom.listingWrap.innerHTML = header + rows + `<div class="muted" style="padding:10px 14px; border-top:1px solid var(--line);">${t("marketDisclaimer")}</div>`;
+    dom.listingWrap.querySelectorAll(".marketrow__cta button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        window.GF_STORE?.toast?.(t("marketDisclaimer"));
+      });
+    });
   }
 
   function bindListingFilters(){
