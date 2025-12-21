@@ -3,13 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GameForest — Marketplace</title>
-  <meta name="description" content="Marketplace / Top-up demo" />
-  <meta name="keywords" content="marketplace, top-up" />
+  <title>GameForest — Account</title>
+  <meta name="description" content="GameForest account dashboard" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%234c7dff'/><text x='50' y='62' text-anchor='middle' font-size='56' fill='white' font-family='Arial' font-weight='bold'>GF</text></svg>">
   <link rel="stylesheet" href="./styles.css?v=3" />
 </head>
-<body data-page="market">
+<body data-page="account">
   <header class="topbar">
     <div class="topbar__left">
       <button class="iconbtn iconbtn--bare" id="btnMenu" title="Menu">☰</button>
@@ -21,7 +20,7 @@
         <a class="topnav__btn" data-page="catalog" href="index.html" data-i18n="navCatalog">Каталог</a>
         <a class="topnav__btn" data-page="market" href="market.html" data-i18n="navMarket">Маркетплейс</a>
         <a class="topnav__btn" data-page="about" href="about.html" data-i18n="navAbout">Про проєкт</a>
-        <a class="topnav__btn" data-page="account" href="account.html" data-i18n="navAccount">Мій акаунт</a>
+        <a class="topnav__btn is-active" data-page="account" href="account.html" data-i18n="navAccount">Мій акаунт</a>
       </nav>
     </div>
     <div class="topbar__center"></div>
@@ -77,81 +76,50 @@
   </div>
 
   <main class="layout">
-    <section class="hero">
-      <div class="hero__title" data-i18n="heroMarketTitle">Маркетплейс / Top-up</div>
-      <div class="hero__sub" data-i18n="heroMarketSub">Офіційні поповнення та демо-лоти без передачі акаунтів.</div>
+    <section class="hero hero--xl">
+      <div>
+        <div class="hero__eyebrow" data-i18n="accountEyebrow">Кабінет користувача</div>
+        <div class="hero__title" data-i18n="accountTitle">My Account</div>
+        <div class="hero__sub" id="accountEmail">guest@demo.app</div>
+        <div class="hero__meta">
+          <span class="pill"><span data-i18n="wishlist"></span>: <strong id="wishCount">0</strong></span>
+          <span class="pill"><span data-i18n="cart"></span>: <strong id="cartCount">0</strong></span>
+          <span class="pill"><span data-i18n="compareBtn"></span>: <strong id="compareCount">0</strong></span>
+        </div>
+      </div>
+      <div class="hero__kpis">
+        <div class="kpi kpi--line">
+          <div class="kpi__lbl" data-i18n="statsViewed">Переглянуті ігри</div>
+          <div class="kpi__num" id="statViewed">0</div>
+          <div class="kpi__hint" data-i18n="accountViewedHint">рахується з деталей</div>
+        </div>
+        <div class="kpi kpi--line">
+          <div class="kpi__lbl" data-i18n="statsSaved">Збережені</div>
+          <div class="kpi__num" id="statSaved">0</div>
+          <div class="kpi__hint" data-i18n="accountSavedHint">wishlist</div>
+        </div>
+        <div class="kpi kpi--line">
+          <div class="kpi__lbl" data-i18n="statsCompared">Compare</div>
+          <div class="kpi__num" id="statCompared">0</div>
+          <div class="kpi__hint" data-i18n="accountComparedHint">до 4 позицій</div>
+        </div>
+      </div>
     </section>
 
-    <div class="tablist" role="tablist">
-      <button class="tabbtn is-active" data-tab="topup" data-i18n="topupTab">Top-up</button>
-      <button class="tabbtn" data-tab="market" data-i18n="marketplaceTab">Marketplace (demo)</button>
-    </div>
-
-    <section class="panel" data-panel="topup">
+    <section class="panel" id="wishlistSection">
       <div class="panel__head">
-        <div class="panel__left">
-          <div class="panel__title" data-i18n="topupTest">Stripe Test / Demo</div>
-          <div class="panel__muted" data-i18n="topupNote">Для продакшену потрібен бекенд (Vercel/Netlify/Firebase) з endpoint для Stripe session.</div>
-        </div>
+        <div class="panel__title" data-i18n="wishlist">Wishlist</div>
+        <div class="panel__muted" data-i18n="wishlistHint">Збережені ігри з каталогу.</div>
       </div>
-      <div class="panel__body grid grid--2">
-        <div class="formblock">
-          <div class="field">
-            <label class="label" data-i18n="topupService">Гра/сервіс</label>
-            <select id="serviceSelect" class="select"></select>
-          </div>
-          <div class="field">
-            <label class="label" data-i18n="topupRegion">Регіон</label>
-            <select id="regionSelect" class="select"></select>
-          </div>
-          <div class="field">
-            <label class="label" data-i18n="topupAmount">Сума поповнення</label>
-            <select id="amountSelect" class="select"></select>
-          </div>
-          <div class="field">
-            <label class="label" data-i18n="topupCustomAmount">Або введіть суму</label>
-            <input id="customAmount" class="input" type="number" min="0" step="1" placeholder="25" />
-          </div>
-          <div class="field">
-            <label class="label">Checkout</label>
-            <div class="radiolist">
-              <label><input type="radio" name="checkoutMode" value="demo" checked> Demo</label>
-              <label><input type="radio" name="checkoutMode" value="stripe"> Stripe Test</label>
-            </div>
-          </div>
-          <button class="btn btn--primary" id="checkoutBtn" data-i18n="topupCheckout">Перейти до оплати</button>
-        </div>
-        <div class="summary" id="topupSummary"></div>
-      </div>
+      <div class="panel__body" id="wishlistList"></div>
     </section>
 
-    <section class="panel hidden" data-panel="market">
+    <section class="panel" id="cartSection">
       <div class="panel__head">
-        <div class="panel__left">
-          <div class="panel__title" data-i18n="marketFilters">Пошук / фільтр лотів</div>
-          <div class="panel__muted" id="marketDisclaimer" data-i18n="marketDisclaimer">Демонстраційні лоти.</div>
-        </div>
+        <div class="panel__title" data-i18n="cart">Кошик</div>
+        <div class="panel__muted" data-i18n="cartHint">Підготовлено до майбутніх покупок / маркетплейсу.</div>
       </div>
-      <div class="panel__body">
-        <div class="grid grid--2">
-          <input id="listingSearch" class="input" type="search" data-i18n-placeholder="marketSearchPlaceholder" placeholder="Пошук" />
-          <select id="listingType" class="select">
-            <option value="">All</option>
-            <option value="Skin">Skin</option>
-            <option value="Account">Account</option>
-          </select>
-        </div>
-        <div id="listingWrap" class="cardgrid"></div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel__body">
-        <div class="list">
-          <strong>Stripe Checkout (Test)</strong>: POST /api/create-checkout-session → success.html / cancel.html.
-          <br />Serverless: Vercel / Netlify Functions / Firebase / Supabase Edge.
-        </div>
-      </div>
+      <div class="panel__body" id="cartList"></div>
     </section>
   </main>
 
@@ -177,20 +145,9 @@
     </div>
   </div>
 
-  <div class="modal hidden" id="checkoutModal">
-    <div class="modal__backdrop" data-close="1"></div>
-    <div class="modal__card modal__card--wide">
-      <div class="modal__head">
-        <div class="modal__title" data-i18n="checkoutDemoTitle">Демо-оплата</div>
-        <button class="iconbtn" data-close="1">✕</button>
-      </div>
-      <div class="modal__body" id="checkoutBody"></div>
-    </div>
-  </div>
-
   <script src="./i18n.js"></script>
   <script src="./shell.js"></script>
-  <script src="./market-data.js"></script>
-  <script src="./market.js"></script>
+  <script src="./data.js"></script>
+  <script src="./account.js"></script>
 </body>
 </html>

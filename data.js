@@ -1440,10 +1440,917 @@
         en: "Original Portal, short but iconic; evergreen sale performer."
       },
       metrics: { sentiment: 97, demandIndex: 70, priceStability: 82, communityHealth: 88 }
+    },
+    {
+      id: "godofwar",
+      name: { uk: "God of War", en: "God of War" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 50,
+      releaseYear: 2022,
+      publisher: "PlayStation PC",
+      steamAppId: 1593500,
+      topPick: true,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/library_600x900.jpg",
+      summary: {
+        uk: "Красторний перезапуск з сильним сюжетом та PC-портом з DLSS/FSR.",
+        en: "Prestige reboot with cinematic story; PC port with DLSS/FSR polish."
+      },
+      metrics: { sentiment: 93, demandIndex: 88, priceStability: 66, communityHealth: 88 }
+    },
+    {
+      id: "spidermanremastered",
+      name: { uk: "Marvel's Spider-Man Remastered", en: "Marvel's Spider-Man Remastered" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2022,
+      publisher: "PlayStation PC",
+      steamAppId: 1817070,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1817070/library_600x900.jpg",
+      summary: {
+        uk: "Open-world Манхеттен із RTX та DLSS, стабільний бренд Marvel.",
+        en: "Open-world Manhattan with RTX & DLSS; strong Marvel brand pull."
+      },
+      metrics: { sentiment: 90, demandIndex: 84, priceStability: 62, communityHealth: 83 }
+    },
+    {
+      id: "spidermanmm",
+      name: { uk: "Marvel's Spider-Man: Miles Morales", en: "Marvel's Spider-Man: Miles Morales" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 50,
+      releaseYear: 2022,
+      publisher: "PlayStation PC",
+      steamAppId: 1817190,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1817190/library_600x900.jpg",
+      summary: {
+        uk: "Коротший спін-офф з зимовим Манхеттеном, високий NPS.",
+        en: "Shorter winter spin-off with high NPS and polished PC tech."
+      },
+      metrics: { sentiment: 88, demandIndex: 78, priceStability: 60, communityHealth: 82 }
+    },
+    {
+      id: "lastofus1",
+      name: { uk: "The Last of Us Part I", en: "The Last of Us Part I" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2023,
+      publisher: "PlayStation PC",
+      steamAppId: 1888930,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1888930/library_600x900.jpg",
+      summary: {
+        uk: "Ремейк класики з PC патчами, високим попитом після серіалу.",
+        en: "Remake of the classic; PC patches plus TV halo keep demand high."
+      },
+      metrics: { sentiment: 80, demandIndex: 90, priceStability: 55, communityHealth: 78 }
+    },
+    {
+      id: "returnal",
+      name: { uk: "Returnal", en: "Returnal" },
+      genre: "Roguelike",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2023,
+      publisher: "PlayStation PC",
+      steamAppId: 1644960,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1644960/library_600x900.jpg",
+      summary: {
+        uk: "Bullet-hell roguelike з RTX/FSR та глибоким лайфтаймом.",
+        en: "Bullet-hell roguelike with RTX/FSR and deep endgame loop."
+      },
+      metrics: { sentiment: 84, demandIndex: 72, priceStability: 58, communityHealth: 76 }
+    },
+    {
+      id: "unchartedlotc",
+      name: { uk: "UNCHARTED: Legacy of Thieves Collection", en: "UNCHARTED: Legacy of Thieves Collection" },
+      genre: "Adventure",
+      model: "Premium",
+      basePriceUSD: 50,
+      releaseYear: 2022,
+      publisher: "PlayStation PC",
+      steamAppId: 1659420,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1659420/library_600x900.jpg",
+      summary: {
+        uk: "Дві кампанії Uncharted з PC-фічами; evergreen бренд Naughty Dog.",
+        en: "Two Uncharted campaigns with PC features; evergreen Naughty Dog brand."
+      },
+      metrics: { sentiment: 86, demandIndex: 74, priceStability: 61, communityHealth: 79 }
+    },
+    {
+      id: "hfw",
+      name: { uk: "Horizon Forbidden West", en: "Horizon Forbidden West" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2024,
+      publisher: "PlayStation PC",
+      steamAppId: 2276510,
+      topPick: true,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/2276510/library_600x900.jpg",
+      summary: {
+        uk: "PC-порт сиквелу з Burning Shores; сильна графіка та сейли.",
+        en: "PC port of the sequel with Burning Shores; stunning visuals and strong sale tail."
+      },
+      metrics: { sentiment: 88, demandIndex: 82, priceStability: 60, communityHealth: 83 }
+    },
+    {
+      id: "ghostoftsushima",
+      name: { uk: "Ghost of Tsushima DIRECTOR'S CUT", en: "Ghost of Tsushima DIRECTOR'S CUT" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2024,
+      publisher: "PlayStation PC",
+      steamAppId: 2215430,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/2215430/library_600x900.jpg",
+      summary: {
+        uk: "Самурайський open-world з Legends-коопом; преміальний попит на PC.",
+        en: "Samurai open world with Legends co-op; premium demand on PC."
+      },
+      metrics: { sentiment: 91, demandIndex: 88, priceStability: 63, communityHealth: 86 }
+    },
+    {
+      id: "persona5royal",
+      name: { uk: "Persona 5 Royal", en: "Persona 5 Royal" },
+      genre: "RPG",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2022,
+      publisher: "SEGA / ATLUS",
+      steamAppId: 1687950,
+      topPick: true,
+      platforms: ["PC", "PS5", "Switch"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1687950/library_600x900.jpg",
+      summary: {
+        uk: "JRPG GOTY-рівня з масивним контентом та саундтреком; evergreen.",
+        en: "GOTY-tier JRPG with massive content and soundtrack; evergreen performer."
+      },
+      metrics: { sentiment: 96, demandIndex: 80, priceStability: 68, communityHealth: 90 }
+    },
+    {
+      id: "persona3reload",
+      name: { uk: "Persona 3 Reload", en: "Persona 3 Reload" },
+      genre: "RPG",
+      model: "Premium",
+      basePriceUSD: 70,
+      releaseYear: 2024,
+      publisher: "SEGA / ATLUS",
+      steamAppId: 2161700,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/2161700/library_600x900.jpg",
+      summary: {
+        uk: "Повний ремейк класики з QoL та новою аудиторією Game Pass.",
+        en: "Full remake of a classic; QoL uplift and fresh Game Pass audience."
+      },
+      metrics: { sentiment: 88, demandIndex: 82, priceStability: 59, communityHealth: 83 }
+    },
+    {
+      id: "persona4golden",
+      name: { uk: "Persona 4 Golden", en: "Persona 4 Golden" },
+      genre: "RPG",
+      model: "Premium",
+      basePriceUSD: 20,
+      releaseYear: 2020,
+      publisher: "SEGA / ATLUS",
+      steamAppId: 111300,
+      platforms: ["PC", "Switch"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/111300/library_600x900.jpg",
+      summary: {
+        uk: "Класичне JRPG із культовим фанбазом та низькою ціною входу.",
+        en: "Classic JRPG with cult following and low price of entry."
+      },
+      metrics: { sentiment: 94, demandIndex: 70, priceStability: 78, communityHealth: 88 }
+    },
+    {
+      id: "yakuza7",
+      name: { uk: "Yakuza: Like a Dragon", en: "Yakuza: Like a Dragon" },
+      genre: "RPG",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2020,
+      publisher: "SEGA",
+      steamAppId: 1235140,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1235140/library_600x900.jpg",
+      summary: {
+        uk: "Поворот до JRPG у серії RGG; гумор + довгий сейл-хвіст.",
+        en: "JRPG pivot for the RGG series; humor plus long sale tail."
+      },
+      metrics: { sentiment: 90, demandIndex: 75, priceStability: 64, communityHealth: 82 }
+    },
+    {
+      id: "yakuza0",
+      name: { uk: "Yakuza 0", en: "Yakuza 0" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 20,
+      releaseYear: 2018,
+      publisher: "SEGA",
+      steamAppId: 638970,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/638970/library_600x900.jpg",
+      summary: {
+        uk: "Любимий приквел з низькою ціною, evergreen у сейли.",
+        en: "Beloved prequel with low price; evergreen sale performer."
+      },
+      metrics: { sentiment: 95, demandIndex: 72, priceStability: 82, communityHealth: 88 }
+    },
+    {
+      id: "ladgaiden",
+      name: { uk: "Like a Dragon Gaiden", en: "Like a Dragon Gaiden" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 50,
+      releaseYear: 2023,
+      publisher: "SEGA",
+      steamAppId: 1967450,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1967450/library_600x900.jpg",
+      summary: {
+        uk: "Кірю-спін-офф із коротшою кампанією; місток до Infinite Wealth.",
+        en: "Kiryu spin-off bridging to Infinite Wealth; shorter, high-engagement campaign."
+      },
+      metrics: { sentiment: 82, demandIndex: 74, priceStability: 58, communityHealth: 78 }
+    },
+    {
+      id: "ladinfinite",
+      name: { uk: "Like a Dragon: Infinite Wealth", en: "Like a Dragon: Infinite Wealth" },
+      genre: "RPG",
+      model: "Premium",
+      basePriceUSD: 70,
+      releaseYear: 2024,
+      publisher: "SEGA",
+      steamAppId: 2375550,
+      topPick: true,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/2375550/library_600x900.jpg",
+      summary: {
+        uk: "Новий флагман RGG з будівництвом острова та подвійними протагонистами.",
+        en: "Latest RGG flagship with island builder and dual protagonists."
+      },
+      metrics: { sentiment: 90, demandIndex: 86, priceStability: 60, communityHealth: 85 }
+    },
+    {
+      id: "granbluefantasyrelink",
+      name: { uk: "GRANBLUE FANTASY: Relink", en: "GRANBLUE FANTASY: Relink" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2024,
+      publisher: "Cygames",
+      steamAppId: 851850,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/851850/library_600x900.jpg",
+      summary: {
+        uk: "Кооп action-RPG з рейдами; сильна графіка і live events.",
+        en: "Co-op action RPG with raids; strong visuals and ongoing events."
+      },
+      metrics: { sentiment: 82, demandIndex: 80, priceStability: 55, communityHealth: 79 }
+    },
+    {
+      id: "armoredcore6",
+      name: { uk: "ARMORED CORE VI", en: "ARMORED CORE VI" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2023,
+      publisher: "Bandai Namco / FromSoftware",
+      steamAppId: 1888160,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1888160/library_600x900.jpg",
+      summary: {
+        uk: "Мех-екшен від FromSoftware; висока складність, стабільний попит.",
+        en: "Mech action from FromSoftware; high difficulty, steady demand."
+      },
+      metrics: { sentiment: 87, demandIndex: 82, priceStability: 60, communityHealth: 82 }
+    },
+    {
+      id: "tekken8",
+      name: { uk: "TEKKEN 8", en: "TEKKEN 8" },
+      genre: "Fighting",
+      model: "Premium",
+      basePriceUSD: 70,
+      releaseYear: 2024,
+      publisher: "Bandai Namco",
+      steamAppId: 1778820,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1778820/library_600x900.jpg",
+      summary: {
+        uk: "Файтинг з live-сезонами та esports-сценой, rollback netcode.",
+        en: "Fighting flagship with live seasons, esports, and rollback netcode."
+      },
+      metrics: { sentiment: 85, demandIndex: 85, priceStability: 57, communityHealth: 80 }
+    },
+    {
+      id: "streetfighter6",
+      name: { uk: "Street Fighter 6", en: "Street Fighter 6" },
+      genre: "Fighting",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2023,
+      publisher: "Capcom",
+      steamAppId: 1364780,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1364780/library_600x900.jpg",
+      summary: {
+        uk: "Файтинг з World Tour, Battle Hub та кросплеєм.",
+        en: "Fighter with World Tour, Battle Hub, and cross-play support."
+      },
+      metrics: { sentiment: 90, demandIndex: 83, priceStability: 58, communityHealth: 84 }
+    },
+    {
+      id: "mk1",
+      name: { uk: "Mortal Kombat 1", en: "Mortal Kombat 1" },
+      genre: "Fighting",
+      model: "Premium",
+      basePriceUSD: 70,
+      releaseYear: 2023,
+      publisher: "Warner Bros.",
+      steamAppId: 1971870,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1971870/library_600x900.jpg",
+      summary: {
+        uk: "Ребут MK із Kameo-системою; потужний бренд і live DLC персонажі.",
+        en: "MK reboot with Kameo system; strong brand and live DLC roster."
+      },
+      metrics: { sentiment: 78, demandIndex: 80, priceStability: 54, communityHealth: 77 }
+    },
+    {
+      id: "guiltygearstrive",
+      name: { uk: "GUILTY GEAR -STRIVE-", en: "GUILTY GEAR -STRIVE-" },
+      genre: "Fighting",
+      model: "Premium",
+      basePriceUSD: 40,
+      releaseYear: 2021,
+      publisher: "Arc System Works",
+      steamAppId: 1384160,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1384160/library_600x900.jpg",
+      summary: {
+        uk: "Anime-файтинг із rollback netcode та великими сезонними пасами.",
+        en: "Anime fighter with rollback netcode and sizable season passes."
+      },
+      metrics: { sentiment: 87, demandIndex: 72, priceStability: 61, communityHealth: 82 }
+    },
+    {
+      id: "lethalcompany",
+      name: { uk: "Lethal Company", en: "Lethal Company" },
+      genre: "Co-op",
+      model: "Premium",
+      basePriceUSD: 10,
+      releaseYear: 2023,
+      publisher: "Zeekerss",
+      steamAppId: 1966720,
+      topPick: true,
+      platforms: ["PC"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1966720/library_600x900.jpg",
+      summary: {
+        uk: "Кооп-хоррор про збір скрапу; вірусне зростання, низька ціна.",
+        en: "Co-op horror scavenging hit; viral growth and low price point."
+      },
+      metrics: { sentiment: 88, demandIndex: 95, priceStability: 62, communityHealth: 90 }
+    },
+    {
+      id: "manorlords",
+      name: { uk: "Manor Lords", en: "Manor Lords" },
+      genre: "Strategy",
+      model: "Premium",
+      basePriceUSD: 40,
+      releaseYear: 2024,
+      publisher: "Hooded Horse",
+      steamAppId: 1363080,
+      platforms: ["PC"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1363080/library_600x900.jpg",
+      summary: {
+        uk: "Середньовічний містобуд з боєм у ранньому доступі; величезний вішлист.",
+        en: "Medieval city-builder with battles (EA); massive wishlist hit."
+      },
+      metrics: { sentiment: 82, demandIndex: 92, priceStability: 48, communityHealth: 78 }
+    },
+    {
+      id: "enshrouded",
+      name: { uk: "Enshrouded", en: "Enshrouded" },
+      genre: "Survival",
+      model: "Premium",
+      basePriceUSD: 30,
+      releaseYear: 2024,
+      publisher: "Keen Games",
+      steamAppId: 1203620,
+      platforms: ["PC"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1203620/library_600x900.jpg",
+      summary: {
+        uk: "Воксельне виживання з будівництвом та коопом; сильний ранній доступ.",
+        en: "Voxel survival with building and co-op; strong early access start."
+      },
+      metrics: { sentiment: 80, demandIndex: 88, priceStability: 50, communityHealth: 82 }
+    },
+    {
+      id: "davethediver",
+      name: { uk: "DAVE THE DIVER", en: "DAVE THE DIVER" },
+      genre: "Adventure",
+      model: "Premium",
+      basePriceUSD: 20,
+      releaseYear: 2023,
+      publisher: "MINTROCKET",
+      steamAppId: 1868140,
+      platforms: ["PC", "Switch"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1868140/library_600x900.jpg",
+      summary: {
+        uk: "Піксельний дайвинг+менеджмент-хіт з шаленим сарафаном.",
+        en: "Pixel diving + restaurant management hit with huge word-of-mouth."
+      },
+      metrics: { sentiment: 95, demandIndex: 86, priceStability: 78, communityHealth: 92 }
+    },
+    {
+      id: "vampiresurvivors",
+      name: { uk: "Vampire Survivors", en: "Vampire Survivors" },
+      genre: "Roguelike",
+      model: "Premium",
+      basePriceUSD: 5,
+      releaseYear: 2022,
+      publisher: "poncle",
+      steamAppId: 1794680,
+      platforms: ["PC", "Xbox Series", "Mobile"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1794680/library_600x900.jpg",
+      summary: {
+        uk: "Автобатлер-хіт з низькою ціною та нескінченними апдейтами.",
+        en: "Auto-battler breakout with tiny price and endless updates."
+      },
+      metrics: { sentiment: 95, demandIndex: 90, priceStability: 82, communityHealth: 94 }
+    },
+    {
+      id: "cultofthelamb",
+      name: { uk: "Cult of the Lamb", en: "Cult of the Lamb" },
+      genre: "Roguelike",
+      model: "Premium",
+      basePriceUSD: 25,
+      releaseYear: 2022,
+      publisher: "Devolver Digital",
+      steamAppId: 1313140,
+      platforms: ["PC", "PS5", "Xbox Series", "Switch"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1313140/library_600x900.jpg",
+      summary: {
+        uk: "Rogue-lite з менеджментом культу; стиль, мерч і DLC забезпечують LTV.",
+        en: "Rogue-lite cult simulator; style, merch, and DLC drive long LTV."
+      },
+      metrics: { sentiment: 91, demandIndex: 80, priceStability: 70, communityHealth: 88 }
+    },
+    {
+      id: "pizzatower",
+      name: { uk: "Pizza Tower", en: "Pizza Tower" },
+      genre: "Platformer",
+      model: "Premium",
+      basePriceUSD: 20,
+      releaseYear: 2023,
+      publisher: "Tour De Pizza",
+      steamAppId: 2231450,
+      platforms: ["PC"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/2231450/library_600x900.jpg",
+      summary: {
+        uk: "Спритний платформер у стилі Wario Land; вірусні кліпи та спідрани.",
+        en: "Fast platformer in Wario style; viral clips and speedrun appeal."
+      },
+      metrics: { sentiment: 94, demandIndex: 78, priceStability: 74, communityHealth: 88 }
+    },
+    {
+      id: "celeste",
+      name: { uk: "Celeste", en: "Celeste" },
+      genre: "Platformer",
+      model: "Premium",
+      basePriceUSD: 20,
+      releaseYear: 2018,
+      publisher: "Maddy Makes Games",
+      steamAppId: 504230,
+      platforms: ["PC", "Switch", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/504230/library_600x900.jpg",
+      summary: {
+        uk: "Інді-платформер з високим NPS і evergreen сейлами.",
+        en: "Indie platformer with sky-high NPS and evergreen sale tail."
+      },
+      metrics: { sentiment: 96, demandIndex: 72, priceStability: 82, communityHealth: 90 }
+    },
+    {
+      id: "outerwilds",
+      name: { uk: "Outer Wilds", en: "Outer Wilds" },
+      genre: "Adventure",
+      model: "Premium",
+      basePriceUSD: 25,
+      releaseYear: 2020,
+      publisher: "Annapurna Interactive",
+      steamAppId: 753640,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/753640/library_600x900.jpg",
+      summary: {
+        uk: "Петля часу в космосі; критичний хіт з довгим лайфтаймом.",
+        en: "Time-loop space adventure; critical darling with long lifetime."
+      },
+      metrics: { sentiment: 96, demandIndex: 74, priceStability: 76, communityHealth: 90 }
+    },
+    {
+      id: "deathloop",
+      name: { uk: "DEATHLOOP", en: "DEATHLOOP" },
+      genre: "Shooter",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2021,
+      publisher: "Bethesda",
+      steamAppId: 1252330,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1252330/library_600x900.jpg",
+      summary: {
+        uk: "Immersive sim з таймлупом від Arkane; стильна постановка.",
+        en: "Time-loop immersive sim from Arkane; stylish direction and design."
+      },
+      metrics: { sentiment: 84, demandIndex: 70, priceStability: 57, communityHealth: 76 }
+    },
+    {
+      id: "ghostwiretokyo",
+      name: { uk: "Ghostwire: Tokyo", en: "Ghostwire: Tokyo" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2022,
+      publisher: "Bethesda",
+      steamAppId: 1475810,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1475810/library_600x900.jpg",
+      summary: {
+        uk: "Сюжетний екшен у Токіо з рей-трейсингом; часті сейли.",
+        en: "Story action in Tokyo with ray tracing; frequent discounts."
+      },
+      metrics: { sentiment: 75, demandIndex: 70, priceStability: 55, communityHealth: 72 }
+    },
+    {
+      id: "controlultimate",
+      name: { uk: "Control Ultimate Edition", en: "Control Ultimate Edition" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 40,
+      releaseYear: 2020,
+      publisher: "505 Games",
+      steamAppId: 870780,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/870780/library_600x900.jpg",
+      summary: {
+        uk: "Сюрреалістичний екшен Remedy з RTX та двома DLC.",
+        en: "Surreal Remedy action with RTX and both DLC packs included."
+      },
+      metrics: { sentiment: 86, demandIndex: 76, priceStability: 64, communityHealth: 80 }
+    },
+    {
+      id: "alanwake2",
+      name: { uk: "Alan Wake 2", en: "Alan Wake 2" },
+      genre: "Horror",
+      model: "Premium",
+      basePriceUSD: 50,
+      releaseYear: 2024,
+      publisher: "Epic / Remedy",
+      steamAppId: 1938090,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1938090/library_600x900.jpg",
+      summary: {
+        uk: "Нарративний хоррор з RTX і DLSS3; престижні нагороди.",
+        en: "Narrative horror with RTX/DLSS3; prestige awards darling."
+      },
+      metrics: { sentiment: 92, demandIndex: 82, priceStability: 58, communityHealth: 84 }
+    },
+    {
+      id: "alanwakeremastered",
+      name: { uk: "Alan Wake Remastered", en: "Alan Wake Remastered" },
+      genre: "Horror",
+      model: "Premium",
+      basePriceUSD: 30,
+      releaseYear: 2021,
+      publisher: "Epic / Remedy",
+      steamAppId: 1868100,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1868100/library_600x900.jpg",
+      summary: {
+        uk: "Ремастер оригіналу; часто в бандлах і сейлах перед сиквелом.",
+        en: "Remaster of the original; frequent bundles and sales before sequel."
+      },
+      metrics: { sentiment: 82, demandIndex: 70, priceStability: 72, communityHealth: 78 }
+    },
+    {
+      id: "starfield",
+      name: { uk: "Starfield", en: "Starfield" },
+      genre: "RPG",
+      model: "Premium",
+      basePriceUSD: 70,
+      releaseYear: 2023,
+      publisher: "Bethesda",
+      steamAppId: 1716740,
+      platforms: ["PC", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1716740/library_600x900.jpg",
+      summary: {
+        uk: "Космічне RPG Bethesda з моддингом та довгим хвостом Game Pass.",
+        en: "Bethesda space RPG with modding and long Game Pass halo."
+      },
+      metrics: { sentiment: 70, demandIndex: 88, priceStability: 52, communityHealth: 74 }
+    },
+    {
+      id: "forzamotorsport",
+      name: { uk: "Forza Motorsport", en: "Forza Motorsport" },
+      genre: "Racing",
+      model: "Premium",
+      basePriceUSD: 70,
+      releaseYear: 2023,
+      publisher: "Xbox Game Studios",
+      steamAppId: 2440510,
+      platforms: ["PC", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/2440510/library_600x900.jpg",
+      summary: {
+        uk: "Сим-рестарт Forza з живими сезонними серіями та DLSS/FSR.",
+        en: "Sim reboot with live seasonal tours and DLSS/FSR tech."
+      },
+      metrics: { sentiment: 74, demandIndex: 72, priceStability: 48, communityHealth: 70 }
+    },
+    {
+      id: "assettocorsa",
+      name: { uk: "Assetto Corsa", en: "Assetto Corsa" },
+      genre: "Racing",
+      model: "Premium",
+      basePriceUSD: 20,
+      releaseYear: 2014,
+      publisher: "Kunos Simulazioni",
+      steamAppId: 244210,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/244210/library_600x900.jpg",
+      summary: {
+        uk: "Сим-рейсер з культовим моддингом; нескінченна кількість треків/машин.",
+        en: "Sim racer with legendary modding; endless tracks/cars community-made."
+      },
+      metrics: { sentiment: 90, demandIndex: 78, priceStability: 80, communityHealth: 90 }
+    },
+    {
+      id: "assettocorsaCompetizione",
+      name: { uk: "Assetto Corsa Competizione", en: "Assetto Corsa Competizione" },
+      genre: "Racing",
+      model: "Premium",
+      basePriceUSD: 40,
+      releaseYear: 2019,
+      publisher: "505 Games",
+      steamAppId: 805550,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/805550/library_600x900.jpg",
+      summary: {
+        uk: "Офіційний GT World Challenge сим із DLC-полями та eSports.",
+        en: "Official GT World Challenge sim with DLC tracks and esports scene."
+      },
+      metrics: { sentiment: 86, demandIndex: 74, priceStability: 72, communityHealth: 85 }
+    },
+    {
+      id: "f124",
+      name: { uk: "F1 24", en: "F1 24" },
+      genre: "Racing",
+      model: "Premium",
+      basePriceUSD: 70,
+      releaseYear: 2024,
+      publisher: "EA Sports",
+      steamAppId: 2513430,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/2513430/library_600x900.jpg",
+      summary: {
+        uk: "Свежий сезон F1 з Career Story та ліцензіями FIA.",
+        en: "Latest F1 season entry with Career Story and official FIA licenses."
+      },
+      metrics: { sentiment: 66, demandIndex: 70, priceStability: 44, communityHealth: 64 }
+    },
+    {
+      id: "forzah4",
+      name: { uk: "Forza Horizon 4", en: "Forza Horizon 4" },
+      genre: "Racing",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2018,
+      publisher: "Xbox Game Studios",
+      steamAppId: 1293830,
+      platforms: ["PC", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1293830/library_600x900.jpg",
+      summary: {
+        uk: "Британія у Forza Horizon; сезонні оновлення, міцний лайфтайм.",
+        en: "UK-based Forza Horizon entry; seasonal updates and long lifetime."
+      },
+      metrics: { sentiment: 89, demandIndex: 77, priceStability: 64, communityHealth: 84 }
+    },
+    {
+      id: "plaguetale2",
+      name: { uk: "A Plague Tale: Requiem", en: "A Plague Tale: Requiem" },
+      genre: "Adventure",
+      model: "Premium",
+      basePriceUSD: 50,
+      releaseYear: 2022,
+      publisher: "Focus Entertainment",
+      steamAppId: 1182900,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1182900/library_600x900.jpg",
+      summary: {
+        uk: "Сиквел наративної пригоди з престижною режисурою; Game Pass хвіст.",
+        en: "Narrative sequel with prestige direction; Game Pass halo effect."
+      },
+      metrics: { sentiment: 86, demandIndex: 74, priceStability: 58, communityHealth: 80 }
+    },
+    {
+      id: "plaguetale1",
+      name: { uk: "A Plague Tale: Innocence", en: "A Plague Tale: Innocence" },
+      genre: "Adventure",
+      model: "Premium",
+      basePriceUSD: 40,
+      releaseYear: 2019,
+      publisher: "Focus Entertainment",
+      steamAppId: 752590,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/752590/library_600x900.jpg",
+      summary: {
+        uk: "Перша частина серії; низька ціна, високий NPS, evergreen сейли.",
+        en: "First entry; low price, high NPS, evergreen sale spikes."
+      },
+      metrics: { sentiment: 90, demandIndex: 70, priceStability: 74, communityHealth: 84 }
+    },
+    {
+      id: "darksoulsremastered",
+      name: { uk: "Dark Souls: Remastered", en: "Dark Souls: Remastered" },
+      genre: "RPG",
+      model: "Premium",
+      basePriceUSD: 40,
+      releaseYear: 2018,
+      publisher: "FromSoftware",
+      steamAppId: 570940,
+      platforms: ["PC", "PS5", "Xbox Series", "Switch"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/570940/library_600x900.jpg",
+      summary: {
+        uk: "Ремастер класики з покращеним онлайн та 60 FPS на PC.",
+        en: "Remaster of the classic with improved online and 60 FPS on PC."
+      },
+      metrics: { sentiment: 91, demandIndex: 74, priceStability: 72, communityHealth: 86 }
+    },
+    {
+      id: "darksouls3",
+      name: { uk: "Dark Souls III", en: "Dark Souls III" },
+      genre: "RPG",
+      model: "Premium",
+      basePriceUSD: 60,
+      releaseYear: 2016,
+      publisher: "FromSoftware",
+      steamAppId: 374320,
+      platforms: ["PC", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/374320/library_600x900.jpg",
+      summary: {
+        uk: "Souls-фінал трилогії з двома DLC, стабільні сейли та моди.",
+        en: "Final Souls trilogy entry with two DLCs; stable sales and mods."
+      },
+      metrics: { sentiment: 93, demandIndex: 80, priceStability: 70, communityHealth: 90 }
+    },
+    {
+      id: "nioh2",
+      name: { uk: "Nioh 2 – The Complete Edition", en: "Nioh 2 – The Complete Edition" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 50,
+      releaseYear: 2021,
+      publisher: "KOEI TECMO GAMES",
+      steamAppId: 1325200,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1325200/library_600x900.jpg",
+      summary: {
+        uk: "Souls-like з лутом та коопом; всі DLC у комплекті.",
+        en: "Looty soulslike with co-op; complete edition packs all DLC."
+      },
+      metrics: { sentiment: 86, demandIndex: 72, priceStability: 64, communityHealth: 80 }
+    },
+    {
+      id: "niohcomplete",
+      name: { uk: "Nioh: Complete Edition", en: "Nioh: Complete Edition" },
+      genre: "Action",
+      model: "Premium",
+      basePriceUSD: 30,
+      releaseYear: 2017,
+      publisher: "KOEI TECMO GAMES",
+      steamAppId: 485510,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/485510/library_600x900.jpg",
+      summary: {
+        uk: "Перша частина з усіма DLC; evergreen сейли та кооп.",
+        en: "First entry with all DLC; evergreen sales and co-op appeal."
+      },
+      metrics: { sentiment: 84, demandIndex: 68, priceStability: 70, communityHealth: 78 }
+    },
+    {
+      id: "readyornot",
+      name: { uk: "Ready or Not", en: "Ready or Not" },
+      genre: "Shooter",
+      model: "Premium",
+      basePriceUSD: 50,
+      releaseYear: 2023,
+      publisher: "VOID Interactive",
+      steamAppId: 1144200,
+      platforms: ["PC"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1144200/library_600x900.jpg",
+      summary: {
+        uk: "Тактичний SWAT-шутер з коопом; популярний серед стрімерів.",
+        en: "Tactical SWAT shooter with co-op; streamer favorite and mod-friendly."
+      },
+      metrics: { sentiment: 84, demandIndex: 82, priceStability: 58, communityHealth: 82 }
+    },
+    {
+      id: "balatro",
+      name: { uk: "Balatro", en: "Balatro" },
+      genre: "Strategy",
+      model: "Premium",
+      basePriceUSD: 15,
+      releaseYear: 2024,
+      publisher: "Playstack",
+      steamAppId: 2379780,
+      platforms: ["PC", "Switch", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/2379780/library_600x900.jpg",
+      summary: {
+        uk: "Рогалик-декбілдер про покер, вірусний хіт з низьким чеком.",
+        en: "Poker-inspired roguelike deckbuilder; viral hit with low ticket price."
+      },
+      metrics: { sentiment: 94, demandIndex: 90, priceStability: 76, communityHealth: 92 }
+    },
+    {
+      id: "gris",
+      name: { uk: "GRIS", en: "GRIS" },
+      genre: "Adventure",
+      model: "Premium",
+      basePriceUSD: 15,
+      releaseYear: 2018,
+      publisher: "Devolver Digital",
+      steamAppId: 683320,
+      platforms: ["PC", "Switch", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/683320/library_600x900.jpg",
+      summary: {
+        uk: "Артхаусна пригода з саундтреком Бернарда Фабра; стабільні сейли.",
+        en: "Arthouse platform adventure with standout OST; steady sales."
+      },
+      metrics: { sentiment: 93, demandIndex: 70, priceStability: 78, communityHealth: 88 }
+    },
+    {
+      id: "stray",
+      name: { uk: "Stray", en: "Stray" },
+      genre: "Adventure",
+      model: "Premium",
+      basePriceUSD: 30,
+      releaseYear: 2022,
+      publisher: "Annapurna Interactive",
+      steamAppId: 1332010,
+      platforms: ["PC", "PS5"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1332010/library_600x900.jpg",
+      summary: {
+        uk: "Кіберпанк-пригода за кота; вірусна увага та високий NPS.",
+        en: "Cyberpunk cat adventure; viral attention and high NPS."
+      },
+      metrics: { sentiment: 88, demandIndex: 82, priceStability: 66, communityHealth: 86 }
+    },
+    {
+      id: "seaofstars",
+      name: { uk: "Sea of Stars", en: "Sea of Stars" },
+      genre: "RPG",
+      model: "Premium",
+      basePriceUSD: 35,
+      releaseYear: 2023,
+      publisher: "Sabotage Studio",
+      steamAppId: 1244090,
+      platforms: ["PC", "Switch", "PS5", "Xbox Series"],
+      coverUrl: "https://cdn.cloudflare.steamstatic.com/steam/apps/1244090/library_600x900.jpg",
+      summary: {
+        uk: "Ретро JRPG з сучасними QoL, високим Metacritic та Game Pass ефектом.",
+        en: "Retro-style JRPG with modern QoL; high Metacritic and Game Pass boost."
+      },
+      metrics: { sentiment: 93, demandIndex: 82, priceStability: 70, communityHealth: 88 }
     }
   ];
 
-  window.GF_DATA = raw.map(game => {
+  const byYearDesc = (a,b) => (b.releaseYear || 0) - (a.releaseYear || 0);
+  const seen = new Set();
+  const curatedStack = [];
+  const pushUnique = (items) => {
+    items.forEach(item => {
+      if (!item || seen.has(item.id)) return;
+      seen.add(item.id);
+      curatedStack.push(item);
+    });
+  };
+
+  pushUnique(raw.filter(g => g.topPick).sort(byYearDesc));
+  pushUnique(raw.filter(g => !g.topPick && (g.releaseYear || 0) >= 2023).sort(byYearDesc));
+  pushUnique(raw.filter(g => !g.topPick && (g.releaseYear || 0) >= 2019).sort(byYearDesc));
+  pushUnique(raw.filter(g => !g.topPick && (g.releaseYear || 0) < 2019).sort(byYearDesc));
+
+  const curated = curatedStack.slice(0, 70);
+
+  window.GF_DATA = curated.map(game => {
     const history = generatePriceHistory(game.id, game.basePriceUSD);
     const basePrice = Math.max(game.basePriceUSD || 0, Math.round(history.base));
     return {

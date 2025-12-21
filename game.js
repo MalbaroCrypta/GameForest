@@ -189,11 +189,12 @@
     }));
   }
 
-  function bindRange(g){
+  function bindRange(g, state){
     const chips = $$("[data-range]");
     chips.forEach(ch => ch.addEventListener("click", () => {
       chips.forEach(c => c.classList.toggle("chip--ghost", c !== ch));
-      renderChart(g, ch.dataset.range);
+      state.range = ch.dataset.range;
+      renderChart(g, state.range);
     }));
   }
 
@@ -219,9 +220,47 @@
         ids.push(g.id);
         ids = ids.slice(-4);
         localStorage.setItem(key, JSON.stringify(ids));
+        window.GF_STORE?.stats?.compareAdd(g.id);
+      } else {
+        ids = ids.filter(x => x !== g.id);
+        localStorage.setItem(key, JSON.stringify(ids));
+        window.GF_STORE?.stats?.compareRemove(g.id);
       }
-      alert(GF_I18N.t("comparePicked"));
+      window.GF_STORE?.toast(GF_I18N.t("comparePicked"));
     });
+  }
+
+  function bindWishlist(g){
+    const btn = $("#wishBtn");
+    if (!btn) return;
+    const refresh = () => {
+      const active = window.GF_STORE?.wishlist?.has(g.id);
+      btn.textContent = active ? GF_I18N.t("wishlistSaved") : GF_I18N.t("wishlistAdd");
+      btn.classList.toggle("is-active", !!active);
+    };
+    refresh();
+    btn.addEventListener("click", () => {
+      window.GF_STORE?.wishlist?.toggle(g.id);
+      window.GF_STORE?.stats?.save(g.id);
+      refresh();
+    });
+    document.addEventListener("gf:wishlist", refresh);
+  }
+
+  function bindCart(g){
+    const btn = $("#cartBtn");
+    if (!btn) return;
+    const refresh = () => {
+      const active = window.GF_STORE?.cart?.has(g.id);
+      btn.textContent = active ? GF_I18N.t("cartAdded") : GF_I18N.t("cartAdd");
+      btn.classList.toggle("is-active", !!active);
+    };
+    refresh();
+    btn.addEventListener("click", () => {
+      window.GF_STORE?.cart?.toggle(g.id);
+      refresh();
+    });
+    document.addEventListener("gf:cart", refresh);
   }
 
   function bindBack(){
@@ -245,15 +284,24 @@
       $("#gameTitle").textContent = "Not found";
       return;
     }
+    window.GF_STORE?.stats?.view(game.id);
+    const chartState = { range: "1y" };
     renderHero(game);
     bindTabs();
-    bindRange(game);
-    renderChart(game, "1y");
+    bindRange(game, chartState);
+    renderChart(game, chartState.range);
     bindShare(game);
     bindCompare(game);
+    bindWishlist(game);
+    bindCart(game);
     bindBack();
     GF_I18N.apply(document);
-    document.addEventListener("gf:lang", () => { renderHero(game); renderChart(game, "1y"); });
+    document.addEventListener("gf:lang", () => { renderHero(game); renderChart(game, chartState.range); });
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => renderChart(game, chartState.range), 140);
+    });
   }
 
   document.addEventListener("DOMContentLoaded", init);
