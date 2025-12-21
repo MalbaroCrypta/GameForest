@@ -1,4 +1,4 @@
-// Demo data for marketplace / top-up
+// Sample data for marketplace / top-up
 window.GF_MARKET_DATA = {
   topupProducts: [
     {
@@ -42,7 +42,7 @@ window.GF_MARKET_DATA = {
       amounts: [1000, 2800, 5000, 13500]
     }
   ],
-  demoListings: [
+  listings: [
     {
       id: "cs2-dragonlore",
       title: { uk: "AWP Dragon Lore (FN)", en: "AWP Dragon Lore (FN)" },
@@ -68,7 +68,7 @@ window.GF_MARKET_DATA = {
       priceUSD: 260,
       type: "Account",
       platform: "PC",
-      badge: "DEMO"
+      badge: "Verified seller"
     },
     {
       id: "genshin-account",
@@ -77,7 +77,7 @@ window.GF_MARKET_DATA = {
       priceUSD: 320,
       type: "Account",
       platform: "PC/Mobile",
-      badge: "DEMO"
+      badge: "Verified seller"
     },
     {
       id: "dota-arcana",
@@ -99,3 +99,4 @@ window.GF_MARKET_DATA = {
     }
   ]
 };
+window.GF_MARKET_DATA.demoListings = window.GF_MARKET_DATA.listings;

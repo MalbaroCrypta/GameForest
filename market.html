@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GameForest — Marketplace</title>
-  <meta name="description" content="Marketplace / Top-up demo" />
+  <meta name="description" content="Marketplace and balance top-ups in a production-ready layout." />
   <meta name="keywords" content="marketplace, top-up" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%234c7dff'/><text x='50' y='62' text-anchor='middle' font-size='56' fill='white' font-family='Arial' font-weight='bold'>GF</text></svg>">
   <link rel="stylesheet" href="./styles.css?v=3" />
@@ -35,7 +35,7 @@
           </svg>
         </div>
         <div class="userpill__meta">
-          <div class="userpill__email" id="userMenuEmail">guest@demo.app</div>
+          <div class="userpill__email" id="userMenuEmail">guest@gameforest.app</div>
           <div class="userpill__hint" data-i18n="navAccount">Мій акаунт</div>
         </div>
         <span class="chevron">▾</span>
@@ -52,7 +52,7 @@
     <a class="dropdown__item" href="account.html" data-i18n="navAccount">Мій акаунт</a>
     <button class="dropdown__item" type="button" data-go="wishlist" data-i18n="wishlist">Wishlist</button>
     <button class="dropdown__item" type="button" data-go="cart" data-i18n="cart">Кошик</button>
-    <button class="dropdown__item" type="button" data-open="pitch" data-i18n="pitchBtn">Pitch / Demo</button>
+    <button class="dropdown__item" type="button" data-open="pitch" data-i18n="pitchBtn">Pitch</button>
     <button class="dropdown__item" type="button" id="dropdownLogout" data-i18n="logout">Вийти</button>
   </div>
   <div class="drawer" id="navDrawer">
@@ -71,7 +71,7 @@
       <div class="drawer__actions">
         <button class="btn btn--ghost w100" data-drawer="wishlist" data-i18n="wishlist">Wishlist</button>
         <button class="btn btn--ghost w100" data-drawer="compare" data-i18n="compareBtn">Compare</button>
-        <button class="btn btn--ghost w100" data-open="pitch" data-i18n="pitchBtn">Pitch / Demo</button>
+        <button class="btn btn--ghost w100" data-open="pitch" data-i18n="pitchBtn">Pitch</button>
       </div>
     </aside>
   </div>
@@ -79,18 +79,18 @@
   <main class="layout">
     <section class="hero">
       <div class="hero__title" data-i18n="heroMarketTitle">Маркетплейс / Top-up</div>
-      <div class="hero__sub" data-i18n="heroMarketSub">Офіційні поповнення та демо-лоти без передачі акаунтів.</div>
+      <div class="hero__sub" data-i18n="heroMarketSub">Поповнення балансів та цифрові предмети у стриманому UI.</div>
     </section>
 
     <div class="tablist" role="tablist">
       <button class="tabbtn is-active" data-tab="topup" data-i18n="topupTab">Top-up</button>
-      <button class="tabbtn" data-tab="market" data-i18n="marketplaceTab">Marketplace (demo)</button>
+      <button class="tabbtn" data-tab="market" data-i18n="marketplaceTab">Marketplace</button>
     </div>
 
     <section class="panel" data-panel="topup">
       <div class="panel__head">
         <div class="panel__left">
-          <div class="panel__title" data-i18n="topupTest">Stripe Test / Demo</div>
+          <div class="panel__title" data-i18n="topupTest">Checkout sandbox</div>
           <div class="panel__muted" data-i18n="topupNote">Для продакшену потрібен бекенд (Vercel/Netlify/Firebase) з endpoint для Stripe session.</div>
         </div>
       </div>
@@ -115,7 +115,7 @@
           <div class="field">
             <label class="label">Checkout</label>
             <div class="radiolist">
-              <label><input type="radio" name="checkoutMode" value="demo" checked> Demo</label>
+              <label><input type="radio" name="checkoutMode" value="sandbox" checked> Sandbox</label>
               <label><input type="radio" name="checkoutMode" value="stripe"> Stripe Test</label>
             </div>
           </div>
@@ -129,7 +129,7 @@
       <div class="panel__head">
         <div class="panel__left">
           <div class="panel__title" data-i18n="marketFilters">Пошук / фільтр лотів</div>
-          <div class="panel__muted" id="marketDisclaimer" data-i18n="marketDisclaimer">Демонстраційні лоти.</div>
+          <div class="panel__muted" id="marketDisclaimer" data-i18n="marketDisclaimer">Лоти для прев'ю.</div>
         </div>
       </div>
       <div class="panel__body">
@@ -141,7 +141,7 @@
             <option value="Account">Account</option>
           </select>
         </div>
-        <div id="listingWrap" class="cardgrid"></div>
+        <div id="listingWrap" class="marketlist"></div>
       </div>
     </section>
 
@@ -170,7 +170,7 @@
     <div class="modal__backdrop" data-close="1"></div>
     <div class="modal__card modal__card--wide">
       <div class="modal__head">
-        <div class="modal__title" id="pitchTitle">Pitch / Demo</div>
+        <div class="modal__title" id="pitchTitle">Pitch</div>
         <button class="iconbtn" data-close="1">✕</button>
       </div>
       <div class="modal__body" id="pitchBody"></div>
@@ -181,7 +181,7 @@
     <div class="modal__backdrop" data-close="1"></div>
     <div class="modal__card modal__card--wide">
       <div class="modal__head">
-        <div class="modal__title" data-i18n="checkoutDemoTitle">Демо-оплата</div>
+        <div class="modal__title" data-i18n="checkoutDemoTitle">Перевірка оплати</div>
         <button class="iconbtn" data-close="1">✕</button>
       </div>
       <div class="modal__body" id="checkoutBody"></div>
