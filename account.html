@@ -27,7 +27,8 @@
     <div class="topbar__right">
       <button class="chip chip--ghost" id="langToggle" title="UA / EN">UA</button>
       <div class="userpill" id="userToggle" role="button" tabindex="0">
-        <div class="avatar" aria-hidden="true">
+        <div class="avatar" aria-hidden="true" id="userAvatar">
+          <img id="userAvatarImg" alt="" hidden>
           <svg viewBox="0 0 40 40" role="presentation" focusable="false">
             <circle cx="20" cy="14" r="9" class="avatar__face"></circle>
             <rect x="8" y="24" width="24" height="10" rx="5" class="avatar__body"></rect>
@@ -109,10 +110,10 @@
     <section class="panel">
       <div class="panel__body">
         <div class="owner" style="margin-bottom:10px;">
-          <div class="owner__avatar">GF</div>
+          <div class="owner__avatar avatar--image" id="heroAvatar">GF</div>
           <div>
             <div class="owner__name" id="accountPrimaryEmail">guest@gameforest.app</div>
-            <div class="owner__meta">Локальна сесія · wishlist / cart · avatar placeholder</div>
+            <div class="owner__meta" data-i18n="profileHeroMeta">Supabase session · wishlist / cart · avatar</div>
           </div>
         </div>
         <div class="statrow statrow--inline">
@@ -141,6 +142,36 @@
         <div class="panel__muted" data-i18n="wishlistHint">Збережені ігри з каталогу.</div>
       </div>
       <div class="panel__body" id="wishlistList"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__head">
+        <div class="panel__title" data-i18n="profileTitle">Профіль користувача</div>
+        <div class="panel__muted" data-i18n="profileHint">Аватар і біо зберігаються у Supabase.</div>
+      </div>
+      <div class="panel__body profilecard">
+        <div class="profilecard__left">
+          <div class="avatar avatar--xl" id="profileAvatar">GF</div>
+          <div class="muted profile__status" id="profileStatus"></div>
+          <div class="profilecard__upload">
+            <div class="avatar avatar--preview" id="profileAvatarPreview">GF</div>
+            <div class="profilecard__actions">
+              <label class="chip chip--ghost" for="profileAvatarInput" data-i18n="uploadAvatar">Завантажити аватар</label>
+              <input type="file" id="profileAvatarInput" accept="image/*" hidden>
+            </div>
+          </div>
+        </div>
+        <div class="profilecard__form">
+          <div class="field">
+            <label class="label" for="profileBio" data-i18n="bioLabel">Біографія</label>
+            <textarea class="input input--textarea" id="profileBio" placeholder="Додайте коротку біографію"></textarea>
+          </div>
+          <div class="profilecard__footer">
+            <div class="muted" id="profileGuard" data-i18n="profileRequiresLogin">Увійдіть, щоб зберегти профіль.</div>
+            <button class="btn btn--primary" id="profileSave" type="button" data-i18n="saveProfile">Зберегти профіль</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="panel" id="cartSection">
@@ -196,6 +227,9 @@
   </footer>
 
   <script src="./i18n.js"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.44.4/dist/umd/supabase.min.js"></script>
+  <script src="./auth.js"></script>
   <script src="./shell.js"></script>
   <script src="./data.js"></script>
   <script src="./account.js"></script>

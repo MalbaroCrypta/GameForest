@@ -2,8 +2,6 @@
 (function(){
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-  const LS_USERS = "gf_users";
-  const LS_SESSION = "gf_session";
   const LS_WISHLIST = "gf_wishlist";
   const LS_CART = "gf_cart";
   const LS_STATS = "gf_stats";
@@ -63,16 +61,11 @@
   }
 
   function loadUsers(){
-    try { return JSON.parse(localStorage.getItem(LS_USERS) || "[]"); }
-    catch { return []; }
+    return [];
   }
-  function saveUsers(users){ localStorage.setItem(LS_USERS, JSON.stringify(users)); }
-  function getSession(){
-    try { return JSON.parse(localStorage.getItem(LS_SESSION) || "null"); }
-    catch { return null; }
-  }
-  function setSession(session){ localStorage.setItem(LS_SESSION, JSON.stringify(session)); updateAuthUI(); }
-  function clearSession(){ localStorage.removeItem(LS_SESSION); updateAuthUI(); }
+  function saveUsers(){ /* legacy placeholder */ }
+  function getSession(){ return window.GF_AUTH?.getSession?.() || null; }
+  function clearSession(){ window.GF_AUTH?.signOut?.(); }
   function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
 
   function showModal(el){ if(el) el.classList.remove("hidden"); }
@@ -86,6 +79,8 @@
 
   function authMarkup(mode){
     const t = (k) => window.GF_I18N.t(k);
+    const googleBtn = `<button class="btn btn--google w100" id="aGoogle">${t("googleSignIn")}</button>`;
+    const providerNote = `<div class="muted" style="margin-top:8px; font-size:12px;">${t("authSupabaseNote")}</div>`;
     if (mode === "register"){
       return `
         <div class="field">
@@ -100,11 +95,12 @@
           <label class="label">${t("password2")}</label>
           <input class="input" id="aPass2" type="password" placeholder="repeat password">
         </div>
-        <div class="divider"></div>
+        <div class="divider" data-i18n="or">${t("or")}</div>
         <button class="btn btn--primary w100" id="aSubmit">${t("createAccount")}</button>
+        ${googleBtn}
         <button class="btn btn--ghost w100" id="aSwitch">${t("haveAccount")}</button>
         <div class="muted" id="aMsg" style="margin-top:10px;"></div>
-        <div class="muted" style="margin-top:8px; font-size:12px;">${t("authDisclaimer")}</div>
+        ${providerNote}
       `;
     }
     return `
@@ -116,11 +112,12 @@
         <label class="label">${t("password")}</label>
         <input class="input" id="aPass" type="password" placeholder="your password">
       </div>
-      <div class="divider"></div>
+      <div class="divider" data-i18n="or">${t("or")}</div>
       <button class="btn btn--primary w100" id="aSubmit">${t("signIn")}</button>
+      ${googleBtn}
       <button class="btn btn--ghost w100" id="aSwitch">${t("noAccount")}</button>
       <div class="muted" id="aMsg" style="margin-top:10px;"></div>
-      <div class="muted" style="margin-top:8px; font-size:12px;">${t("authDisclaimer")}</div>
+      ${providerNote}
     `;
   }
 
@@ -129,6 +126,11 @@
     const title = $("#authTitle");
     const body = $("#authBody");
     if (!modal || !title || !body) return;
+    if (!window.GF_AUTH?.isConfigured){
+      body.innerHTML = `<div class="muted" style="padding:12px;">${GF_I18N.t("authMissingConfig")}</div>`;
+      showModal(modal);
+      return;
+    }
 
     title.textContent = (mode === "register") ? GF_I18N.t("register") : GF_I18N.t("login");
     body.innerHTML = authMarkup(mode);
@@ -139,29 +141,34 @@
 
     $("#aSwitch").addEventListener("click", () => openAuth(mode === "register" ? "login" : "register"));
 
-    $("#aSubmit").addEventListener("click", () => {
+    $("#aSubmit").addEventListener("click", async () => {
       const email = (emailEl().value || "").trim().toLowerCase();
       const pass = (passEl().value || "").trim();
+      msg().textContent = "";
       if (!isValidEmail(email)) { msg().textContent = GF_I18N.t("badEmail"); return; }
       if (pass.length < 6) { msg().textContent = GF_I18N.t("passShort"); return; }
-
-      const users = loadUsers();
-
-      if (mode === "register"){
-        const pass2 = ($("#aPass2").value || "").trim();
-        if (pass !== pass2) { msg().textContent = GF_I18N.t("passMismatch"); return; }
-        if (users.some(u => u.email === email)) { msg().textContent = GF_I18N.t("emailExists"); return; }
-        users.push({ email, pass });
-        saveUsers(users);
-        setSession({ email });
-        hideModal(modal);
-        return;
+      try{
+        if (mode === "register"){
+          const pass2 = ($("#aPass2").value || "").trim();
+          if (pass !== pass2) { msg().textContent = GF_I18N.t("passMismatch"); return; }
+          await window.GF_AUTH.signUp(email, pass);
+          msg().textContent = GF_I18N.t("signupCheckEmail");
+        }else{
+          await window.GF_AUTH.signIn(email, pass);
+          hideModal(modal);
+        }
+      }catch(err){
+        msg().textContent = err?.message || GF_I18N.t("authUnknownError");
       }
+    });
 
-      const ok = users.find(u => u.email === email && u.pass === pass);
-      if (!ok) { msg().textContent = GF_I18N.t("wrongCreds"); return; }
-      setSession({ email });
-      hideModal(modal);
+    $("#aGoogle")?.addEventListener("click", async () => {
+      msg().textContent = "";
+      try{
+        await window.GF_AUTH.signInWithGoogle();
+      }catch(err){
+        msg().textContent = err?.message || GF_I18N.t("authUnknownError");
+      }
     });
 
     showModal(modal);
@@ -169,18 +176,36 @@
 
   function updateAuthUI(){
     const s = getSession();
-    const logged = !!s?.email;
+    const profile = window.GF_AUTH?.getProfile?.();
+    const logged = !!s?.user?.email;
+    const email = s?.user?.email || "guest@gameforest.app";
+    const avatarUrl = profile?.avatar_url || s?.user?.user_metadata?.avatar_url || s?.user?.user_metadata?.picture || "";
     const userBadge = $("#userBadge");
     const userMenuEmail = $("#userMenuEmail");
     const btnLogin = $("#btnLogin");
     const btnRegister = $("#btnRegister");
     const btnLogout = $("#btnLogout");
+    const avatar = $("#userAvatar");
+    const avatarImg = $("#userAvatarImg");
 
     if (btnLogin) { btnLogin.textContent = GF_I18N.t("login"); btnLogin.hidden = logged; }
     if (btnRegister) { btnRegister.textContent = GF_I18N.t("register"); btnRegister.hidden = logged; }
     if (btnLogout) { btnLogout.textContent = GF_I18N.t("logout"); btnLogout.hidden = !logged; }
-    if (userBadge){ userBadge.hidden = !logged; if (logged) userBadge.textContent = s.email; }
-    if (userMenuEmail){ userMenuEmail.textContent = logged ? s.email : "guest@gameforest.app"; }
+    if (userBadge){ userBadge.hidden = !logged; if (logged) userBadge.textContent = email; }
+    if (userMenuEmail){ userMenuEmail.textContent = logged ? email : "guest@gameforest.app"; }
+    if (avatar){
+      avatar.classList.toggle("avatar--guest", !logged);
+      if (avatarImg){
+        if (avatarUrl){
+          avatarImg.src = avatarUrl;
+          avatarImg.hidden = false;
+          avatar.classList.add("avatar--image");
+        }else{
+          avatarImg.hidden = true;
+          avatar.classList.remove("avatar--image");
+        }
+      }
+    }
   }
 
   function bindPitch(){
@@ -307,6 +332,7 @@
     bindDropdown();
     bindDrawer();
     updateAuthUI();
+    document.addEventListener("gf:auth", updateAuthUI);
   }
 
   const wishlistApi = listApi(LS_WISHLIST);
@@ -320,6 +346,7 @@
     setNavActive,
     openAuth,
     getSession,
+    getProfile: () => window.GF_AUTH?.getProfile?.(),
     clearSession,
   };
 

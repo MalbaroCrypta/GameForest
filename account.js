@@ -21,6 +21,29 @@
     return Math.max(0, Math.round(base * (1 - disc/100)));
   };
   const nameOf = (g) => g?.name?.[GF_I18N.lang] || g?.name?.en || g?.id || "—";
+  const profileDom = {
+    avatar: $("#profileAvatar"),
+    preview: $("#profileAvatarPreview"),
+    input: $("#profileAvatarInput"),
+    save: $("#profileSave"),
+    bio: $("#profileBio"),
+    status: $("#profileStatus"),
+    guard: $("#profileGuard"),
+    heroAvatar: $("#heroAvatar"),
+  };
+
+  function applyAvatar(el, url, fallback="GF"){
+    if (!el) return;
+    if (url){
+      el.style.backgroundImage = `url(${url})`;
+      el.classList.add("avatar--image");
+      el.textContent = "";
+    }else{
+      el.style.backgroundImage = "";
+      el.textContent = fallback;
+      el.classList.remove("avatar--image");
+    }
+  }
 
   function renderStats(){
     const stats = window.GF_STORE?.stats?.get() || { viewed: [], compared: [], saved: [] };
@@ -36,7 +59,8 @@
     const cartCount = $("#cartCount");
     const compareCount = $("#compareCount");
     const session = window.GF_SHELL?.getSession?.();
-    const emailText = session?.email || "guest@gameforest.app";
+    const profile = window.GF_SHELL?.getProfile?.();
+    const emailText = session?.user?.email || "guest@gameforest.app";
     const wishLen = window.GF_STORE?.wishlist?.get()?.length || 0;
     const cartLen = window.GF_STORE?.cart?.get()?.length || 0;
     const ids = (() => { try{ return JSON.parse(localStorage.getItem("gf_compare_ids") || "[]"); }catch{return [];} })();
@@ -50,6 +74,7 @@
     $("#accountWish")?.textContent = wishLen;
     $("#accountCart")?.textContent = cartLen;
     $("#accountCompare")?.textContent = ids.length;
+    applyAvatar(profileDom.heroAvatar, profile?.avatar_url, (emailText || "GF").slice(0,2).toUpperCase());
   }
 
   function renderList(targetId, ids, emptyKey){
@@ -91,20 +116,78 @@
     if (location.hash === "#cart") $("#cartSection")?.scrollIntoView({ behavior: "smooth" });
   }
 
+  function renderProfile(){
+    const session = window.GF_SHELL?.getSession?.();
+    const profile = window.GF_SHELL?.getProfile?.();
+    const email = session?.user?.email;
+    const fallback = (email || "GF").slice(0,2).toUpperCase();
+    if (profileDom.guard) profileDom.guard.hidden = !!email;
+    if (!email){
+      applyAvatar(profileDom.avatar, null, "GF");
+      applyAvatar(profileDom.preview, null, "GF");
+      if (profileDom.status) profileDom.status.textContent = t("profileRequiresLogin");
+      return;
+    }
+    applyAvatar(profileDom.avatar, profile?.avatar_url, fallback);
+    if (profileDom.preview){
+      applyAvatar(profileDom.preview, profile?.avatar_url, fallback);
+    }
+    if (profileDom.bio) profileDom.bio.value = profile?.bio || "";
+    if (profileDom.status) profileDom.status.textContent = "";
+  }
+
+  async function saveProfile(){
+    const session = window.GF_SHELL?.getSession?.();
+    if (!session){
+      window.GF_SHELL?.openAuth?.("login");
+      return;
+    }
+    if (!profileDom.bio || !profileDom.save || !profileDom.status) return;
+    const bio = profileDom.bio.value || "";
+    const file = profileDom.input?.files?.[0];
+    profileDom.save.disabled = true;
+    profileDom.status.textContent = t("profileSaving");
+    try{
+      await window.GF_AUTH.updateProfile({ bio, avatarFile: file });
+      profileDom.status.textContent = t("profileSaved");
+      if (profileDom.input) profileDom.input.value = "";
+      renderProfile();
+    }catch(err){
+      profileDom.status.textContent = err?.message || t("authUnknownError");
+    }finally{
+      profileDom.save.disabled = false;
+    }
+  }
+
   function refresh(){
     GF_I18N.apply(document);
     renderHeroMeta();
     renderStats();
     renderList("wishlistList", window.GF_STORE?.wishlist?.get() || [], "wishlistEmpty");
     renderList("cartList", window.GF_STORE?.cart?.get() || [], "cartEmpty");
+    renderProfile();
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     window.GF_SHELL.initShell("account");
+    profileDom.input?.addEventListener("change", () => {
+      const file = profileDom.input.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (profileDom.preview){
+          profileDom.preview.style.backgroundImage = `url(${e.target.result})`;
+          profileDom.preview.classList.add("avatar--image");
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+    profileDom.save?.addEventListener("click", saveProfile);
     refresh();
     applyAnchorFocus();
     document.addEventListener("gf:wishlist", refresh);
     document.addEventListener("gf:cart", refresh);
     document.addEventListener("gf:lang", refresh);
+    document.addEventListener("gf:auth", refresh);
   });
 })();
