@@ -7,7 +7,7 @@
   <meta name="description" content="GameForest game detail" />
   <meta name="keywords" content="game, price history, analytics" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%234c7dff'/><text x='50' y='62' text-anchor='middle' font-size='56' fill='white' font-family='Arial' font-weight='bold'>GF</text></svg>">
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=3" />
 </head>
 <body data-page="catalog">
   <header class="topbar">
@@ -24,6 +24,12 @@
     </div>
     <div class="topbar__center"></div>
     <div class="topbar__right">
+      <div class="avatar" aria-hidden="true">
+        <svg viewBox="0 0 40 40" role="presentation" focusable="false">
+          <circle cx="20" cy="14" r="9" class="avatar__face"></circle>
+          <rect x="8" y="24" width="24" height="10" rx="5" class="avatar__body"></rect>
+        </svg>
+      </div>
       <button class="chip" id="langToggle" title="UA / EN">UA</button>
       <div class="auth">
         <span class="auth__user" id="userBadge" hidden></span>
@@ -44,12 +50,12 @@
     <section class="panel">
       <div class="panel__body panel__body--gap">
         <div class="gametop">
-          <div class="gametop__cover" id="gameCover"></div>
+          <div class="gametop__cover skeleton" id="gameCover" aria-label="Game cover placeholder"></div>
           <div>
             <h1 class="gametop__title" id="gameName"></h1>
             <div class="gametop__meta" id="gameMeta"></div>
             <div class="gametop__actions">
-              <a class="btn btn--ghost" href="index.html" id="backBtn" data-i18n="detailBack">Назад до каталогу</a>
+              <button class="btn btn--ghost" type="button" id="backBtn" data-i18n="detailBack">Назад до каталогу</button>
               <button class="btn btn--ghost" id="shareBtn" data-i18n="detailShare">Поділитися</button>
               <button class="btn btn--primary" id="compareBtn" data-i18n="detailAddCompare">Додати у Compare</button>
             </div>
@@ -113,7 +119,7 @@
             <button class="chip chip--ghost" data-range="all" data-i18n="detailAllTime">All time</button>
           </div>
         </div>
-        <div class="chartbox">
+        <div class="chartbox is-loading" id="chartBox">
           <div class="chart__badge" id="chartBadge"></div>
           <svg class="chart" id="priceChart"></svg>
           <div class="chart__tooltip hidden" id="chartTooltip"></div>
@@ -132,6 +138,7 @@
             <div class="statcard__value" id="avgVal">$0</div>
           </div>
         </div>
+        <p class="muted" style="margin-top:8px;">Prices shown are fetched from public Steam store data and may be cached or delayed. Demo curves are simulated.</p>
       </div>
 
       <div class="tabpane hidden" data-tab="platforms">
@@ -151,6 +158,7 @@
 
       <div class="tabpane hidden" data-tab="notes">
         <div class="notebox" id="noteBox"></div>
+        <p class="muted" style="margin-top:10px;">Demo data · SteamStatic covers · Cached pricing snapshots.</p>
       </div>
     </div>
     <p class="muted" style="margin-top:12px;" data-i18n="detailShareHint">Працює статично: сторінка доступна на GitHub Pages.</p>
