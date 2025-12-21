@@ -1,0 +1,291 @@
+// Global i18n helper for GameForest demo
+// Stores selected language in localStorage and maps translation keys.
+(function(){
+  const STORAGE_KEY = "gf_lang";
+  const fallback = "uk";
+  const saved = (localStorage.getItem(STORAGE_KEY) || fallback).toLowerCase();
+  const supported = ["uk", "en"];
+
+  const dict = {
+    uk: {
+      metaTitle: "GameForest — Каталог ігор та маркетплейс",
+      metaDescription: "Демо-панель GameForest: аналітика ігор, маркетплейс донат-валюти та демо-лоти для інвесторського показу.",
+      navCatalog: "Каталог",
+      navMarket: "Маркетплейс",
+      navAbout: "Про проєкт",
+      navSignin: "Увійти",
+      any: "Усі",
+      heroCatalogTitle: "Каталог ігор та аналітика",
+      heroCatalogSub: "SteamDB-ish панель: фільтри, сортування, compare, демо-auth.",
+      heroMarketTitle: "Маркетплейс / Top-up",
+      heroMarketSub: "Офіційні поповнення та демо-лоти без передачі акаунтів.",
+      heroAboutTitle: "Про GameForest",
+      heroAboutSub: "Що будуємо, для кого, монетизація та плани.",
+      kpiGames: "актуальні ігри",
+      kpiCompare: "таблиця + compare",
+      kpiLanguages: "live перемикач",
+      searchPlaceholder: "Пошук гри...",
+      filtersTitle: "Фільтри",
+      filterPlatform: "Платформа",
+      filterGenre: "Жанр",
+      filterModel: "Модель монетизації",
+      filterMaxPrice: "Макс ціна ($)",
+      filterTop: "Тільки Top picks",
+      filterApply: "Застосувати",
+      filterReset: "Скинути",
+      tableTitle: "Таблиця",
+      tableHint: "Клік по рядку додає у Compare (до 4)",
+      thName: "Назва",
+      thOff: "% Знижка",
+      thPrice: "Ціна",
+      thRating: "Рейтинг",
+      thPlatforms: "Платформи",
+      pagerEntry: "Записів на сторінці",
+      compareBtn: "Compare",
+      pitchBtn: "Pitch / Demo",
+      emptyData: "Нема даних. Переконайтеся, що data.js підключений.",
+      compareHint: "Додайте мінімум 2 гри кліком по рядках.",
+      comparePicked: "Вибрано",
+      compareClear: "Очистити вибір",
+      priceNow: "Ціна зараз",
+      discount: "% Знижка",
+      rating: "Рейтинг",
+      demand: "Попит",
+      stability: "Стабільність ціни",
+      health: "Ком'юніті",
+      platforms: "Платформи",
+      model: "Модель",
+      genre: "Жанр",
+      login: "Вхід",
+      register: "Реєстрація",
+      logout: "Вийти",
+      email: "Email",
+      password: "Пароль",
+      password2: "Повтор пароля",
+      createAccount: "Створити акаунт",
+      haveAccount: "У мене вже є акаунт",
+      signIn: "Увійти",
+      noAccount: "Створити акаунт",
+      badEmail: "Невірний email.",
+      passShort: "Пароль має бути мінімум 6 символів.",
+      passMismatch: "Паролі не співпадають.",
+      emailExists: "Такий email вже зареєстрований.",
+      wrongCreds: "Неправильний email або пароль.",
+      authDisclaimer: "Демо: паролі зберігаються локально. Для продакшену використовуйте Supabase/Firebase.",
+      pitchTitle: "Pitch / Demo",
+      pitchProblem: "Дані по іграх розкидані по магазинах і платформах — важко швидко порівняти та показати бізнес-цінність.",
+      pitchSolution: "Єдина панель: таблиця, фільтри, best deal, compare, підсумок за 30 секунд.",
+      pitchMonetization: "B2B підписка, API, партнерства, афіліат.",
+      pitchOwner: "Власник: Malbaro (founder / product vision).",
+      pitchInvestors: "Investor mode: MAU/ARPU (демо), backlog Stripe Checkout, Supabase auth, демо-маркетплейс.",
+      modalClose: "Закрити",
+      topupTab: "Top-up",
+      marketplaceTab: "Marketplace (demo)",
+      topupService: "Гра/сервіс",
+      topupRegion: "Регіон",
+      topupAmount: "Сума поповнення",
+      topupCustomAmount: "Або введіть суму",
+      topupCheckout: "Перейти до оплати",
+      topupTest: "Stripe Test / Demo",
+      topupNote: "Для продакшену потрібен бекенд (Vercel/Netlify/Firebase) з endpoint для Stripe session.",
+      marketFilters: "Пошук / фільтр лотів",
+      marketSearchPlaceholder: "Пошук скіна або акаунта",
+      marketType: "Тип",
+      marketBadge: "ДЕМО",
+      marketDisclaimer: "Демонстраційні лоти. Для реальних угод потрібен комплаєнс та дозволені механіки.",
+      marketEmpty: "Немає лотів за цим запитом.",
+      checkoutDemoTitle: "Демо-оплата",
+      checkoutDemoCopy: "Stripe Test або фейковий чек. Сесія створюється на серверлес /api/create-checkout-session.",
+      checkoutDone: "Оплата успішна у демо-режимі.",
+      checkoutBack: "Повернутися",
+      aboutWhat: "Що це?",
+      aboutForWhom: "Для кого",
+      aboutValue: "Цінність",
+      aboutMonetization: "Монетизація",
+      aboutRoadmap: "Roadmap (6-12 міс)",
+      aboutOwner: "Власник проєкту",
+      aboutCta: "Pitch / Investor mode",
+      roadmapItems: [
+        "MVP: каталог + compare + демо Stripe",
+        "Supabase auth + профіль",
+        "Інтеграція з офіційними API магазинів",
+        "B2B панель: звіти, експорт, API",
+        "Маркетплейс з комплаєнсом"
+      ],
+      footerDisclaimer: "Стабільні обкладинки SteamStatic. Демо-версія без сторонніх залежностей.",
+      seoKeywords: "ігри, аналітика, marketplace, топап, demo",
+      successTitle: "Оплата успішна (demo)",
+      successBody: "Stripe Test Mode або фейкова сесія. У продакшені замініть endpoint.",
+      cancelTitle: "Оплату скасовано",
+      cancelBody: "Спробуйте ще раз або змініть спосіб оплати.",
+      badgeTop: "Топ",
+      quickCompare: "Швидке порівняння",
+      entryLabel: "К-сть на сторінку",
+      mobileHint: "Таблиця скролиться по горизонталі",
+      investorMetrics: "Демо-метрики",
+      investorMau: "MAU (demo)",
+      investorArpu: "ARPU (demo)",
+      investorConv: "Конверсія в checkout (demo)"
+    },
+    en: {
+      metaTitle: "GameForest — Game catalog & marketplace",
+      metaDescription: "GameForest demo board: analytics, top-up marketplace, demo listings for investor preview.",
+      navCatalog: "Catalog",
+      navMarket: "Marketplace",
+      navAbout: "About",
+      navSignin: "Sign in",
+      any: "All",
+      heroCatalogTitle: "Game catalog & analytics",
+      heroCatalogSub: "SteamDB-ish board: filters, sorting, compare, demo auth.",
+      heroMarketTitle: "Marketplace / Top-up",
+      heroMarketSub: "Official balances and demo listings without account transfer.",
+      heroAboutTitle: "About GameForest",
+      heroAboutSub: "What we're building, for whom, monetization and plans.",
+      kpiGames: "games tracked",
+      kpiCompare: "table + compare",
+      kpiLanguages: "live toggle",
+      searchPlaceholder: "Search game...",
+      filtersTitle: "Filters",
+      filterPlatform: "Platform",
+      filterGenre: "Genre",
+      filterModel: "Model",
+      filterMaxPrice: "Max price ($)",
+      filterTop: "Only top picks",
+      filterApply: "Apply",
+      filterReset: "Reset",
+      tableTitle: "Table",
+      tableHint: "Click a row to add to Compare (up to 4)",
+      thName: "Name",
+      thOff: "% Off",
+      thPrice: "Price",
+      thRating: "Rating",
+      thPlatforms: "Platforms",
+      pagerEntry: "Entries",
+      compareBtn: "Compare",
+      pitchBtn: "Pitch / Demo",
+      emptyData: "No data. Ensure data.js is loaded.",
+      compareHint: "Pick at least 2 games by clicking rows.",
+      comparePicked: "Selected",
+      compareClear: "Clear selection",
+      priceNow: "Price now",
+      discount: "% Off",
+      rating: "Rating",
+      demand: "Demand",
+      stability: "Price stability",
+      health: "Community",
+      platforms: "Platforms",
+      model: "Model",
+      genre: "Genre",
+      login: "Login",
+      register: "Register",
+      logout: "Logout",
+      email: "Email",
+      password: "Password",
+      password2: "Repeat password",
+      createAccount: "Create account",
+      haveAccount: "I already have an account",
+      signIn: "Sign in",
+      noAccount: "Create account",
+      badEmail: "Invalid email.",
+      passShort: "Password must be at least 6 characters.",
+      passMismatch: "Passwords do not match.",
+      emailExists: "This email is already registered.",
+      wrongCreds: "Wrong email or password.",
+      authDisclaimer: "Demo only: passwords are stored locally. Use Supabase/Firebase for production.",
+      pitchTitle: "Pitch / Demo",
+      pitchProblem: "Game data is scattered across stores and platforms — hard to compare and show business value quickly.",
+      pitchSolution: "Single dashboard: table, filters, best deal, compare — 30s to insight.",
+      pitchMonetization: "B2B subscription, API, partnerships, affiliate.",
+      pitchOwner: "Owner: Malbaro (founder / product vision).",
+      pitchInvestors: "Investor mode: MAU/ARPU (demo), backlog Stripe Checkout, Supabase auth, demo marketplace.",
+      modalClose: "Close",
+      topupTab: "Top-up",
+      marketplaceTab: "Marketplace (demo)",
+      topupService: "Game/service",
+      topupRegion: "Region",
+      topupAmount: "Top-up amount",
+      topupCustomAmount: "Or enter amount",
+      topupCheckout: "Checkout",
+      topupTest: "Stripe Test / Demo",
+      topupNote: "Production requires backend (Vercel/Netlify/Firebase) endpoint for Stripe session.",
+      marketFilters: "Search / filter listings",
+      marketSearchPlaceholder: "Search skin or account",
+      marketType: "Type",
+      marketBadge: "DEMO",
+      marketDisclaimer: "Demo listings only. Real trades need compliance and approved mechanics.",
+      marketEmpty: "No listings for this query.",
+      checkoutDemoTitle: "Demo checkout",
+      checkoutDemoCopy: "Stripe Test or fake receipt. Session is created on a serverless /api/create-checkout-session.",
+      checkoutDone: "Payment completed in demo mode.",
+      checkoutBack: "Back",
+      aboutWhat: "What is it?",
+      aboutForWhom: "Who is it for",
+      aboutValue: "Value",
+      aboutMonetization: "Monetization",
+      aboutRoadmap: "Roadmap (6-12 mo)",
+      aboutOwner: "Project owner",
+      aboutCta: "Pitch / Investor mode",
+      roadmapItems: [
+        "MVP: catalog + compare + Stripe demo",
+        "Supabase auth + profile",
+        "Official store APIs integration",
+        "B2B console: reports, export, API",
+        "Marketplace with compliance"
+      ],
+      footerDisclaimer: "Stable SteamStatic covers. Demo build without fragile dependencies.",
+      seoKeywords: "games, analytics, marketplace, top-up, demo",
+      successTitle: "Payment successful (demo)",
+      successBody: "Stripe Test Mode or fake session. Replace endpoint in production.",
+      cancelTitle: "Payment canceled",
+      cancelBody: "Try again or switch payment option.",
+      badgeTop: "Top",
+      quickCompare: "Quick compare",
+      entryLabel: "Rows per page",
+      mobileHint: "Table is horizontally scrollable",
+      investorMetrics: "Investor metrics",
+      investorMau: "MAU (demo)",
+      investorArpu: "ARPU (demo)",
+      investorConv: "Checkout conversion (demo)"
+    }
+  };
+
+  const lang = supported.includes(saved) ? saved : fallback;
+
+  const api = {
+    lang,
+    t(key){
+      return (dict[this.lang] && key in dict[this.lang]) ? dict[this.lang][key] : key;
+    },
+    setLang(next){
+      this.lang = supported.includes(next) ? next : fallback;
+      localStorage.setItem(STORAGE_KEY, this.lang);
+      document.documentElement.lang = this.lang;
+      this.apply(document);
+    },
+    apply(root){
+      if (!root) return;
+      root.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        const val = this.t(key);
+        if (Array.isArray(val)) {
+          el.textContent = val.join(" · ");
+        } else {
+          el.textContent = val;
+        }
+      });
+      root.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        const val = this.t(key);
+        el.setAttribute("placeholder", Array.isArray(val) ? val.join(" ") : val);
+      });
+    }
+  };
+
+  window.GF_I18N = api;
+  document.title = api.t("metaTitle");
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute("content", api.t("metaDescription"));
+  const metaKeywords = document.querySelector('meta[name="keywords"]');
+  if (metaKeywords) metaKeywords.setAttribute("content", api.t("seoKeywords"));
+  document.documentElement.lang = api.lang;
+})();
