@@ -39,47 +39,34 @@
       <div class="hero__title" data-i18n="heroAboutTitle">Про GameForest</div>
       <div class="hero__sub" data-i18n="heroAboutSub">Що будуємо, для кого, монетизація та плани.</div>
       <div class="hero__meta">
-        <span class="pill pill--glow" data-i18n="aboutTagInvestor">Investor Mode ready</span>
-        <span class="pill" data-i18n="aboutTagStatic">Static GitHub Pages demo</span>
-        <span class="pill" data-i18n="aboutTagMulti">Multi-platform data-first</span>
+        <span class="pill pill--glow" data-i18n="aboutHeroPill1">Investor Mode ready</span>
+        <span class="pill" data-i18n="aboutHeroPill2">Static GitHub Pages demo</span>
+        <span class="pill" data-i18n="aboutHeroPill3">Multi-platform data-first</span>
       </div>
     </section>
 
     <section class="panel">
       <div class="panel__head">
-        <div class="panel__title" data-i18n="aboutHero">Місія та цінність</div>
-        <div class="togglebar">
-          <div class="muted" data-i18n="aboutInvestorToggle">Investor mode</div>
-          <button class="toggle" id="investorToggle" aria-label="Investor mode"></button>
+        <div>
+          <div class="panel__title" data-i18n="aboutIntroSection">Місія та цінність</div>
+          <div class="panel__muted" data-i18n="aboutIntroHint">Чітке пояснення продукту.</div>
         </div>
+        <button class="btn btn--primary" data-contact="open" data-i18n="aboutCta">Contact / Partner / Investor</button>
       </div>
       <div class="panel__body panel__body--gap">
         <div class="grid grid--3">
           <div class="card card--accent">
-            <div class="card__title" data-i18n="aboutMissionTitle">Місія</div>
-            <div class="card__desc" data-i18n="aboutMissionBody">Єдина точка правди про ціни та тренди ігор, що дає бізнес-інсайт за 30 секунд.</div>
+            <div class="card__title" data-i18n="aboutIntroHeroTitle">Місія</div>
+            <div class="card__desc" data-i18n="aboutIntroHeroBody">Єдина точка правди про ціни та тренди ігор, що дає бізнес-інсайт за 30 секунд.</div>
+            <ul class="list list--plain" id="introBullets"></ul>
           </div>
           <div class="card">
-            <div class="card__title" data-i18n="aboutForWhom">Для кого</div>
-            <div class="list card__desc list--plain" id="forWhomList"></div>
+            <div class="card__title" data-i18n="aboutProblemTitle">Для кого</div>
+            <ul class="list" id="problemList"></ul>
           </div>
           <div class="card">
-            <div class="card__title" data-i18n="aboutValue">Що саме даємо</div>
-            <ul class="list">
-              <li data-i18n="aboutValue1">Порівняння цін/знижок між платформами</li>
-              <li data-i18n="aboutValue2">Тренди та аналітика «коли купувати»</li>
-              <li data-i18n="aboutValue3">Watchlist / алерти</li>
-              <li data-i18n="aboutValue4">API для B2B партнерів</li>
-            </ul>
-          </div>
-        </div>
-        <div class="banner">
-          <div class="banner__title" data-i18n="aboutDiffTitle">Чому не SteamDB?</div>
-          <div class="flagrow">
-            <span class="pill pill--glow" data-i18n="aboutDiff1">Multi-platform</span>
-            <span class="pill" data-i18n="aboutDiff2">Best deal рейтинг</span>
-            <span class="pill" data-i18n="aboutDiff3">Плановані алерти</span>
-            <span class="pill" data-i18n="aboutDiff4">B2B API + дашборд</span>
+            <div class="card__title" data-i18n="aboutSolutionTitle">Що саме даємо</div>
+            <ul class="list" id="solutionList"></ul>
           </div>
         </div>
       </div>
@@ -87,36 +74,59 @@
 
     <section class="panel">
       <div class="panel__head">
-        <div class="panel__title" data-i18n="aboutInvestorBlock">Investor mode (value prop, монетизація, ризики)</div>
+        <div>
+          <div class="panel__title" data-i18n="aboutDifferTitle">Чому не SteamDB?</div>
+          <div class="panel__muted" data-i18n="aboutDifferHint">Multi-platform, API-first, готовність до B2B.</div>
+        </div>
       </div>
       <div class="panel__body panel__body--gap">
-        <div class="split">
-          <div class="card card--accent">
-            <div class="card__title" data-i18n="aboutValuePropTitle">Value prop</div>
-            <div class="card__desc" data-i18n="aboutValuePropBody">Єдина панель для мульти-платформених цін, трендів, watchlist і «best deal» з пріоритетом B2B.</div>
-            <div class="divider"></div>
-            <div class="iconblock">
-              <div class="iconblock__icon">💰</div>
+        <div class="grid grid--3">
+          <div class="card">
+            <div class="card__title" data-i18n="aboutDifferTitle">Чому не SteamDB?</div>
+            <ul class="list" id="diffList"></ul>
+          </div>
+          <div class="card">
+            <div class="card__title" data-i18n="aboutMonetization">Монетизація</div>
+            <ul class="list" id="monetList"></ul>
+          </div>
+          <div class="card">
+            <div class="card__title" data-i18n="aboutOwner">Власник проєкту</div>
+            <div class="owner">
+              <div class="owner__avatar">M</div>
               <div>
-                <div class="card__title" data-i18n="aboutMonetization">Монетизація</div>
-                <ul class="list">
-                  <li data-i18n="aboutMonet1">Freemium (базово безкоштовно)</li>
-                  <li data-i18n="aboutMonet2">Pro підписка (аналітика, історія, алерти)</li>
-                  <li data-i18n="aboutMonet3">B2B API (магазини/медіа/студії)</li>
-                  <li data-i18n="aboutMonet4">Партнерки / affiliates</li>
-                </ul>
+                <div class="owner__name">Malbaro</div>
+                <div class="owner__meta" data-i18n="aboutOwnerMeta">Founder / product vision / go-to-market</div>
+              </div>
+            </div>
+            <div class="card__desc" data-i18n="aboutOwnerCopy">Власник: Malbaro.</div>
+            <div class="divider"></div>
+            <div class="banner">
+              <div class="banner__title" data-i18n="aboutCtaTitle">Call to action</div>
+              <div class="card__desc" data-i18n="aboutCtaCopy">Хочете партнерство, інвестиції чи інтеграцію API? Напишіть.</div>
+              <div class="flagrow" style="margin:10px 0;">
+                <span class="pill">Discord</span>
+                <span class="pill">Telegram</span>
+                <span class="pill">Email</span>
+              </div>
+              <div class="sideactions">
+                <button class="btn btn--primary w100" data-contact="open" data-i18n="aboutCta">Contact / Partner / Investor</button>
+                <button class="btn btn--ghost w100" data-open="pitch" data-i18n="aboutCtaPitch">Open Investor deck</button>
               </div>
             </div>
           </div>
-          <div class="card">
-            <div class="card__title" data-i18n="aboutRoadmap">Roadmap</div>
-            <div class="timeline" id="roadmapList"></div>
-          </div>
-          <div class="card">
-            <div class="card__title" data-i18n="aboutRisksTitle">Ризики / мітігації</div>
-            <ul class="list" id="riskList"></ul>
-          </div>
         </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__head">
+        <div>
+          <div class="panel__title" data-i18n="aboutRoadmap">Roadmap</div>
+          <div class="panel__muted" data-i18n="aboutRoadmapNote">Прив’язка до кварталів, прозорий фокус.</div>
+        </div>
+      </div>
+      <div class="panel__body">
+        <div class="timeline" id="roadmapList"></div>
       </div>
     </section>
 
@@ -149,34 +159,6 @@
         <div class="card">
           <div class="card__title" data-i18n="faqQ6">Що з API?</div>
           <div class="card__desc" data-i18n="faqA6">REST + вебхуки для алертів. Доступ до price history, best-deal, watchlists (B2B).</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel__head">
-        <div class="panel__title" data-i18n="aboutOwner">Власник проєкту</div>
-      </div>
-      <div class="panel__body split">
-        <div class="owner">
-          <div class="owner__avatar">M</div>
-          <div>
-            <div class="owner__name">Malbaro</div>
-            <div class="owner__meta" data-i18n="aboutOwnerMeta">Founder / product vision / go-to-market</div>
-          </div>
-        </div>
-        <div class="banner">
-          <div class="banner__title" data-i18n="aboutCtaTitle">Call to action</div>
-          <div class="card__desc" data-i18n="aboutCtaCopy">Хочете партнерство, інвестиції чи інтеграцію API? Напишіть.</div>
-          <div class="flagrow" style="margin:10px 0;">
-            <span class="pill">Discord</span>
-            <span class="pill">Telegram</span>
-            <span class="pill">Email</span>
-          </div>
-          <div class="sideactions">
-            <button class="btn btn--primary w100" id="contactBtn" data-i18n="aboutCta">Contact / Partner / Investor</button>
-            <button class="btn btn--ghost w100" data-open="pitch" data-i18n="aboutCtaPitch">Open Investor deck</button>
-          </div>
         </div>
       </div>
     </section>

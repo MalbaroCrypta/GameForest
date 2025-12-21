@@ -10,6 +10,7 @@
   const fmtMoney = (n) => `$${(Math.round(n*100)/100).toLocaleString(undefined,{ minimumFractionDigits:0, maximumFractionDigits:2 })}`;
 
   function nameOf(g){ return (g?.name?.[GF_I18N.lang] || g?.name?.en || g?.id || "—"); }
+  function summaryOf(g){ return g?.summary?.[GF_I18N.lang] || g?.summary?.en || ""; }
   function discountPct(g){
     const sentiment = safeNum(metricsOf(g).sentiment, 70);
     const demand = safeNum(metricsOf(g).demandIndex, 70);
@@ -31,7 +32,7 @@
 
   function renderHero(g){
     $("#gameTitle").textContent = nameOf(g);
-    $("#gameSubtitle").textContent = `${g.genre || ""} · ${g.model || ""}`;
+    $("#gameSubtitle").textContent = summaryOf(g) || `${g.genre || ""} · ${g.model || ""}`;
     const tags = [];
     if (g.releaseYear) tags.push(`<span class="pill">${g.releaseYear}</span>`);
     if (g.publisher) tags.push(`<span class="pill">${g.publisher}</span>`);
@@ -49,16 +50,18 @@
     meta.push(`<span class="pill">${g.model || "—"}</span>`);
     $("#gameMeta").innerHTML = meta.join("");
 
+    const metrics = metricsOf(g);
     $("#priceNowVal").textContent = fmtMoney(priceNow(g));
     $("#discountVal").textContent = `-${discountPct(g)}%`;
-    $("#ratingVal").textContent = `${safeNum(metricsOf(g).sentiment,0)} / 100`;
-    $("#healthVal").textContent = `${safeNum(metricsOf(g).communityHealth,0)} / 100`;
-    $("#demandVal").textContent = `${safeNum(metricsOf(g).demandIndex,0)} / 100`;
+    $("#ratingVal").textContent = `${safeNum(metrics.sentiment,0)} / 100`;
+    $("#healthVal").textContent = `${safeNum(metrics.communityHealth,0)} / 100`;
+    $("#demandVal").textContent = `${safeNum(metrics.demandIndex,0)} / 100`;
+    $("#stabilityVal").textContent = `${safeNum(metrics.priceStability,0)} / 100`;
 
-    $("#summaryText").textContent = g.summary?.[GF_I18N.lang] || g.summary?.en || "";
-    $("#mDemand").textContent = `${safeNum(metricsOf(g).demandIndex,0)} / 100`;
-    $("#mStab").textContent = `${safeNum(metricsOf(g).priceStability,0)} / 100`;
-    $("#mHealth").textContent = `${safeNum(metricsOf(g).communityHealth,0)} / 100`;
+    $("#summaryText").textContent = summaryOf(g);
+    $("#mDemand").textContent = `${safeNum(metrics.demandIndex,0)} / 100`;
+    $("#mStab").textContent = `${safeNum(metrics.priceStability,0)} / 100`;
+    $("#mHealth").textContent = `${safeNum(metrics.communityHealth,0)} / 100`;
     $("#mModel").textContent = g.model || "—";
 
     renderPlatforms(g);
@@ -112,7 +115,7 @@
     $("#maxVal").textContent = fmtMoney(max);
     const avg = prices.reduce((a,b)=>a+b,0) / prices.length;
     $("#avgVal").textContent = fmtMoney(avg);
-    $("#chartBadge").textContent = range === "1y" ? "1Y" : GF_I18N.t("detailAllTime");
+    $("#chartBadge").textContent = range === "1y" ? GF_I18N.t("detailRangeYear") : GF_I18N.t("detailAllTime");
 
     const pad = 20;
     const xStep = (w - pad*2) / Math.max(pts.length - 1, 1);
@@ -125,18 +128,25 @@
 
     const path = coords.map((c,i) => `${i===0 ? "M" : "L"}${c.x},${c.y}`).join(" ");
     const area = `${path} L${pad + (coords.length-1)*xStep},${h-pad} L${pad},${h-pad} Z`;
+    const gridLines = Array.from({ length: 5 }, (_,i) => {
+      const ratio = i/4;
+      const val = max - (max - min) * ratio;
+      const y = h - pad - (val - min) * yScale;
+      return `<g class="chart__gridrow"><line class="chart__grid" x1="${pad}" x2="${w-pad}" y1="${y}" y2="${y}"></line><text class="chart__gridlabel" x="${pad}" y="${y - 6}">${fmtMoney(val)}</text></g>`;
+    }).join("");
     svg.innerHTML = `
       <defs>
         <linearGradient id="chartGradient" x1="0%" x2="0%" y1="0%" y2="100%">
-          <stop offset="0%" stop-color="#4c7dff"/>
-          <stop offset="100%" stop-color="#3dd5a7"/>
+          <stop offset="0%" stop-color="var(--accent)"/>
+          <stop offset="100%" stop-color="var(--accent)"/>
         </linearGradient>
         <linearGradient id="chartArea" x1="0%" x2="0%" y1="0%" y2="100%">
-          <stop offset="0%" stop-color="rgba(76,125,255,0.35)"/>
-          <stop offset="100%" stop-color="rgba(61,213,167,0.0)"/>
+          <stop offset="0%" stop-color="rgba(77,163,255,0.32)"/>
+          <stop offset="100%" stop-color="rgba(77,163,255,0.02)"/>
         </linearGradient>
       </defs>
       <g>
+        ${gridLines}
         <path class="chart__area" d="${area}"></path>
         <path class="chart__line" d="${path}"></path>
         ${coords.map(c => `<circle class="chart__point" cx="${c.x}" cy="${c.y}" r="3.5" data-date="${c.date}" data-price="${c.price}"></circle>`).join("")}
