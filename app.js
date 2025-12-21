@@ -6,6 +6,8 @@
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
   const clamp = (n,a,b) => Math.max(a, Math.min(b, n));
   const safeNum = (v, def=0) => Number.isFinite(Number(v)) ? Number(v) : def;
+  const LS_FILTERS = "gf_filters";
+  const LS_COMPARE = "gf_compare_ids";
 
   const state = {
     q: "",
@@ -104,6 +106,43 @@
     state.onlyTop = !!dom.onlyTop?.checked;
     state.pageSize = safeNum(dom.pageSize?.value, 50);
     state.pageIndex = 0;
+    saveFilters();
+  }
+
+  function saveFilters(){
+    try{
+      const { q, platform, genre, model, priceMax, onlyTop, pageSize } = state;
+      localStorage.setItem(LS_FILTERS, JSON.stringify({ q, platform, genre, model, priceMax, onlyTop, pageSize }));
+    }catch{}
+  }
+
+  function saveCompare(){
+    try{
+      localStorage.setItem(LS_COMPARE, JSON.stringify(Array.from(state.compare)));
+    }catch{}
+  }
+
+  function loadFilters(){
+    try{
+      const raw = localStorage.getItem(LS_FILTERS);
+      if (!raw) return;
+      const v = JSON.parse(raw);
+      Object.assign(state, v);
+      if (dom.q) dom.q.value = state.q;
+      if (dom.platform) dom.platform.value = state.platform;
+      if (dom.genre) dom.genre.value = state.genre;
+      if (dom.model) dom.model.value = state.model;
+      if (dom.priceMax) dom.priceMax.value = state.priceMax;
+      if (dom.onlyTop) dom.onlyTop.checked = state.onlyTop;
+      if (dom.pageSize) dom.pageSize.value = state.pageSize;
+    }catch{}
+  }
+
+  function loadCompare(){
+    try{
+      const raw = JSON.parse(localStorage.getItem(LS_COMPARE) || "[]");
+      if (Array.isArray(raw)) state.compare = new Set(raw);
+    }catch{}
   }
 
   function filtered(){
@@ -212,7 +251,7 @@
         </td>
         <td title="${nameOf(g)}">
           <div class="namecell">
-            <div class="namecell__title">${nameOf(g)}</div>
+            <div class="namecell__title"><a class="link--ghost" data-action="detail" href="game.html?id=${encodeURIComponent(g.id)}">${nameOf(g)}</a></div>
             <div class="namecell__tags">${tags.join("")}</div>
           </div>
         </td>
@@ -227,14 +266,23 @@
         </td>
         <td><div class="platlist">${platformsHtml}</div></td>`;
       if (state.compare.has(g.id)) tr.classList.add("is-selected");
-      tr.addEventListener("click", () => {
+      tr.addEventListener("click", () => goToDetail(g.id));
+      const compareBtn = document.createElement("button");
+      compareBtn.className = "btn btn--ghost btn--mini";
+      compareBtn.textContent = state.compare.has(g.id) ? t("compareToggle") : t("compareBtn");
+      compareBtn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
         if (state.compare.has(g.id)) state.compare.delete(g.id);
         else {
           if (state.compare.size >= 4) state.compare.delete(state.compare.values().next().value);
           state.compare.add(g.id);
         }
+        saveCompare();
         render();
       });
+      const tdActions = document.createElement("td");
+      tdActions.appendChild(compareBtn);
+      tr.appendChild(tdActions);
       dom.tbody.appendChild(tr);
     });
   }
@@ -293,6 +341,7 @@
     if (ths[3]) ths[3].textContent = t("thPrice");
     if (ths[4]) ths[4].textContent = t("thRating");
     if (ths[5]) ths[5].textContent = t("thPlatforms");
+    if (ths[6]) ths[6].textContent = t("compareBtn");
     $$("[data-i18n]").forEach(() => GF_I18N.apply(document));
   }
 
@@ -316,9 +365,10 @@
       state.priceMax = ""; dom.priceMax.value = "";
       state.onlyTop = false; dom.onlyTop.checked = false;
       state.pageIndex = 0;
+      saveFilters();
       render(); toggleSidebar(false);
     });
-    dom.q?.addEventListener("input", () => { state.q = (dom.q.value || "").trim(); state.pageIndex = 0; render(); });
+    dom.q?.addEventListener("input", () => { state.q = (dom.q.value || "").trim(); state.pageIndex = 0; saveFilters(); render(); });
     dom.btnSearch?.addEventListener("click", () => { applyStateFromUI(); render(); });
     dom.pageSize?.addEventListener("change", () => { state.pageSize = safeNum(dom.pageSize.value, 50); state.pageIndex = 0; render(); });
     dom.prevPage?.addEventListener("click", () => { state.pageIndex = Math.max(0, state.pageIndex - 1); render(); });
@@ -351,6 +401,8 @@
   function init(){
     GF_SHELL.initShell("catalog");
     buildSelectOptions();
+    loadFilters();
+    loadCompare();
     bindEvents();
     updateMobileHint();
     render();

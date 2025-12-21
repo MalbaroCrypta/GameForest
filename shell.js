@@ -189,7 +189,7 @@
   }
 
   function bindModalClosers(){
-    ["#authModal", "#pitchModal", "#compareModal", "#checkoutModal"].forEach(sel => bindModalClose($(sel)));
+    ["#authModal", "#pitchModal", "#compareModal", "#checkoutModal", "#contactModal"].forEach(sel => bindModalClose($(sel)));
   }
 
   function initShell(page){
