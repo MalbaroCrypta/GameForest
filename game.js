@@ -3,6 +3,8 @@
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
   const data = Array.isArray(window.GF_DATA) ? window.GF_DATA : [];
+  let currentRange = "1y";
+  let resizeTimer = null;
 
   const metricsOf = (g) => g?.metrics || {};
   const clamp = (n,a,b) => Math.max(a, Math.min(b, n));
@@ -109,7 +111,8 @@
     return sorted;
   }
 
-  function renderChart(g, range){
+  function renderChart(g, range=currentRange){
+    currentRange = range;
     const svg = $("#priceChart");
     if (!svg) return;
     const box = $("#chartBox");
@@ -179,22 +182,25 @@
     svg.onmouseleave = () => { tooltip.classList.add("hidden"); };
   }
 
-  function bindTabs(){
+  function bindTabs(game){
     const tabs = $$(".tab");
     const panes = $$(".tabpane");
     tabs.forEach(tab => tab.addEventListener("click", () => {
       const target = tab.dataset.tab;
       tabs.forEach(t => t.classList.toggle("is-active", t.dataset.tab === target));
       panes.forEach(p => p.classList.toggle("hidden", p.dataset.tab !== target));
+      if (target === "price") renderChart(game, currentRange);
     }));
   }
 
   function bindRange(g){
     const chips = $$("[data-range]");
-    chips.forEach(ch => ch.addEventListener("click", () => {
-      chips.forEach(c => c.classList.toggle("chip--ghost", c !== ch));
-      renderChart(g, ch.dataset.range);
-    }));
+    const selectRange = (range) => {
+      chips.forEach(c => c.classList.toggle("chip--ghost", c.dataset.range !== range));
+      renderChart(g, range);
+    };
+    chips.forEach(ch => ch.addEventListener("click", () => selectRange(ch.dataset.range)));
+    selectRange(currentRange);
   }
 
   function bindShare(g){
@@ -285,16 +291,19 @@
     }
     window.GF_STORE?.stats?.view(game.id);
     renderHero(game);
-    bindTabs();
+    bindTabs(game);
     bindRange(game);
-    renderChart(game, "1y");
     bindShare(game);
     bindCompare(game);
     bindWishlist(game);
     bindCart(game);
     bindBack();
     GF_I18N.apply(document);
-    document.addEventListener("gf:lang", () => { renderHero(game); renderChart(game, "1y"); });
+    document.addEventListener("gf:lang", () => { renderHero(game); renderChart(game, currentRange); });
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => renderChart(game, currentRange), 140);
+    });
   }
 
   document.addEventListener("DOMContentLoaded", init);
