@@ -1,60 +1,41 @@
-// About page logic: investor toggle, timeline, FAQ lists, contact modal
+// About page logic: roadmap + investor-ready copy + contact modal
 (function(){
   const roadmap = [
-    { dateVar: "MVP Demo", date: "2025-12", key: "aboutRoadmapMvp", stage: "now" },
-    { dateVar: "Beta v1", date: "2026-Q1", key: "aboutRoadmapB1" },
-    { dateVar: "Beta v2", date: "2026-Q2", key: "aboutRoadmapB2" },
-    { dateVar: "Public launch", date: "2026-Q3", key: "aboutRoadmapLaunch" },
-    { dateVar: "B2B API + партнери", date: "2026-Q4", key: "aboutRoadmapApi" },
-    { dateVar: "Mobile app", date: "2027", key: "aboutRoadmapMobile" }
+    { quarter: "2025 Q1", key: "aboutRoadmapQ1" },
+    { quarter: "2025 Q2", key: "aboutRoadmapQ2" },
+    { quarter: "2025 Q3", key: "aboutRoadmapQ3" },
+    { quarter: "2025 Q4", key: "aboutRoadmapQ4" }
   ];
 
-  const risks = [
-    { k: "riskData", label: "Дані / API залежність" },
-    { k: "riskLegal", label: "Легальність та ToS" },
-    { k: "riskMonet", label: "Монетизація" },
-    { k: "riskGrowth", label: "Залучення аудиторії" }
+  const listBindings = [
+    { id: "introBullets", key: "aboutIntroBullets", asPills: false },
+    { id: "problemList", key: "aboutProblemPoints", asPills: false },
+    { id: "solutionList", key: "aboutSolutionPoints", asPills: false },
+    { id: "diffList", key: "aboutDifferPoints", asPills: false },
+    { id: "monetList", key: "aboutMonetPoints", asPills: false },
   ];
 
   function $(s, r=document){ return r.querySelector(s); }
 
   function renderLists(){
-    const forWhom = $("#forWhomList");
+    listBindings.forEach(({ id, key, asPills }) => {
+      const el = $("#"+id);
+      if (!el) return;
+      const items = window.GF_I18N.t(key);
+      if (!Array.isArray(items)) return;
+      el.innerHTML = items.map(item => asPills ? `<span class="pill">${item}</span>` : `<li>${item}</li>`).join("");
+    });
+
     const roadmapList = $("#roadmapList");
-    const riskList = $("#riskList");
-    if (forWhom){
-      const items = window.GF_I18N.t("aboutForWhomItems");
-      if (Array.isArray(items)){
-        forWhom.innerHTML = items.map(x => `<div class="pill">${x}</div>`).join("");
-      }
-    }
     if (roadmapList){
       roadmapList.innerHTML = roadmap.map(item => `
         <div class="timeline__item">
-          <div class="timeline__date">${item.date}</div>
+          <div class="timeline__date">${item.quarter}</div>
           <div class="timeline__title">${window.GF_I18N.t(item.key)}</div>
           <div class="timeline__desc">${window.GF_I18N.t("aboutRoadmapHint")}</div>
-          <div class="timeline__badge">${item.dateVar}</div>
+          <div class="timeline__badge">${window.GF_I18N.t("aboutRoadmapBadge")}</div>
         </div>`).join("");
     }
-    if (riskList){
-      riskList.innerHTML = risks.map(r => `<li>${window.GF_I18N.t(r.k)}</li>`).join("");
-    }
-  }
-
-  function bindInvestorToggle(){
-    const btn = $("#investorToggle");
-    if (!btn) return;
-    const setState = (on) => {
-      document.body.classList.toggle("investor-mode", on);
-      btn.classList.toggle("is-on", on);
-      localStorage.setItem("gf_investor_mode", on ? "1" : "0");
-      const meta = $("#roadmapList");
-      if (meta) meta.classList.toggle("pulse", on);
-    };
-    const saved = localStorage.getItem("gf_investor_mode") === "1";
-    setState(saved);
-    btn.addEventListener("click", () => setState(!btn.classList.contains("is-on")));
   }
 
   function bindContactForm(){
@@ -63,7 +44,7 @@
     const setStatus = (msg) => { if (status) status.textContent = msg; };
     const open = () => modal && modal.classList.remove("hidden");
     const close = () => modal && modal.classList.add("hidden");
-    $("#contactBtn")?.addEventListener("click", open);
+    document.querySelectorAll('[data-contact="open"]').forEach(btn => btn.addEventListener("click", open));
     modal?.addEventListener("click", (e) => {
       if (e.target.classList?.contains("modal__backdrop") || e.target.dataset.close === "1") close();
     });
@@ -93,7 +74,6 @@
   document.addEventListener("DOMContentLoaded", () => {
     window.GF_SHELL.initShell("about");
     renderLists();
-    bindInvestorToggle();
     bindContactForm();
     window.GF_I18N.apply(document);
     document.addEventListener("gf:lang", () => { renderLists(); window.GF_I18N.apply(document); });

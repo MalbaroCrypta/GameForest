@@ -55,6 +55,10 @@
   // ---- helpers ----
   const t = (k) => window.GF_I18N.t(k);
   const nameOf = (g) => (g?.name?.[GF_I18N.lang] || g?.name?.en || g?.id || "—");
+  const goToDetail = (id) => {
+    if (!id) return;
+    window.location.href = `game.html?id=${encodeURIComponent(id)}`;
+  };
   const discountPct = (g) => {
     const sentiment = safeNum(g?.metrics?.sentiment, 70);
     const demand = safeNum(g?.metrics?.demandIndex, 70);
