@@ -142,8 +142,14 @@ window.GF = (() => {
     pageAbout: $("#page-about"),
     navBtns: $$(".topnav__btn"),
 
+    // layout toggles
+    btnMenu: $("#btnMenu"),
+    sidebar: $(".sidebar"),
+    sidebarBackdrop: $("#sidebarBackdrop"),
+
     // filters
     q: $("#q"),
+    btnSearch: $("#btnSearch"),
     platform: $("#platform"),
     genre: $("#genre"),
     model: $("#model"),
@@ -205,9 +211,16 @@ window.GF = (() => {
       btn.classList.toggle("is-active", btn.getAttribute("data-page") === page);
     });
   }
+  function setSidebar(open){
+    if (!dom.sidebar) return;
+    dom.sidebar.classList.toggle("is-open", open);
+    if (dom.sidebarBackdrop) dom.sidebarBackdrop.classList.toggle("is-visible", open);
+    document.body.classList.toggle("sidebar-open", open);
+  }
   function nav(page){
     state.page = page;
     setActiveNav(page);
+    setSidebar(false);
     if (page === "home"){
       dom.pageHome.classList.remove("hidden");
       dom.pageAbout.classList.add("hidden");
@@ -381,7 +394,12 @@ window.GF = (() => {
       const disc = discountPct(g);
       const now = priceNow(g);
       const rat = rating(g);
-      const plats = (g.platforms || []).slice(0,3).join(" / ") + ((g.platforms||[]).length>3 ? "…" : "");
+      const plats = g.platforms || [];
+      const topLabel = state.lang === "uk" ? "Топ" : "Top";
+      const tags = [];
+      if (g.topPick) tags.push(`<span class="tag tag--glow">${topLabel}</span>`);
+      if (g.model) tags.push(`<span class="tag">${g.model}</span>`);
+      const platformsHtml = plats.slice(0,3).map(p => `<span class="chip chip--mini chip--ghost">${p}</span>`).join("") + (plats.length > 3 ? `<span class="chip chip--mini chip--ghost">+${plats.length - 3}</span>` : "");
 
       tr.innerHTML = `
         <td>
@@ -389,11 +407,24 @@ window.GF = (() => {
             <img src="${g.coverUrl || ""}" alt="${nameOf(g)}">
           </div>
         </td>
-        <td title="${nameOf(g)}"><strong>${nameOf(g)}</strong></td>
-        <td><span class="badge badge--primary">-${disc}%</span></td>
-        <td>${fmtMoney(now)}</td>
-        <td>${rat}%</td>
-        <td>${plats}</td>
+        <td title="${nameOf(g)}">
+          <div class="namecell">
+            <div class="namecell__title">${nameOf(g)}</div>
+            <div class="namecell__tags">${tags.join("")}</div>
+          </div>
+        </td>
+        <td><span class="badge badge--primary badge--pill">-${disc}%</span></td>
+        <td>
+          <div class="price">${fmtMoney(now)}</div>
+          <div class="muted price__base">$${g.basePriceUSD || 0} base</div>
+        </td>
+        <td>
+          <div class="meter"><div class="meter__fill" style="width:${rat}%"></div></div>
+          <div class="meter__label">${rat}%</div>
+        </td>
+        <td>
+          <div class="platlist">${platformsHtml}</div>
+        </td>
       `;
 
       // highlight if selected for compare
@@ -617,13 +648,17 @@ window.GF = (() => {
 
   // ---------- Events ----------
   function bindEvents(){
+    // mobile menu toggle
+    if (dom.btnMenu) dom.btnMenu.addEventListener("click", () => setSidebar(!dom.sidebar?.classList.contains("is-open")));
+    if (dom.sidebarBackdrop) dom.sidebarBackdrop.addEventListener("click", () => setSidebar(false));
+
     // nav buttons
     dom.navBtns.forEach(btn => {
       btn.addEventListener("click", () => nav(btn.getAttribute("data-page")));
     });
 
     // apply/reset filters
-    dom.applyFilters.addEventListener("click", () => { applyStateFromUI(); render(); });
+    dom.applyFilters.addEventListener("click", () => { applyStateFromUI(); render(); setSidebar(false); });
     dom.clearFilters.addEventListener("click", () => {
       state.q = ""; dom.q.value = "";
       state.platform = ""; dom.platform.value = "";
@@ -633,6 +668,7 @@ window.GF = (() => {
       state.onlyTop = false; dom.onlyTop.checked = false;
       state.pageIndex = 0;
       render();
+      setSidebar(false);
     });
 
     // quick search
@@ -641,6 +677,7 @@ window.GF = (() => {
       state.pageIndex = 0;
       render();
     });
+    if (dom.btnSearch) dom.btnSearch.addEventListener("click", () => { applyStateFromUI(); render(); });
 
     // page size
     dom.pageSize.addEventListener("change", () => {

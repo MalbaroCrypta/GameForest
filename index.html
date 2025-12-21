@@ -56,6 +56,24 @@
         <div class="hero__title">Каталог ігор</div>
         <div class="hero__sub">Порівняння платформ, фільтри, рейтинг, “best deal”. (Демо)</div>
 
+        <div class="statrow">
+          <div class="statcard">
+            <div class="statcard__label">В базі</div>
+            <div class="statcard__value" id="kpiCount">0</div>
+            <div class="statcard__hint">актуальні ігри</div>
+          </div>
+          <div class="statcard">
+            <div class="statcard__label">Швидкий огляд</div>
+            <div class="statcard__value">30 сек</div>
+            <div class="statcard__hint">таблиця + compare</div>
+          </div>
+          <div class="statcard">
+            <div class="statcard__label">Мови</div>
+            <div class="statcard__value">UA / EN</div>
+            <div class="statcard__hint">live переключення</div>
+          </div>
+        </div>
+
         <div class="chips" id="activeChips">
           <!-- chips rendered by JS -->
         </div>
@@ -66,10 +84,8 @@
         <section class="panel">
           <div class="panel__head">
             <div class="panel__left">
-              <div class="panel__kpi">
-                <div class="kpi__num" id="kpiCount">0</div>
-                <div class="kpi__lbl">знайдено</div>
-              </div>
+              <div class="panel__title">Таблиця</div>
+              <div class="panel__muted">Клік по рядку додає у Compare</div>
             </div>
 
             <div class="panel__right">
@@ -151,6 +167,7 @@
             <button class="btn btn--ghost w100" id="openPitch">Pitch / Demo</button>
           </div>
         </aside>
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
       </div>
     </section>
 
