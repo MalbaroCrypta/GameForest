@@ -51,6 +51,9 @@
     mobileHint: $("#mobileHint"),
     compareModal: $("#compareModal"),
     compareBody: $("#compareBody"),
+    filtersState: $("#filtersState"),
+    sortState: $("#sortState"),
+    toolbarReset: $("#toolbarReset"),
   };
 
   // ---- helpers ----
@@ -164,6 +167,38 @@
       const okPrice = maxP == null || now <= maxP;
       return okQ && okPlatform && okGenre && okModel && okTop && okPrice;
     });
+  }
+
+  function activeFilterCount(){
+    let count = 0;
+    if (state.q) count += 1;
+    if (state.platform) count += 1;
+    if (state.genre) count += 1;
+    if (state.model) count += 1;
+    if (state.priceMax) count += 1;
+    if (state.onlyTop) count += 1;
+    return count;
+  }
+
+  function updateBadges(){
+    const count = activeFilterCount();
+    if (dom.filtersState){
+      const label = count ? t("filtersBadgeSome").replace("{count}", count) : t("filtersBadgeNone");
+      dom.filtersState.textContent = label;
+      dom.filtersState.classList.toggle("filterbadge--active", !!count);
+    }
+    if (dom.sortState){
+      const sortMap = {
+        name: t("thName"),
+        discount: t("thOff"),
+        price: t("thPrice"),
+        sentiment: t("thRating"),
+      };
+      const dir = state.sortDir === "asc" ? "↑" : "↓";
+      dom.sortState.textContent = `${t("sortBadge")}: ${sortMap[state.sortKey] || state.sortKey} ${dir}`;
+    }
+    if (dom.clearFilters) dom.clearFilters.disabled = count === 0;
+    if (dom.toolbarReset) dom.toolbarReset.disabled = count === 0;
   }
 
   // ---- sorting ----
@@ -299,6 +334,7 @@
       compareBtn.textContent = state.compare.has(g.id) ? t("compareToggle") : t("compareBtn");
       compareBtn.addEventListener("click", (ev) => {
         ev.stopPropagation();
+        let added = false;
         if (state.compare.has(g.id)){
           state.compare.delete(g.id);
           window.GF_STORE?.stats?.compareRemove(g.id);
@@ -306,9 +342,11 @@
           if (state.compare.size >= 4) state.compare.delete(state.compare.values().next().value);
           state.compare.add(g.id);
           window.GF_STORE?.stats?.compareAdd(g.id);
+          added = true;
         }
         saveCompare();
         render();
+        if (added) window.GF_STORE?.toast?.(`${t("comparePicked")}: ${state.compare.size}`);
       });
 
       const tdActions = document.createElement("td");
@@ -381,6 +419,7 @@
 
   function render(){
     applyStaticLabels();
+    updateBadges();
     renderChips();
     const items = sortItems(filtered());
     renderTable(items);
@@ -390,8 +429,7 @@
   function bindEvents(){
     if (dom.openFilters) dom.openFilters.addEventListener("click", () => toggleSidebar(true));
     if (dom.sidebarBackdrop) dom.sidebarBackdrop.addEventListener("click", () => toggleSidebar(false));
-    dom.applyFilters?.addEventListener("click", () => { applyStateFromUI(); render(); toggleSidebar(false); });
-    dom.clearFilters?.addEventListener("click", () => {
+    const clearAll = () => {
       state.q = ""; dom.q.value = "";
       state.platform = ""; dom.platform.value = "";
       state.genre = ""; dom.genre.value = "";
@@ -400,8 +438,12 @@
       state.onlyTop = false; dom.onlyTop.checked = false;
       state.pageIndex = 0;
       saveFilters();
-      render(); toggleSidebar(false);
-    });
+      render();
+      toggleSidebar(false);
+    };
+    dom.applyFilters?.addEventListener("click", () => { applyStateFromUI(); render(); toggleSidebar(false); });
+    dom.clearFilters?.addEventListener("click", clearAll);
+    dom.toolbarReset?.addEventListener("click", clearAll);
     dom.q?.addEventListener("input", () => { state.q = (dom.q.value || "").trim(); state.pageIndex = 0; saveFilters(); render(); });
     dom.btnSearch?.addEventListener("click", () => { applyStateFromUI(); render(); });
     dom.pageSize?.addEventListener("change", () => { state.pageSize = safeNum(dom.pageSize.value, 50); state.pageIndex = 0; render(); });

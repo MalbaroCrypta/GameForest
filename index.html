@@ -68,10 +68,10 @@
         <button class="iconbtn iconbtn--bare" data-close="drawer">✕</button>
       </div>
       <div class="drawer__links">
-        <a href="index.html" data-i18n="navCatalog">Каталог</a>
-        <a href="market.html" data-i18n="navMarket">Маркетплейс</a>
-        <a href="about.html" data-i18n="navAbout">Про проєкт</a>
-        <a href="account.html" data-i18n="navAccount">Мій акаунт</a>
+        <a href="index.html" data-page="catalog" data-i18n="navCatalog">Каталог</a>
+        <a href="market.html" data-page="market" data-i18n="navMarket">Маркетплейс</a>
+        <a href="about.html" data-page="about" data-i18n="navAbout">Про проєкт</a>
+        <a href="account.html" data-page="account" data-i18n="navAccount">Мій акаунт</a>
       </div>
       <div class="drawer__actions">
         <button class="btn btn--ghost w100" data-drawer="wishlist" data-i18n="wishlist">Wishlist</button>
@@ -82,7 +82,7 @@
   </div>
 
   <main class="layout">
-    <section class="hero">
+    <section class="hero hero--grid">
       <div>
         <div class="hero__eyebrow">Steam-only</div>
         <div class="hero__title" data-i18n="heroCatalogTitle">Каталог ігор та аналітика</div>
@@ -111,21 +111,28 @@
 
     <div class="content">
       <section class="panel">
-        <div class="panel__toolbar">
+      <div class="panel__toolbar">
+        <div class="panel__toolbar-group">
           <div class="panel__title" data-i18n="tableTitle">Таблиця</div>
           <div class="panel__hint" data-i18n="tableHint">Клік по назві відкриває деталі. Кнопки — wishlist / compare.</div>
-          <div class="toolbar">
-            <button class="btn btn--ghost btn--mini" id="openFilters" data-i18n="filtersTitle">Фільтри</button>
-            <label class="mini">
-              <span data-i18n="entryLabel">К-сть на сторінку</span>
-              <select id="pageSize" class="select select--mini">
-                <option>25</option>
-                <option selected>50</option>
-                <option>100</option>
-              </select>
-            </label>
+          <div class="toolbar__status">
+            <span class="filterbadge" id="filtersState">Filters: none</span>
+            <span class="filterbadge" id="sortState">Sort</span>
           </div>
         </div>
+        <div class="toolbar">
+          <button class="btn btn--ghost btn--mini" id="openFilters" data-i18n="filtersTitle">Фільтри</button>
+          <button class="btn btn--ghost btn--mini" id="toolbarReset" data-i18n="filterReset">Скинути</button>
+          <label class="mini">
+            <span data-i18n="entryLabel">К-сть на сторінку</span>
+            <select id="pageSize" class="select select--mini">
+              <option>25</option>
+              <option selected>50</option>
+              <option>100</option>
+            </select>
+          </label>
+        </div>
+      </div>
 
         <div class="tablewrap">
           <table class="table" id="gamesTable">
