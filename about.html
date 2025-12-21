@@ -52,7 +52,7 @@
     <a class="dropdown__item" href="account.html" data-i18n="navAccount">Мій акаунт</a>
     <button class="dropdown__item" type="button" data-go="wishlist" data-i18n="wishlist">Wishlist</button>
     <button class="dropdown__item" type="button" data-go="cart" data-i18n="cart">Кошик</button>
-    <button class="dropdown__item" type="button" data-open="pitch" data-i18n="pitchBtn">Pitch / Demo</button>
+    <button class="dropdown__item" type="button" data-open="pitch" data-i18n="pitchBtn">Pitch deck</button>
     <button class="dropdown__item" type="button" id="dropdownLogout" data-i18n="logout">Вийти</button>
   </div>
   <div class="drawer" id="navDrawer">
@@ -71,7 +71,7 @@
       <div class="drawer__actions">
         <button class="btn btn--ghost w100" data-drawer="wishlist" data-i18n="wishlist">Wishlist</button>
         <button class="btn btn--ghost w100" data-drawer="compare" data-i18n="compareBtn">Compare</button>
-        <button class="btn btn--ghost w100" data-open="pitch" data-i18n="pitchBtn">Pitch / Demo</button>
+        <button class="btn btn--ghost w100" data-open="pitch" data-i18n="pitchBtn">Pitch deck</button>
       </div>
     </aside>
   </div>
@@ -206,6 +206,27 @@
     </section>
   </main>
 
+  <footer class="site-footer">
+    <div class="site-footer__wrap">
+      <div class="footer__brand">
+        <div class="brand__logo">GF</div>
+        <div>
+          <div class="footer__title">© GameForest — All rights reserved</div>
+          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільні обкладинки SteamStatic. Дані кешуються, продакшен-розгортання не потребує сторонніх залежностей.</div>
+        </div>
+      </div>
+      <div>
+        <div class="footer__payments">
+          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">VISA</text></svg>Visa</span>
+          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#f4c16c" font-weight="700" font-size="10">MC</text></svg>MasterCard</span>
+          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">PP</text></svg>PayPal</span>
+          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#52c99f" font-weight="700" font-size="10">₿</text></svg>Crypto</span>
+        </div>
+        <div class="footer__legal">Презентація продукту, дорожня карта, питання легальності — готово для партнерів та інвесторів.</div>
+      </div>
+    </div>
+  </footer>
+
   <div class="modal hidden" id="authModal">
     <div class="modal__backdrop" data-close="1"></div>
     <div class="modal__card">
@@ -221,7 +242,7 @@
     <div class="modal__backdrop" data-close="1"></div>
     <div class="modal__card modal__card--wide">
       <div class="modal__head">
-        <div class="modal__title" id="pitchTitle">Pitch / Demo</div>
+        <div class="modal__title" id="pitchTitle">Pitch deck</div>
         <button class="iconbtn" data-close="1">✕</button>
       </div>
       <div class="modal__body" id="pitchBody"></div>

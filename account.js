@@ -31,17 +31,25 @@
 
   function renderHeroMeta(){
     const emailEl = $("#accountEmail");
+    const primaryEmail = $("#accountPrimaryEmail");
     const wishCount = $("#wishCount");
     const cartCount = $("#cartCount");
     const compareCount = $("#compareCount");
     const session = window.GF_SHELL?.getSession?.();
-    if (emailEl) emailEl.textContent = session?.email || "guest@gameforest.app";
-    if (wishCount) wishCount.textContent = window.GF_STORE?.wishlist?.get()?.length || 0;
-    if (cartCount) cartCount.textContent = window.GF_STORE?.cart?.get()?.length || 0;
+    const emailText = session?.email || "guest@gameforest.app";
+    const wishLen = window.GF_STORE?.wishlist?.get()?.length || 0;
+    const cartLen = window.GF_STORE?.cart?.get()?.length || 0;
+    const ids = (() => { try{ return JSON.parse(localStorage.getItem("gf_compare_ids") || "[]"); }catch{return [];} })();
+    if (emailEl) emailEl.textContent = emailText;
+    if (primaryEmail) primaryEmail.textContent = emailText;
+    if (wishCount) wishCount.textContent = wishLen;
+    if (cartCount) cartCount.textContent = cartLen;
     if (compareCount){
-      const ids = (() => { try{ return JSON.parse(localStorage.getItem("gf_compare_ids") || "[]"); }catch{return [];} })();
       compareCount.textContent = ids.length;
     }
+    $("#accountWish")?.textContent = wishLen;
+    $("#accountCart")?.textContent = cartLen;
+    $("#accountCompare")?.textContent = ids.length;
   }
 
   function renderList(targetId, ids, emptyKey){
