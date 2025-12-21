@@ -31,7 +31,10 @@
     listingType: $("#listingType"),
     checkoutModal: $("#checkoutModal"),
     checkoutBody: $("#checkoutBody"),
-    disclaimer: $("#marketDisclaimer")
+    disclaimer: $("#marketDisclaimer"),
+    marketUserEmail: $("#marketUserEmail"),
+    marketWishCount: $("#marketWishCount"),
+    marketCartCount: $("#marketCartCount")
   };
 
   function nameOfProduct(p){ return p?.name?.[GF_I18N.lang] || p?.name?.en || p?.id; }
@@ -184,10 +187,13 @@
         <div class="marketrow__title">${t("thName")}</div>
         <div class="marketrow__meta">${t("marketType")}</div>
         <div class="marketrow__meta">${t("marketGame")}</div>
+        <div class="marketrow__meta">${t("marketCurrency") || "Валюта"}</div>
         <div class="marketrow__price">${t("thPrice")}</div>
         <div class="marketrow__cta">${t("actions")}</div>
       </div>`;
-    const rows = items.map(item => `
+    const rows = items.map(item => {
+      const priceLabel = item.priceLabel || (item.priceUSD != null ? `$${Number(item.priceUSD).toLocaleString("en-US")}` : "—");
+      return `
       <div class="marketrow">
         <div>
           <div class="marketrow__title">${item.title?.[GF_I18N.lang] || item.title?.en}</div>
@@ -195,9 +201,11 @@
         </div>
         <div class="marketrow__meta"><span class="marketrow__tag">${item.type}</span></div>
         <div class="marketrow__meta"><span class="marketrow__tag marketrow__tag--accent">${item.badge || t("marketBadge")}</span></div>
-        <div class="marketrow__price">$${item.priceUSD}</div>
+        <div class="marketrow__meta">${item.currency || "USD"}</div>
+        <div class="marketrow__price">${priceLabel}</div>
         <div class="marketrow__cta"><button class="btn btn--primary btn--mini" type="button">${t("marketAction")}</button></div>
-      </div>`).join("");
+      </div>`;
+    }).join("");
     dom.listingWrap.innerHTML = header + rows + `<div class="muted" style="padding:10px 14px; border-top:1px solid var(--line);">${t("marketDisclaimer")}</div>`;
     dom.listingWrap.querySelectorAll(".marketrow__cta button").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -218,6 +226,15 @@
     if (dom.disclaimer) dom.disclaimer.textContent = t("marketDisclaimer");
   }
 
+  function renderUserContext(){
+    const email = window.GF_SHELL?.getSession?.()?.email || "guest@gameforest.app";
+    const wish = window.GF_STORE?.wishlist?.get()?.length || 0;
+    const cart = window.GF_STORE?.cart?.get()?.length || 0;
+    if (dom.marketUserEmail) dom.marketUserEmail.textContent = email;
+    if (dom.marketWishCount) dom.marketWishCount.textContent = wish;
+    if (dom.marketCartCount) dom.marketCartCount.textContent = cart;
+  }
+
   function init(){
     GF_SHELL.initShell("market");
     renderTabs();
@@ -228,11 +245,14 @@
     renderListings();
     bindListingFilters();
     applyTranslations();
+    renderUserContext();
     document.addEventListener("gf:lang", () => {
       applyTranslations();
       renderSummary();
       renderListings();
     });
+    document.addEventListener("gf:wishlist", renderUserContext);
+    document.addEventListener("gf:cart", renderUserContext);
   }
 
   document.addEventListener("DOMContentLoaded", init);

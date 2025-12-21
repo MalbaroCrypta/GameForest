@@ -84,9 +84,14 @@
   <main class="layout">
     <section class="hero hero--grid">
       <div>
-        <div class="hero__eyebrow">Steam-only</div>
+        <div class="hero__eyebrow">📊 Steam-only data desk</div>
         <div class="hero__title" data-i18n="heroCatalogTitle">Каталог ігор та аналітика</div>
-        <div class="hero__sub" data-i18n="heroCatalogSub">Стисла таблиця у стилі SteamDB: фільтри, сортування, compare, локальні сесії.</div>
+        <div class="hero__sub" data-i18n="heroCatalogSub">Аналітична таблиця у стилі SteamDB: фільтри, сортування, compare, локальні сесії.</div>
+        <div class="hero__meta">
+          <span class="pill pill--icon pill--glow">🎮 SteamDB-style</span>
+          <span class="pill pill--icon">📈 Price intel</span>
+          <span class="pill pill--icon">💰 Wishlist & Cart</span>
+        </div>
         <div class="chips" id="activeChips"></div>
         <div class="muted" id="mobileHint"></div>
       </div>
@@ -186,20 +191,40 @@
             <button class="btn btn--ghost w100" id="clearFilters" data-i18n="filterReset">Скинути</button>
           </div>
         </div>
-      <div class="sidecard">
-        <div class="sidecard__title">Actions</div>
-        <button class="btn btn--ghost w100" id="openCompare" data-i18n="compareBtn">Compare</button>
-        <button class="btn btn--ghost w100" id="openPitch" data-open="pitch" data-i18n="pitchBtn">Pitch</button>
-      </div>
+        <div class="sidecard">
+          <div class="sidecard__title">Actions</div>
+          <button class="btn btn--ghost w100" id="openCompare" data-i18n="compareBtn">Compare</button>
+          <button class="btn btn--ghost w100" id="openPitch" data-open="pitch" data-i18n="pitchBtn">Pitch</button>
+        </div>
         <div class="sidecard">
           <div class="sidecard__title">Marketplace</div>
-          <p class="muted" style="margin:0;">Top-up та демо-лістинги → <a href="market.html">market.html</a></p>
+          <p class="muted" style="margin:0;">Top-up та лоти без DEMO → <a href="market.html">market.html</a></p>
         </div>
       </aside>
       <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
     </div>
-    <p class="muted" style="margin-top:12px;" data-i18n="footerDisclaimer">Стабільні обкладинки SteamStatic. Демо-версія без сторонніх залежностей.</p>
   </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__wrap">
+      <div class="footer__brand">
+        <div class="brand__logo">GF</div>
+        <div>
+          <div class="footer__title">© GameForest — All rights reserved</div>
+          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільні обкладинки SteamStatic. Дані кешуються, продакшен-розгортання не потребує сторонніх залежностей.</div>
+        </div>
+      </div>
+      <div>
+        <div class="footer__payments">
+          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">VISA</text></svg>Visa</span>
+          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#f4c16c" font-weight="700" font-size="10">MC</text></svg>MasterCard</span>
+          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">PP</text></svg>PayPal</span>
+          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#52c99f" font-weight="700" font-size="10">₿</text></svg>Crypto</span>
+        </div>
+        <div class="footer__legal">Secure checkout стуби, користувацький контекст у навігації, мінімалістична сітка без карток.</div>
+      </div>
+    </div>
+  </footer>
 
   <div class="modal hidden" id="authModal">
     <div class="modal__backdrop" data-close="1"></div>
@@ -216,7 +241,7 @@
     <div class="modal__backdrop" data-close="1"></div>
     <div class="modal__card modal__card--wide">
       <div class="modal__head">
-        <div class="modal__title" id="pitchTitle">Pitch / Demo</div>
+        <div class="modal__title" id="pitchTitle">Pitch deck</div>
         <button class="iconbtn" data-close="1">✕</button>
       </div>
       <div class="modal__body" id="pitchBody"></div>

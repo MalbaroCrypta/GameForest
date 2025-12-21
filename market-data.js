@@ -44,13 +44,68 @@ window.GF_MARKET_DATA = {
   ],
   listings: [
     {
+      id: "robux-10k",
+      title: { uk: "Roblox Robux 10 000", en: "Roblox Robux 10 000" },
+      game: "Roblox",
+      priceUSD: 94,
+      priceLabel: "$94 / 10k R$",
+      type: "Currency",
+      platform: "Global",
+      currency: "USD / R$",
+      badge: "Instant"
+    },
+    {
+      id: "robux-4k",
+      title: { uk: "Robux 4 500", en: "Robux 4 500" },
+      game: "Roblox",
+      priceUSD: 48,
+      priceLabel: "$48 / 4.5k R$",
+      type: "Currency",
+      platform: "Global",
+      currency: "USD / R$",
+      badge: "Instant"
+    },
+    {
       id: "cs2-dragonlore",
       title: { uk: "AWP Dragon Lore (FN)", en: "AWP Dragon Lore (FN)" },
       game: "Counter-Strike 2",
       priceUSD: 1899,
       type: "Skin",
       platform: "PC",
+      currency: "USD",
       badge: "Legendary"
+    },
+    {
+      id: "cs2-ak-redline",
+      title: { uk: "AK Redline (ST MW)", en: "AK Redline (ST MW)" },
+      game: "Counter-Strike 2",
+      priceUSD: 62,
+      type: "Skin",
+      platform: "PC",
+      currency: "USD",
+      badge: "Verified seller"
+    },
+    {
+      id: "cs2-mirage-case",
+      title: { uk: "CS2 Mirage Collection Case", en: "CS2 Mirage Collection Case" },
+      game: "Counter-Strike 2",
+      priceUSD: 3.4,
+      priceLabel: "$3.4 per case",
+      type: "Case",
+      platform: "PC",
+      currency: "USD",
+      badge: "New drop"
+    },
+    {
+      id: "cs2-kilowatt-case",
+      title: { uk: "CS2 Kilowatt Case (x10)", en: "CS2 Kilowatt Case (x10)" },
+      game: "Counter-Strike 2",
+      priceUSD: 29,
+      priceLabel: "$29 / bundle",
+      type: "Case",
+      platform: "PC",
+      currency: "USD",
+      badge: "Verified"
     },
     {
       id: "valorant-knife",
@@ -59,6 +114,7 @@ window.GF_MARKET_DATA = {
       priceUSD: 180,
       type: "Skin",
       platform: "PC",
+      currency: "USD",
       badge: "Prime"
     },
     {
@@ -68,6 +124,7 @@ window.GF_MARKET_DATA = {
       priceUSD: 260,
       type: "Account",
       platform: "PC",
+      currency: "USD",
       badge: "Verified seller"
     },
     {
@@ -77,6 +134,7 @@ window.GF_MARKET_DATA = {
       priceUSD: 320,
       type: "Account",
       platform: "PC/Mobile",
+      currency: "USD",
       badge: "Verified seller"
     },
     {
@@ -86,6 +144,7 @@ window.GF_MARKET_DATA = {
       priceUSD: 140,
       type: "Skin",
       platform: "PC",
+      currency: "USD",
       badge: "Arcana"
     },
     {
@@ -95,6 +154,7 @@ window.GF_MARKET_DATA = {
       priceUSD: 520,
       type: "Skin",
       platform: "PC/Console",
+      currency: "USD",
       badge: "Heirloom"
     }
   ]
