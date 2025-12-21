@@ -35,45 +35,148 @@
   </header>
 
   <main class="layout">
-    <section class="hero">
+    <section class="hero hero--xl">
       <div class="hero__title" data-i18n="heroAboutTitle">Про GameForest</div>
       <div class="hero__sub" data-i18n="heroAboutSub">Що будуємо, для кого, монетизація та плани.</div>
+      <div class="hero__meta">
+        <span class="pill pill--glow" data-i18n="aboutTagInvestor">Investor Mode ready</span>
+        <span class="pill" data-i18n="aboutTagStatic">Static GitHub Pages demo</span>
+        <span class="pill" data-i18n="aboutTagMulti">Multi-platform data-first</span>
+      </div>
     </section>
 
     <section class="panel">
-      <div class="panel__body grid grid--2">
-        <div>
-          <h2 class="h2" data-i18n="aboutWhat">Що це?</h2>
-          <p class="muted">Єдина панель для аналітики ігор, best-deal, compare та витягування метрик для бізнесу.</p>
-          <h2 class="h2" data-i18n="aboutForWhom">Для кого</h2>
-          <p class="muted">Паблішери, студії, ком'юніті-менеджери, інвестори, B2B-партнери.</p>
-          <h2 class="h2" data-i18n="aboutValue">Цінність</h2>
-          <p class="muted">Швидкий огляд, партнерські інструменти, API, топ-up канал з прозорою економікою.</p>
+      <div class="panel__head">
+        <div class="panel__title" data-i18n="aboutHero">Місія та цінність</div>
+        <div class="togglebar">
+          <div class="muted" data-i18n="aboutInvestorToggle">Investor mode</div>
+          <button class="toggle" id="investorToggle" aria-label="Investor mode"></button>
         </div>
-        <div>
-          <h2 class="h2" data-i18n="aboutMonetization">Монетизація</h2>
-          <ul class="list">
-            <li>B2B підписка, white-label.</li>
-            <li>API доступ до динаміки цін, скидок, compare.</li>
-            <li>Marketplace fee (комісія) після комплаєнсу.</li>
-            <li>Affiliate / партнерки.</li>
-          </ul>
-          <div class="divider"></div>
-          <h2 class="h2" data-i18n="aboutRoadmap">Roadmap (6-12 міс)</h2>
-          <ul class="list" id="roadmapList"></ul>
+      </div>
+      <div class="panel__body panel__body--gap">
+        <div class="grid grid--3">
+          <div class="card card--accent">
+            <div class="card__title" data-i18n="aboutMissionTitle">Місія</div>
+            <div class="card__desc" data-i18n="aboutMissionBody">Єдина точка правди про ціни та тренди ігор, що дає бізнес-інсайт за 30 секунд.</div>
+          </div>
+          <div class="card">
+            <div class="card__title" data-i18n="aboutForWhom">Для кого</div>
+            <div class="list card__desc list--plain" id="forWhomList"></div>
+          </div>
+          <div class="card">
+            <div class="card__title" data-i18n="aboutValue">Що саме даємо</div>
+            <ul class="list">
+              <li data-i18n="aboutValue1">Порівняння цін/знижок між платформами</li>
+              <li data-i18n="aboutValue2">Тренди та аналітика «коли купувати»</li>
+              <li data-i18n="aboutValue3">Watchlist / алерти</li>
+              <li data-i18n="aboutValue4">API для B2B партнерів</li>
+            </ul>
+          </div>
+        </div>
+        <div class="banner">
+          <div class="banner__title" data-i18n="aboutDiffTitle">Чому не SteamDB?</div>
+          <div class="flagrow">
+            <span class="pill pill--glow" data-i18n="aboutDiff1">Multi-platform</span>
+            <span class="pill" data-i18n="aboutDiff2">Best deal рейтинг</span>
+            <span class="pill" data-i18n="aboutDiff3">Плановані алерти</span>
+            <span class="pill" data-i18n="aboutDiff4">B2B API + дашборд</span>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="panel">
-      <div class="panel__body">
+      <div class="panel__head">
+        <div class="panel__title" data-i18n="aboutInvestorBlock">Investor mode (value prop, монетизація, ризики)</div>
+      </div>
+      <div class="panel__body panel__body--gap">
+        <div class="split">
+          <div class="card card--accent">
+            <div class="card__title" data-i18n="aboutValuePropTitle">Value prop</div>
+            <div class="card__desc" data-i18n="aboutValuePropBody">Єдина панель для мульти-платформених цін, трендів, watchlist і «best deal» з пріоритетом B2B.</div>
+            <div class="divider"></div>
+            <div class="iconblock">
+              <div class="iconblock__icon">💰</div>
+              <div>
+                <div class="card__title" data-i18n="aboutMonetization">Монетизація</div>
+                <ul class="list">
+                  <li data-i18n="aboutMonet1">Freemium (базово безкоштовно)</li>
+                  <li data-i18n="aboutMonet2">Pro підписка (аналітика, історія, алерти)</li>
+                  <li data-i18n="aboutMonet3">B2B API (магазини/медіа/студії)</li>
+                  <li data-i18n="aboutMonet4">Партнерки / affiliates</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card__title" data-i18n="aboutRoadmap">Roadmap</div>
+            <div class="timeline" id="roadmapList"></div>
+          </div>
+          <div class="card">
+            <div class="card__title" data-i18n="aboutRisksTitle">Ризики / мітігації</div>
+            <ul class="list" id="riskList"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__head">
+        <div class="panel__title" data-i18n="aboutFaqTitle">FAQ</div>
+        <div class="muted" data-i18n="aboutFaqHint">Дані, легальність, оновлення.</div>
+      </div>
+      <div class="panel__body grid grid--3">
+        <div class="card">
+          <div class="card__title" data-i18n="faqQ1">Як збираємо дані?</div>
+          <div class="card__desc" data-i18n="faqA1">Офіційні API + парсинг сторінок із кешем; демо працює статично.</div>
+        </div>
+        <div class="card">
+          <div class="card__title" data-i18n="faqQ2">Це легально?</div>
+          <div class="card__desc" data-i18n="faqA2">Демо не продає товари. Для продакшену — тільки офіційні інтеграції та партнерські угоди.</div>
+        </div>
+        <div class="card">
+          <div class="card__title" data-i18n="faqQ3">Точність 100%?</div>
+          <div class="card__desc" data-i18n="faqA3">Цілі — свіжі ціни та алерти. Дані кешуються, валідуються, є стор-відхилення.</div>
+        </div>
+        <div class="card">
+          <div class="card__title" data-i18n="faqQ4">Як часто оновлюємо?</div>
+          <div class="card__desc" data-i18n="faqA4">У демо — статично. У продакшену — щогодини для цін, миттєво для алертів.</div>
+        </div>
+        <div class="card">
+          <div class="card__title" data-i18n="faqQ5">Звідки ціни?</div>
+          <div class="card__desc" data-i18n="faqA5">Steam, PlayStation Store, Xbox, Switch, офіційні магазини ключів. Без «сірих» рітейлерів.</div>
+        </div>
+        <div class="card">
+          <div class="card__title" data-i18n="faqQ6">Що з API?</div>
+          <div class="card__desc" data-i18n="faqA6">REST + вебхуки для алертів. Доступ до price history, best-deal, watchlists (B2B).</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__head">
+        <div class="panel__title" data-i18n="aboutOwner">Власник проєкту</div>
+      </div>
+      <div class="panel__body split">
         <div class="owner">
           <div class="owner__avatar">M</div>
           <div>
-            <div class="owner__name" data-i18n="aboutOwner">Власник проєкту</div>
-            <div class="owner__meta">Malbaro — founder / product vision</div>
+            <div class="owner__name">Malbaro</div>
+            <div class="owner__meta" data-i18n="aboutOwnerMeta">Founder / product vision / go-to-market</div>
           </div>
-          <button class="btn" data-open="pitch" data-i18n="aboutCta">Pitch / Investor mode</button>
+        </div>
+        <div class="banner">
+          <div class="banner__title" data-i18n="aboutCtaTitle">Call to action</div>
+          <div class="card__desc" data-i18n="aboutCtaCopy">Хочете партнерство, інвестиції чи інтеграцію API? Напишіть.</div>
+          <div class="flagrow" style="margin:10px 0;">
+            <span class="pill">Discord</span>
+            <span class="pill">Telegram</span>
+            <span class="pill">Email</span>
+          </div>
+          <div class="sideactions">
+            <button class="btn btn--primary w100" id="contactBtn" data-i18n="aboutCta">Contact / Partner / Investor</button>
+            <button class="btn btn--ghost w100" data-open="pitch" data-i18n="aboutCtaPitch">Open Investor deck</button>
+          </div>
         </div>
       </div>
     </section>
@@ -101,18 +204,47 @@
     </div>
   </div>
 
+  <div class="modal hidden" id="contactModal">
+    <div class="modal__backdrop" data-close="1"></div>
+    <div class="modal__card">
+      <div class="modal__head">
+        <div class="modal__title" data-i18n="aboutCta">Contact / Partner / Investor</div>
+        <button class="iconbtn" data-close="1">✕</button>
+      </div>
+      <div class="modal__body">
+        <div class="formgrid">
+          <div class="field">
+            <label class="label" data-i18n="contactName">Імʼя / Name</label>
+            <input class="input" id="cName" type="text" placeholder="Alex" />
+          </div>
+          <div class="field">
+            <label class="label">Email</label>
+            <input class="input" id="cEmail" type="email" placeholder="you@email.com" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" data-i18n="contactType">Тип запиту</label>
+          <select class="select" id="cType">
+            <option value="partner" data-i18n="contactTypePartner">Партнерство</option>
+            <option value="investor" data-i18n="contactTypeInvestor">Інвестор</option>
+            <option value="api" data-i18n="contactTypeApi">API інтеграція</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" data-i18n="contactMsg">Повідомлення</label>
+          <textarea class="input input--textarea" id="cMsg" placeholder="Hi, хочу інтегрувати вашу API..."></textarea>
+        </div>
+        <div class="notice" id="cStatus"></div>
+        <div class="sideactions">
+          <button class="btn btn--primary w100" id="cSubmit" data-i18n="contactSend">Надіслати (локально)</button>
+          <a class="btn btn--ghost w100" id="cMailto" href="mailto:hello@gameforest.test">mailto</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="./i18n.js"></script>
   <script src="./shell.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      GF_SHELL.initShell('about');
-      const list = document.getElementById('roadmapList');
-      const items = GF_I18N.t('roadmapItems');
-      if (Array.isArray(items) && list){
-        list.innerHTML = items.map(x => `<li>${x}</li>`).join('');
-      }
-      GF_I18N.apply(document);
-    });
-  </script>
+  <script src="./about.js"></script>
 </body>
 </html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GameForest — Game</title>
+  <meta name="description" content="GameForest game detail" />
+  <meta name="keywords" content="game, price history, analytics" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%234c7dff'/><text x='50' y='62' text-anchor='middle' font-size='56' fill='white' font-family='Arial' font-weight='bold'>GF</text></svg>">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body data-page="catalog">
+  <header class="topbar">
+    <div class="topbar__left">
+      <a class="brand" href="index.html">
+        <div class="brand__logo">GF</div>
+        <div class="brand__name">GameForest</div>
+      </a>
+      <nav class="topnav">
+        <a class="topnav__btn" data-page="catalog" href="index.html" data-i18n="navCatalog">Каталог</a>
+        <a class="topnav__btn" data-page="market" href="market.html" data-i18n="navMarket">Маркетплейс</a>
+        <a class="topnav__btn" data-page="about" href="about.html" data-i18n="navAbout">Про проєкт</a>
+      </nav>
+    </div>
+    <div class="topbar__center"></div>
+    <div class="topbar__right">
+      <button class="chip" id="langToggle" title="UA / EN">UA</button>
+      <div class="auth">
+        <span class="auth__user" id="userBadge" hidden></span>
+        <button class="btn btn--ghost" id="btnLogin" data-i18n="login">Увійти</button>
+        <button class="btn btn--primary" id="btnRegister" data-i18n="register">Реєстрація</button>
+        <button class="btn btn--ghost" id="btnLogout" hidden data-i18n="logout">Вийти</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="hero hero--xl">
+      <div class="hero__title" id="gameTitle">Game</div>
+      <div class="hero__sub" id="gameSubtitle"></div>
+      <div class="hero__meta" id="gameTags"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__body panel__body--gap">
+        <div class="gametop">
+          <div class="gametop__cover" id="gameCover"></div>
+          <div>
+            <h1 class="gametop__title" id="gameName"></h1>
+            <div class="gametop__meta" id="gameMeta"></div>
+            <div class="gametop__actions">
+              <a class="btn btn--ghost" href="index.html" id="backBtn" data-i18n="detailBack">Назад до каталогу</a>
+              <button class="btn btn--ghost" id="shareBtn" data-i18n="detailShare">Поділитися</button>
+              <button class="btn btn--primary" id="compareBtn" data-i18n="detailAddCompare">Додати у Compare</button>
+            </div>
+            <div class="statrow statrow--mini" style="margin-top:12px;">
+              <div class="statcard">
+                <div class="statcard__label" data-i18n="priceNow">Ціна зараз</div>
+                <div class="statcard__value" id="priceNowVal">$0</div>
+                <div class="statcard__hint" id="discountVal"></div>
+              </div>
+              <div class="statcard">
+                <div class="statcard__label" data-i18n="rating">Рейтинг</div>
+                <div class="statcard__value" id="ratingVal">0</div>
+                <div class="statcard__hint" id="healthVal"></div>
+              </div>
+              <div class="statcard">
+                <div class="statcard__label" data-i18n="demand">Попит</div>
+                <div class="statcard__value" id="demandVal">0</div>
+                <div class="statcard__hint" data-i18n="detailWatch">Watchlist / alerts ready</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="tabbar" id="tabbar">
+      <button class="tab is-active" data-tab="overview" data-i18n="detailTabOverview">Overview</button>
+      <button class="tab" data-tab="price" data-i18n="detailTabPrice">Price history</button>
+      <button class="tab" data-tab="platforms" data-i18n="detailTabPlatforms">Platforms</button>
+      <button class="tab" data-tab="notes" data-i18n="detailTabNotes">Notes</button>
+    </div>
+    <div class="tabpanes">
+      <div class="tabpane" data-tab="overview">
+        <div class="grid grid--2">
+          <div class="card">
+            <div class="card__title" data-i18n="detailSummary">Коротко</div>
+            <div class="card__desc" id="summaryText"></div>
+          </div>
+          <div class="card">
+            <div class="card__title" data-i18n="detailMetrics">Здоров'я</div>
+            <div class="card__metrics">
+              <div class="metric"><div class="metric__label" data-i18n="demand">Попит</div><div class="metric__value" id="mDemand"></div></div>
+              <div class="metric"><div class="metric__label" data-i18n="stability">Стабільність ціни</div><div class="metric__value" id="mStab"></div></div>
+              <div class="metric"><div class="metric__label" data-i18n="health">Ком'юніті</div><div class="metric__value" id="mHealth"></div></div>
+              <div class="metric"><div class="metric__label" data-i18n="model">Модель</div><div class="metric__value" id="mModel"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpane hidden" data-tab="price">
+        <div class="card__head" style="margin-bottom:10px;">
+          <div class="card__title" data-i18n="detailPriceHeadline">Price history</div>
+          <div class="flagrow">
+            <button class="chip" data-range="1y">1Y</button>
+            <button class="chip chip--ghost" data-range="all">All time</button>
+          </div>
+        </div>
+        <div class="chartbox">
+          <div class="chart__badge" id="chartBadge"></div>
+          <svg class="chart" id="priceChart"></svg>
+          <div class="chart__tooltip hidden" id="chartTooltip"></div>
+        </div>
+        <div class="statrow statrow--mini" style="margin-top:10px;">
+          <div class="statcard">
+            <div class="statcard__label" data-i18n="detailMin">Min</div>
+            <div class="statcard__value" id="minVal">$0</div>
+          </div>
+          <div class="statcard">
+            <div class="statcard__label" data-i18n="detailMax">Max</div>
+            <div class="statcard__value" id="maxVal">$0</div>
+          </div>
+          <div class="statcard">
+            <div class="statcard__label" data-i18n="detailAvg">Avg</div>
+            <div class="statcard__value" id="avgVal">$0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpane hidden" data-tab="platforms">
+        <div class="tablewrap">
+          <table class="table table--mini">
+            <thead>
+              <tr>
+                <th data-i18n="platforms">Платформи</th>
+                <th data-i18n="priceNow">Ціна</th>
+                <th data-i18n="discount">Знижка</th>
+              </tr>
+            </thead>
+            <tbody id="platRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tabpane hidden" data-tab="notes">
+        <div class="notebox" id="noteBox"></div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:12px;" data-i18n="detailShareHint">Працює статично: сторінка доступна на GitHub Pages.</p>
+  </main>
+
+  <div class="modal hidden" id="authModal">
+    <div class="modal__backdrop" data-close="1"></div>
+    <div class="modal__card">
+      <div class="modal__head">
+        <div class="modal__title" id="authTitle">Auth</div>
+        <button class="iconbtn" data-close="1">✕</button>
+      </div>
+      <div class="modal__body" id="authBody"></div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="pitchModal">
+    <div class="modal__backdrop" data-close="1"></div>
+    <div class="modal__card modal__card--wide">
+      <div class="modal__head">
+        <div class="modal__title" id="pitchTitle">Pitch / Demo</div>
+        <button class="iconbtn" data-close="1">✕</button>
+      </div>
+      <div class="modal__body" id="pitchBody"></div>
+    </div>
+  </div>
+
+  <script src="./i18n.js"></script>
+  <script src="./shell.js"></script>
+  <script src="./data.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>

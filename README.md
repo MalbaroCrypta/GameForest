@@ -10,6 +10,7 @@ Dark-mode static demo that runs on GitHub Pages and mimics an investor-friendly 
 ## Structure
 - `index.html` – catalog page.
 - `market.html` – marketplace / top-up demo.
+- `game.html` – сторінка детальної інформації про гру з графіком ціни.
 - `about.html` – project story and roadmap.
 - `styles.css` – shared styles (dark SteamDB-ish minimalism).
 - `i18n.js` – translations + language persistence.
