@@ -21,6 +21,7 @@
     pageSize: 50,
     pageIndex: 0,
     compare: new Set(),
+    wishlist: new Set(),
   };
 
   const dom = {
@@ -46,7 +47,7 @@
     openPitch: $("#openPitch"),
     sidebar: $(".sidebar"),
     sidebarBackdrop: $("#sidebarBackdrop"),
-    btnMenu: $("#btnMenu"),
+    openFilters: $("#openFilters"),
     mobileHint: $("#mobileHint"),
     compareModal: $("#compareModal"),
     compareBody: $("#compareBody"),
@@ -218,7 +219,7 @@
     if (!data.length){
       dom.kpiCount.textContent = "0";
       dom.pageInfo.textContent = "1 / 1";
-      dom.tbody.innerHTML = `<tr><td colspan="6" class="empty">${t("emptyData")}</td></tr>`;
+      dom.tbody.innerHTML = `<tr><td colspan="7" class="empty">${t("emptyData")}</td></tr>`;
       return;
     }
 
@@ -247,6 +248,7 @@
       if (g.topPick) tags.push(`<span class="tag tag--glow">${topLabel}</span>`);
       if (g.model) tags.push(`<span class="tag">${g.model}</span>`);
       const platformsHtml = plats.slice(0,3).map(p => `<span class="chip chip--mini chip--ghost">${p}</span>`).join("") + (plats.length > 3 ? `<span class="chip chip--mini chip--ghost">+${plats.length - 3}</span>` : "");
+      const wishActive = state.wishlist.has(g.id);
       tr.innerHTML = `
         <td>
           <div class="covercell">
@@ -271,21 +273,49 @@
         <td><div class="platlist">${platformsHtml}</div></td>`;
       if (state.compare.has(g.id)) tr.classList.add("is-selected");
       tr.addEventListener("click", () => goToDetail(g.id));
+
+      const actionsWrap = document.createElement("div");
+      actionsWrap.className = "actionlist";
+
+      const wishBtn = document.createElement("button");
+      wishBtn.className = "iconbtn iconbtn--mini wishbtn";
+      if (wishActive) wishBtn.classList.add("is-active");
+      wishBtn.title = wishActive ? t("wishlistSaved") : t("wishlistAdd");
+      wishBtn.textContent = wishActive ? "★" : "☆";
+      wishBtn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        const added = window.GF_STORE?.wishlist?.toggle(g.id);
+        state.wishlist = new Set(window.GF_STORE?.wishlist?.get() || []);
+        if (added) window.GF_STORE?.stats?.save(g.id);
+        render();
+      });
+
+      const wishLabel = document.createElement("span");
+      wishLabel.className = "wishlabel";
+      wishLabel.textContent = wishActive ? t("wishlistAdded") : "";
+
       const compareBtn = document.createElement("button");
       compareBtn.className = "btn btn--ghost btn--mini";
       compareBtn.textContent = state.compare.has(g.id) ? t("compareToggle") : t("compareBtn");
       compareBtn.addEventListener("click", (ev) => {
         ev.stopPropagation();
-        if (state.compare.has(g.id)) state.compare.delete(g.id);
-        else {
+        if (state.compare.has(g.id)){
+          state.compare.delete(g.id);
+          window.GF_STORE?.stats?.compareRemove(g.id);
+        } else {
           if (state.compare.size >= 4) state.compare.delete(state.compare.values().next().value);
           state.compare.add(g.id);
+          window.GF_STORE?.stats?.compareAdd(g.id);
         }
         saveCompare();
         render();
       });
+
       const tdActions = document.createElement("td");
-      tdActions.appendChild(compareBtn);
+      actionsWrap.appendChild(wishBtn);
+      actionsWrap.appendChild(wishLabel);
+      actionsWrap.appendChild(compareBtn);
+      tdActions.appendChild(actionsWrap);
       tr.appendChild(tdActions);
       dom.tbody.appendChild(tr);
     });
@@ -345,7 +375,7 @@
     if (ths[3]) ths[3].textContent = t("thPrice");
     if (ths[4]) ths[4].textContent = t("thRating");
     if (ths[5]) ths[5].textContent = t("thPlatforms");
-    if (ths[6]) ths[6].textContent = t("compareBtn");
+    if (ths[6]) ths[6].textContent = t("actions");
     $$("[data-i18n]").forEach(() => GF_I18N.apply(document));
   }
 
@@ -358,7 +388,7 @@
 
   // ---- events ----
   function bindEvents(){
-    if (dom.btnMenu) dom.btnMenu.addEventListener("click", () => toggleSidebar(true));
+    if (dom.openFilters) dom.openFilters.addEventListener("click", () => toggleSidebar(true));
     if (dom.sidebarBackdrop) dom.sidebarBackdrop.addEventListener("click", () => toggleSidebar(false));
     dom.applyFilters?.addEventListener("click", () => { applyStateFromUI(); render(); toggleSidebar(false); });
     dom.clearFilters?.addEventListener("click", () => {
@@ -388,6 +418,11 @@
     dom.openPitch?.addEventListener("click", () => {});
     dom.openCompare?.addEventListener("click", () => { renderCompareModal(); GF_SHELL.showModal(dom.compareModal); });
     window.addEventListener("resize", updateMobileHint);
+    document.addEventListener("gf:openCompare", () => { renderCompareModal(); GF_SHELL.showModal(dom.compareModal); });
+    document.addEventListener("gf:wishlist", (e) => {
+      state.wishlist = new Set(e?.detail?.ids || []);
+      render();
+    });
   }
 
   function updateMobileHint(){
@@ -407,9 +442,11 @@
     buildSelectOptions();
     loadFilters();
     loadCompare();
+    state.wishlist = new Set(window.GF_STORE?.wishlist?.get() || []);
     bindEvents();
     updateMobileHint();
     render();
+    if (window.location.hash === "#compare") { renderCompareModal(); GF_SHELL.showModal(dom.compareModal); }
     document.addEventListener("gf:lang", () => {
       buildSelectOptions();
       render();

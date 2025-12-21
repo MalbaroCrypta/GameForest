@@ -4,6 +4,63 @@
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
   const LS_USERS = "gf_users";
   const LS_SESSION = "gf_session";
+  const LS_WISHLIST = "gf_wishlist";
+  const LS_CART = "gf_cart";
+  const LS_STATS = "gf_stats";
+
+  function toast(msg){
+    if (!msg) return;
+    let box = $("#toast");
+    if (!box){
+      box = document.createElement("div");
+      box.id = "toast";
+      document.body.appendChild(box);
+    }
+    const item = document.createElement("div");
+    item.className = "toast__item";
+    item.textContent = msg;
+    box.appendChild(item);
+    setTimeout(() => { item.classList.add("is-visible"); }, 10);
+    setTimeout(() => { item.classList.remove("is-visible"); item.remove(); }, 2200);
+  }
+
+  function loadList(key){
+    try { return JSON.parse(localStorage.getItem(key) || "[]"); }
+    catch { return []; }
+  }
+  function saveList(key, arr){ localStorage.setItem(key, JSON.stringify(arr)); }
+
+  function listApi(key){
+    const get = () => loadList(key);
+    const has = (id) => get().includes(id);
+    const toggle = (id) => {
+      const list = get();
+      const exists = list.includes(id);
+      const next = exists ? list.filter(x => x !== id) : [...list, id];
+      saveList(key, next);
+      return { added: !exists, list: next };
+    };
+    return { get, has, toggle };
+  }
+
+  function loadStats(){
+    try { return JSON.parse(localStorage.getItem(LS_STATS) || "{\"viewed\":[],\"compared\":[],\"saved\":[]}"); }
+    catch { return { viewed: [], compared: [], saved: [] }; }
+  }
+  function saveStats(stats){ localStorage.setItem(LS_STATS, JSON.stringify(stats)); }
+  function pushStat(field, id){
+    if (!id) return;
+    const stats = loadStats();
+    const set = new Set(stats[field] || []);
+    set.add(id);
+    stats[field] = Array.from(set);
+    saveStats(stats);
+  }
+  function removeStat(field, id){
+    const stats = loadStats();
+    stats[field] = (stats[field] || []).filter(x => x !== id);
+    saveStats(stats);
+  }
 
   function loadUsers(){
     try { return JSON.parse(localStorage.getItem(LS_USERS) || "[]"); }
@@ -114,6 +171,7 @@
     const s = getSession();
     const logged = !!s?.email;
     const userBadge = $("#userBadge");
+    const userMenuEmail = $("#userMenuEmail");
     const btnLogin = $("#btnLogin");
     const btnRegister = $("#btnRegister");
     const btnLogout = $("#btnLogout");
@@ -122,6 +180,7 @@
     if (btnRegister) { btnRegister.textContent = GF_I18N.t("register"); btnRegister.hidden = logged; }
     if (btnLogout) { btnLogout.textContent = GF_I18N.t("logout"); btnLogout.hidden = !logged; }
     if (userBadge){ userBadge.hidden = !logged; if (logged) userBadge.textContent = s.email; }
+    if (userMenuEmail){ userMenuEmail.textContent = logged ? s.email : "guest@demo.app"; }
   }
 
   function bindPitch(){
@@ -183,13 +242,60 @@
     const btnLogin = $("#btnLogin");
     const btnRegister = $("#btnRegister");
     const btnLogout = $("#btnLogout");
+    const dropdownLogout = $("#dropdownLogout");
     if (btnLogin) btnLogin.addEventListener("click", () => openAuth("login"));
     if (btnRegister) btnRegister.addEventListener("click", () => openAuth("register"));
     if (btnLogout) btnLogout.addEventListener("click", () => clearSession());
+    if (dropdownLogout) dropdownLogout.addEventListener("click", () => clearSession());
   }
 
   function bindModalClosers(){
     ["#authModal", "#pitchModal", "#compareModal", "#checkoutModal", "#contactModal"].forEach(sel => bindModalClose($(sel)));
+  }
+
+  function bindDropdown(){
+    const toggle = $("#userToggle");
+    const dropdown = $("#userDropdown");
+    if (!toggle || !dropdown) return;
+    const close = () => dropdown.classList.add("hidden");
+    toggle.addEventListener("click", () => dropdown.classList.toggle("hidden"));
+    document.addEventListener("click", (e) => {
+      if (!dropdown.contains(e.target) && !toggle.contains(e.target)) close();
+    });
+    dropdown.querySelectorAll("[data-go]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-go");
+        if (target === "wishlist") window.location.href = "account.html#wishlist";
+        if (target === "cart") window.location.href = "account.html#cart";
+      });
+    });
+  }
+
+  function bindDrawer(){
+    const drawer = $("#navDrawer");
+    const btn = $("#btnMenu");
+    if (!drawer || !btn) return;
+    const backdrop = drawer.querySelector(".drawer__backdrop");
+    const closeBtns = drawer.querySelectorAll("[data-close=\"drawer\"]");
+    const open = () => drawer.classList.add("is-open");
+    const close = () => drawer.classList.remove("is-open");
+    btn.addEventListener("click", open);
+    closeBtns.forEach(b => b.addEventListener("click", close));
+    backdrop?.addEventListener("click", close);
+    drawer.querySelectorAll("[data-drawer]").forEach(el => {
+      el.addEventListener("click", () => {
+        const act = el.getAttribute("data-drawer");
+        if (act === "wishlist") window.location.href = "account.html#wishlist";
+        if (act === "compare"){
+          if (document.body?.dataset?.page === "catalog"){
+            document.dispatchEvent(new CustomEvent("gf:openCompare"));
+          }else{
+            window.location.href = "index.html#compare";
+          }
+        }
+        close();
+      });
+    });
   }
 
   function initShell(page){
@@ -198,8 +304,13 @@
     bindAuthButtons();
     bindPitch();
     bindModalClosers();
+    bindDropdown();
+    bindDrawer();
     updateAuthUI();
   }
+
+  const wishlistApi = listApi(LS_WISHLIST);
+  const cartApi = listApi(LS_CART);
 
   window.GF_SHELL = {
     initShell,
@@ -210,5 +321,37 @@
     openAuth,
     getSession,
     clearSession,
+  };
+
+  window.GF_STORE = {
+    wishlist: {
+      get: wishlistApi.get,
+      has: wishlistApi.has,
+      toggle: (id) => {
+        const { added, list } = wishlistApi.toggle(id);
+        pushStat("saved", id);
+        document.dispatchEvent(new CustomEvent("gf:wishlist", { detail: { ids: list, added, id } }));
+        toast(added ? GF_I18N.t("wishlistAdded") : GF_I18N.t("wishlistRemoved"));
+        return added;
+      }
+    },
+    cart: {
+      get: cartApi.get,
+      has: cartApi.has,
+      toggle: (id) => {
+        const { added, list } = cartApi.toggle(id);
+        document.dispatchEvent(new CustomEvent("gf:cart", { detail: { ids: list, added, id } }));
+        toast(added ? GF_I18N.t("cartAdded") : GF_I18N.t("cartRemoved"));
+        return added;
+      }
+    },
+    stats: {
+      get: loadStats,
+      view: (id) => pushStat("viewed", id),
+      compareAdd: (id) => pushStat("compared", id),
+      compareRemove: (id) => removeStat("compared", id),
+      save: (id) => pushStat("saved", id)
+    },
+    toast
   };
 })();
