@@ -12,6 +12,7 @@
 <body data-page="about">
   <header class="topbar">
     <div class="topbar__left">
+      <button class="iconbtn iconbtn--bare" id="btnMenu" title="Menu">☰</button>
       <a class="brand" href="index.html">
         <div class="brand__logo">GF</div>
         <div class="brand__name">GameForest</div>
@@ -20,17 +21,25 @@
         <a class="topnav__btn" data-page="catalog" href="index.html" data-i18n="navCatalog">Каталог</a>
         <a class="topnav__btn" data-page="market" href="market.html" data-i18n="navMarket">Маркетплейс</a>
         <a class="topnav__btn" data-page="about" href="about.html" data-i18n="navAbout">Про проєкт</a>
+        <a class="topnav__btn" data-page="account" href="account.html" data-i18n="navAccount">Мій акаунт</a>
       </nav>
     </div>
     <div class="topbar__center"></div>
     <div class="topbar__right">
-      <div class="avatar" aria-hidden="true">
-        <svg viewBox="0 0 40 40" role="presentation" focusable="false">
-          <circle cx="20" cy="14" r="9" class="avatar__face"></circle>
-          <rect x="8" y="24" width="24" height="10" rx="5" class="avatar__body"></rect>
-        </svg>
+      <button class="chip chip--ghost" id="langToggle" title="UA / EN">UA</button>
+      <div class="userpill" id="userToggle" role="button" tabindex="0">
+        <div class="avatar" aria-hidden="true">
+          <svg viewBox="0 0 40 40" role="presentation" focusable="false">
+            <circle cx="20" cy="14" r="9" class="avatar__face"></circle>
+            <rect x="8" y="24" width="24" height="10" rx="5" class="avatar__body"></rect>
+          </svg>
+        </div>
+        <div class="userpill__meta">
+          <div class="userpill__email" id="userMenuEmail">guest@demo.app</div>
+          <div class="userpill__hint" data-i18n="navAccount">Мій акаунт</div>
+        </div>
+        <span class="chevron">▾</span>
       </div>
-      <button class="chip" id="langToggle" title="UA / EN">UA</button>
       <div class="auth">
         <span class="auth__user" id="userBadge" hidden></span>
         <button class="btn btn--ghost" id="btnLogin" data-i18n="login">Увійти</button>
@@ -39,6 +48,33 @@
       </div>
     </div>
   </header>
+  <div class="dropdown hidden" id="userDropdown">
+    <a class="dropdown__item" href="account.html" data-i18n="navAccount">Мій акаунт</a>
+    <button class="dropdown__item" type="button" data-go="wishlist" data-i18n="wishlist">Wishlist</button>
+    <button class="dropdown__item" type="button" data-go="cart" data-i18n="cart">Кошик</button>
+    <button class="dropdown__item" type="button" data-open="pitch" data-i18n="pitchBtn">Pitch / Demo</button>
+    <button class="dropdown__item" type="button" id="dropdownLogout" data-i18n="logout">Вийти</button>
+  </div>
+  <div class="drawer" id="navDrawer">
+    <div class="drawer__backdrop" data-close="drawer"></div>
+    <aside class="drawer__panel">
+      <div class="drawer__head">
+        <div class="drawer__title" data-i18n="drawerTitle">Швидке меню</div>
+        <button class="iconbtn iconbtn--bare" data-close="drawer">✕</button>
+      </div>
+      <div class="drawer__links">
+        <a href="index.html" data-i18n="navCatalog">Каталог</a>
+        <a href="market.html" data-i18n="navMarket">Маркетплейс</a>
+        <a href="about.html" data-i18n="navAbout">Про проєкт</a>
+        <a href="account.html" data-i18n="navAccount">Мій акаунт</a>
+      </div>
+      <div class="drawer__actions">
+        <button class="btn btn--ghost w100" data-drawer="wishlist" data-i18n="wishlist">Wishlist</button>
+        <button class="btn btn--ghost w100" data-drawer="compare" data-i18n="compareBtn">Compare</button>
+        <button class="btn btn--ghost w100" data-open="pitch" data-i18n="pitchBtn">Pitch / Demo</button>
+      </div>
+    </aside>
+  </div>
 
   <main class="layout">
     <section class="hero hero--xl">
