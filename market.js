@@ -280,10 +280,10 @@
   }
 
   function renderUserContext(){
-    const email = window.GF_SHELL?.getSession?.()?.user?.email || "guest@gameforest.app";
+    const email = window.GF_SHELL?.getSession?.()?.user?.email || "";
     const wish = window.GF_STORE?.wishlist?.get()?.length || 0;
     const cart = window.GF_STORE?.cart?.get()?.length || 0;
-    if (dom.marketUserEmail) dom.marketUserEmail.textContent = email;
+    if (dom.marketUserEmail) dom.marketUserEmail.textContent = email || t("login") + " / " + t("register");
     if (dom.marketWishCount) dom.marketWishCount.textContent = wish;
     if (dom.marketCartCount) dom.marketCartCount.textContent = cart;
   }

@@ -207,12 +207,20 @@
     const btnLogout = $("#btnLogout");
     const avatar = $("#userAvatar");
     const avatarImg = $("#userAvatarImg");
+    const userToggle = $("#userToggle");
+    const dropdown = $("#userDropdown");
+    const accountLinks = $$('a[data-page="account"]');
+    const drawerAccount = document.querySelector('.drawer__links a[data-page="account"]');
 
     if (btnLogin) { btnLogin.textContent = GF_I18N.t("login"); btnLogin.hidden = logged; }
     if (btnRegister) { btnRegister.textContent = GF_I18N.t("register"); btnRegister.hidden = logged; }
     if (btnLogout) { btnLogout.textContent = GF_I18N.t("logout"); btnLogout.hidden = !logged; }
     if (userBadge){ userBadge.hidden = !logged; if (logged) userBadge.textContent = email; }
-    if (userMenuEmail){ userMenuEmail.textContent = logged ? email : "guest@gameforest.app"; }
+    if (userMenuEmail){ userMenuEmail.textContent = logged ? email : ""; }
+    if (userToggle){ userToggle.hidden = !logged; }
+    if (dropdown){ dropdown.classList.toggle("hidden", !logged); }
+    accountLinks.forEach(link => link.classList.toggle("hidden", !logged));
+    if (drawerAccount) drawerAccount.classList.toggle("hidden", !logged);
     if (avatar){
       avatar.classList.toggle("avatar--guest", !logged);
       if (avatarImg){
