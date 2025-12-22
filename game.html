@@ -79,7 +79,7 @@
   </div>
 
   <main class="layout">
-    <button class="backlink" id="backBtn" aria-label="Back">←</button>
+    <button class="backlink" id="backBtn" aria-label="Back" data-i18n="detailBack">← Назад</button>
     <section class="hero hero--xl">
       <div class="hero__title" id="gameTitle">Game</div>
       <div class="hero__sub" id="gameSubtitle"></div>
@@ -87,6 +87,13 @@
     </section>
 
     <section class="panel">
+      <div class="panel__head">
+        <div>
+          <div class="panel__title">Деталі гри</div>
+          <div class="panel__muted">SteamDB-style карта з офіційними цінами та рейтингами.</div>
+        </div>
+        <div class="pill pill--muted" id="steamIdPill">Steam #—</div>
+      </div>
       <div class="panel__body panel__body--gap">
         <div class="gametop">
           <div class="gametop__cover skeleton" id="gameCover" aria-label="Game cover placeholder"></div>

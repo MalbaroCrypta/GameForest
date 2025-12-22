@@ -2348,7 +2348,7 @@
   pushUnique(raw.filter(g => !g.topPick && (g.releaseYear || 0) >= 2019).sort(byYearDesc));
   pushUnique(raw.filter(g => !g.topPick && (g.releaseYear || 0) < 2019).sort(byYearDesc));
 
-  const curated = curatedStack.slice(0, 70);
+  const curated = curatedStack.slice(0, 120);
 
   window.GF_DATA = curated.map(game => {
     const history = generatePriceHistory(game.id, game.basePriceUSD);

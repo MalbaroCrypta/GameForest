@@ -78,10 +78,8 @@
         window.GF_STORE?.toast?.("Discord: " + nick);
       });
     };
-    ["#discordCopy", "#discordCopySecondary"].forEach(sel => {
-      const btn = $(sel);
-      btn?.addEventListener("click", handleCopy);
-    });
+    const btn = $("#discordCopy");
+    btn?.addEventListener("click", handleCopy);
   }
 
   document.addEventListener("DOMContentLoaded", () => {
