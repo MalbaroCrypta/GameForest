@@ -53,14 +53,18 @@
       cover.appendChild(img);
     }
     $("#gameName").textContent = nameOf(g);
+    const steamPill = $("#steamIdPill");
+    if (steamPill) steamPill.textContent = g.steamAppId ? `Steam #${g.steamAppId}` : "Steam #—";
 
+    const metrics = metricsOf(g);
     const meta = [];
     meta.push(`<span class="pill">${g.genre || "—"}</span>`);
     if (Array.isArray(g.platforms)) meta.push(`<span class="pill">${g.platforms.join(", ")}</span>`);
     meta.push(`<span class="pill">${g.model || "—"}</span>`);
+    if (g.releaseYear) meta.push(`<span class="pill pill--muted">${g.releaseYear}</span>`);
+    if (metrics.sentiment) meta.push(`<span class="pill pill--accent">${safeNum(metrics.sentiment,0)} / 100</span>`);
     $("#gameMeta").innerHTML = meta.join("");
 
-    const metrics = metricsOf(g);
     $("#priceNowVal").textContent = fmtMoney(priceNow(g));
     $("#discountVal").textContent = `-${discountPct(g)}%`;
     $("#ratingVal").textContent = `${safeNum(metrics.sentiment,0)} / 100`;
@@ -117,7 +121,14 @@
     if (!svg) return;
     const box = $("#chartBox");
     const pts = chartPoints(g, range);
-    if (!pts.length){ svg.innerHTML = ""; return; }
+    if (!pts.length){
+      svg.innerHTML = "";
+      $("#minVal").textContent = "—";
+      $("#maxVal").textContent = "—";
+      $("#avgVal").textContent = "—";
+      box?.classList.remove("is-loading");
+      return;
+    }
     const w = svg.clientWidth || 640;
     const h = svg.clientHeight || 260;
     const prices = pts.map(p => p.price);
@@ -129,7 +140,7 @@
     $("#avgVal").textContent = fmtMoney(avg);
     $("#chartBadge").textContent = range === "1y" ? GF_I18N.t("detailRangeYear") : GF_I18N.t("detailAllTime");
 
-    const pad = 20;
+    const pad = 24;
     const xStep = (w - pad*2) / Math.max(pts.length - 1, 1);
     const yScale = (h - pad*2) / Math.max(max - min, 1);
     const coords = pts.map((p, i) => {
@@ -163,6 +174,10 @@
         <path class="chart__line" d="${path}"></path>
         ${coords.map(c => `<circle class="chart__point" cx="${c.x}" cy="${c.y}" r="3.5" data-date="${c.date}" data-price="${c.price}"></circle>`).join("")}
       </g>`;
+    svg.setAttribute("width", w);
+    svg.setAttribute("height", h);
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
     box?.classList.remove("is-loading");
 
     const tooltip = $("#chartTooltip");
@@ -176,8 +191,9 @@
       if (!closest) return;
       tooltip.classList.remove("hidden");
       tooltip.textContent = `${closest.date} — ${fmtMoney(closest.price)}`;
-      tooltip.style.left = `${closest.x}px`;
-      tooltip.style.top = `${closest.y}px`;
+      const clampPos = (val, min, max) => Math.max(min, Math.min(max, val));
+      tooltip.style.left = `${clampPos(closest.x, 28, w - 28)}px`;
+      tooltip.style.top = `${clampPos(closest.y, 24, h - 16)}px`;
     };
     svg.onmouseleave = () => { tooltip.classList.add("hidden"); };
   }

@@ -161,16 +161,25 @@
 
     $("#aSwitch").addEventListener("click", () => openAuth(mode === "register" ? "login" : "register"));
 
-    $("#aSubmit").addEventListener("click", async () => {
+    const submitBtn = $("#aSubmit");
+    const setLoading = (state) => {
+      if (!submitBtn) return;
+      submitBtn.disabled = state;
+      submitBtn.textContent = state ? "Processing…" : submitBtn.dataset.label || submitBtn.textContent;
+    };
+    if (submitBtn) submitBtn.dataset.label = submitBtn.textContent;
+
+    submitBtn?.addEventListener("click", async () => {
       const email = (emailEl().value || "").trim().toLowerCase();
       const pass = (passEl().value || "").trim();
       msg().textContent = "";
       if (!isValidEmail(email)) { msg().textContent = GF_I18N.t("badEmail"); return; }
       if (pass.length < 6) { msg().textContent = GF_I18N.t("passShort"); return; }
+      setLoading(true);
       try{
         if (mode === "register"){
           const pass2 = ($("#aPass2").value || "").trim();
-          if (pass !== pass2) { msg().textContent = GF_I18N.t("passMismatch"); return; }
+          if (pass !== pass2) { msg().textContent = GF_I18N.t("passMismatch"); setLoading(false); return; }
           await window.GF_AUTH.signUp(email, pass);
           msg().textContent = GF_I18N.t("signupCheckEmail");
         }else{
@@ -179,6 +188,8 @@
         }
       }catch(err){
         msg().textContent = err?.message || GF_I18N.t("authUnknownError");
+      }finally{
+        setLoading(false);
       }
     });
 
@@ -207,12 +218,16 @@
     const btnLogout = $("#btnLogout");
     const avatar = $("#userAvatar");
     const avatarImg = $("#userAvatarImg");
+    const accountLinks = $$('a[data-page="account"]');
+    const drawerAccountLinks = $$('[data-page="account"]', document.querySelector("#navDrawer"));
+    const userPill = $("#userToggle");
+    const dropdown = $("#userDropdown");
 
     if (btnLogin) { btnLogin.textContent = GF_I18N.t("login"); btnLogin.hidden = logged; }
     if (btnRegister) { btnRegister.textContent = GF_I18N.t("register"); btnRegister.hidden = logged; }
     if (btnLogout) { btnLogout.textContent = GF_I18N.t("logout"); btnLogout.hidden = !logged; }
     if (userBadge){ userBadge.hidden = !logged; if (logged) userBadge.textContent = email; }
-    if (userMenuEmail){ userMenuEmail.textContent = logged ? email : "guest@gameforest.app"; }
+    if (userMenuEmail){ userMenuEmail.textContent = logged ? email : ""; }
     if (avatar){
       avatar.classList.toggle("avatar--guest", !logged);
       if (avatarImg){
@@ -226,6 +241,11 @@
         }
       }
     }
+    if (userPill) userPill.hidden = !logged;
+    if (dropdown) dropdown.classList.toggle("hidden", !logged);
+    [...accountLinks, ...drawerAccountLinks].forEach(link => {
+      link.style.display = logged ? "" : "none";
+    });
   }
 
   function bindPitch(){

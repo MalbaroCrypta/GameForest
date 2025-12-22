@@ -73,7 +73,7 @@
     const session = window.GF_SHELL?.getSession?.();
     const profile = window.GF_SHELL?.getProfile?.();
     const sessionBadge = profileDom.sessionStatus;
-    const emailText = session?.user?.email || "guest@gameforest.app";
+    const emailText = session?.user?.email || "—";
     const wishLen = window.GF_STORE?.wishlist?.get()?.length || 0;
     const cartLen = window.GF_STORE?.cart?.get()?.length || 0;
     const ids = (() => { try{ return JSON.parse(localStorage.getItem("gf_compare_ids") || "[]"); }catch{return [];} })();
