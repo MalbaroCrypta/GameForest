@@ -5,6 +5,7 @@
   const LS_WISHLIST = "gf_wishlist";
   const LS_CART = "gf_cart";
   const LS_STATS = "gf_stats";
+  const LS_THEME = "gf_theme";
 
   function toast(msg){
     if (!msg) return;
@@ -67,6 +68,25 @@
   function getSession(){ return window.GF_AUTH?.getSession?.() || null; }
   function clearSession(){ window.GF_AUTH?.signOut?.(); }
   function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+
+  function applyTheme(theme){
+    const next = (theme === "light" || theme === "dark") ? theme : (window.matchMedia?.("(prefers-color-scheme: light)")?.matches ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem(LS_THEME, next);
+    const btn = $("#themeToggle");
+    if (btn) btn.textContent = next === "light" ? "Light" : "Dark";
+  }
+
+  function bindThemeToggle(){
+    const saved = localStorage.getItem(LS_THEME);
+    applyTheme(saved || "dark");
+    const btn = $("#themeToggle");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+  }
 
   function showModal(el){ if(el) el.classList.remove("hidden"); }
   function hideModal(el){ if(el) el.classList.add("hidden"); }
@@ -325,6 +345,7 @@
 
   function initShell(page){
     setNavActive(page);
+    bindThemeToggle();
     bindLangToggle();
     bindAuthButtons();
     bindPitch();

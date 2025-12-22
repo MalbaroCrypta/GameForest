@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GameForest — Catalog & Marketplace</title>
   <meta name="description" content="GameForest catalog and marketplace in a calm, data-first layout." />
   <meta name="keywords" content="games, analytics" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%234c7dff'/><text x='50' y='62' text-anchor='middle' font-size='56' fill='white' font-family='Arial' font-weight='bold'>GF</text></svg>">
-  <link rel="stylesheet" href="./styles.css?v=3" />
+  <link rel="icon" type="image/svg+xml" href="./assets/gameforest-logo.svg">
+  <link rel="stylesheet" href="./styles.css?v=official" />
 </head>
 <body data-page="catalog">
   <header class="topbar">
     <div class="topbar__left">
       <button class="iconbtn iconbtn--bare" id="btnMenu" title="Menu">☰</button>
       <a class="brand" href="index.html">
-        <div class="brand__logo">GF</div>
+        <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt="GameForest logo"></div>
         <div class="brand__name">GameForest</div>
       </a>
       <nav class="topnav">
@@ -31,6 +31,7 @@
       </div>
     </div>
     <div class="topbar__right">
+      <button class="chip chip--ghost" id="themeToggle" title="Dark / Light">Dark</button>
       <button class="chip chip--ghost" id="langToggle" title="UA / EN">UA</button>
       <div class="userpill" id="userToggle" role="button" tabindex="0">
         <div class="avatar" aria-hidden="true" id="userAvatar">
@@ -83,146 +84,125 @@
   </div>
 
   <main class="layout">
-    <section class="hero hero--grid">
+    <section class="page-header">
       <div>
-        <div class="hero__eyebrow">Steam price desk</div>
-        <div class="hero__title" data-i18n="heroCatalogTitle">Каталог ігор та аналітика</div>
-        <div class="hero__sub" data-i18n="heroCatalogSub">Аналітична таблиця у стилі SteamDB: фільтри, сортування, compare, локальні сесії.</div>
-        <div class="hero__meta">
-          <span class="pill pill--icon pill--glow">SteamDB-style table</span>
-          <span class="pill pill--icon">Price intelligence</span>
-          <span class="pill pill--icon">Wishlist & Cart ready</span>
-        </div>
+        <div class="hero__eyebrow">Steam-grade desk</div>
+        <h1 class="page-header__title" data-i18n="heroCatalogTitle">Каталог ігор</h1>
+        <div class="page-header__meta" data-i18n="heroCatalogSub">Плоска таблиця у стилі SteamDB: сортування, фільтри, wishlist, compare.</div>
         <div class="chips" id="activeChips"></div>
         <div class="muted" id="mobileHint"></div>
       </div>
-      <div class="hero__kpis">
-        <div class="kpi kpi--line">
-          <div class="kpi__lbl" data-i18n="kpiGames">актуальні ігри</div>
-          <div class="kpi__num" id="kpiCount">0</div>
-          <div class="kpi__hint">Steam CDN covers</div>
-        </div>
-        <div class="kpi kpi--line">
-          <div class="kpi__lbl" data-i18n="quickCompare">Швидке порівняння</div>
-          <div class="kpi__num">30s</div>
-          <div class="kpi__hint" data-i18n="kpiCompare">таблиця + compare</div>
-        </div>
-        <div class="kpi kpi--line">
-          <div class="kpi__lbl">UX</div>
-          <div class="kpi__num">Wishlist + Cart</div>
-          <div class="kpi__hint" data-i18n="uxDashboard">збереження в локальному кабінеті</div>
-        </div>
+      <div class="page-header__actions">
+        <span class="pill" id="filtersState">Filters: none</span>
+        <span class="pill pill--accent" id="sortState">Sort</span>
+        <label class="label" for="pageSize" data-i18n="entryLabel">К-сть на сторінку</label>
+        <select id="pageSize" class="select select--mini">
+          <option>25</option>
+          <option selected>50</option>
+          <option>100</option>
+        </select>
       </div>
     </section>
 
-    <div class="content">
+    <section class="catalog-shell">
       <section class="panel">
-      <div class="panel__toolbar">
-        <div class="panel__toolbar-group">
-        <div class="panel__title" data-i18n="tableTitle">Таблиця</div>
-        <div class="panel__hint" data-i18n="tableHint">Стисла сітка у стилі SteamDB: клік по назві відкриває деталі, кнопки — wishlist / compare.</div>
-        <div class="toolbar__status">
-          <span class="filterbadge" id="filtersState">Filters: none</span>
-          <span class="filterbadge" id="sortState">Sort</span>
+        <div class="panel__head">
+          <div>
+            <div class="panel__title" data-i18n="tableTitle">Каталог Steam</div>
+            <div class="panel__muted" data-i18n="tableHint">Компактні рядки, клік по назві відкриває деталі. Перемикайте % Off, Price, Rating.</div>
           </div>
+          <div class="panel__muted"><strong id="kpiCount">0</strong> позицій</div>
         </div>
-        <div class="toolbar">
-          <button class="btn btn--ghost btn--mini" id="openFilters" data-i18n="filtersTitle">Фільтри</button>
-          <button class="btn btn--ghost btn--mini" id="toolbarReset" data-i18n="filterReset">Скинути</button>
-          <label class="mini">
-            <span data-i18n="entryLabel">К-сть на сторінку</span>
-            <select id="pageSize" class="select select--mini">
-              <option>25</option>
-              <option selected>50</option>
-              <option>100</option>
-            </select>
-          </label>
-        </div>
-      </div>
-
-        <div class="tablewrap">
-          <table class="table" id="gamesTable">
-            <thead>
-            <tr>
-              <th class="col-cover"></th>
-              <th class="col-name" data-sort="name">Name</th>
-              <th class="col-discount" data-sort="discount">% Off</th>
-              <th class="col-price" data-sort="price">Price</th>
-              <th class="col-rating" data-sort="sentiment">Rating</th>
-              <th class="col-release" data-sort="release">Release</th>
-              <th class="col-action" data-sort="compareBtn">Actions</th>
-            </tr>
-            </thead>
-            <tbody id="gamesTbody"></tbody>
-          </table>
-        </div>
-
-        <div class="pager">
-          <button class="btn btn--ghost" id="prevPage">←</button>
-          <div class="pager__mid" id="pageInfo">1 / 1</div>
-          <button class="btn btn--ghost" id="nextPage">→</button>
+        <div class="panel__body" style="padding-top:0;">
+          <div class="tablewrap">
+            <table class="table" id="gamesTable">
+              <thead>
+              <tr>
+                <th class="col-cover"></th>
+                <th class="col-name" data-sort="name">Name</th>
+                <th class="col-discount" data-sort="discount">% Off</th>
+                <th class="col-price" data-sort="price">Price</th>
+                <th class="col-rating" data-sort="sentiment">Rating</th>
+                <th class="col-release" data-sort="release">Release</th>
+                <th class="col-action" data-sort="compareBtn">Actions</th>
+              </tr>
+              </thead>
+              <tbody id="gamesTbody"></tbody>
+            </table>
+          </div>
+          <div class="pager">
+            <button class="btn btn--ghost" id="prevPage">←</button>
+            <div class="pager__mid" id="pageInfo">1 / 1</div>
+            <button class="btn btn--ghost" id="nextPage">→</button>
+          </div>
         </div>
       </section>
 
-      <aside class="sidebar">
-        <div class="sidecard">
-          <div class="sidecard__title" data-i18n="filtersTitle">Фільтри</div>
-          <div class="field">
-            <label class="label" data-i18n="filterPlatform">Платформа</label>
+      <aside class="filters-panel">
+        <div class="filters-panel__title">
+          <span data-i18n="filtersTitle">Фільтри</span>
+          <button class="btn btn--ghost btn--mini" id="clearFilters" data-i18n="filterReset">Скинути</button>
+        </div>
+        <details class="filter-group" open>
+          <summary data-i18n="filterPlatform">Платформа</summary>
+          <div class="filter-group__body">
             <select id="platform" class="select"></select>
           </div>
-          <div class="field">
-            <label class="label" data-i18n="filterGenre">Жанр</label>
+        </details>
+        <details class="filter-group" open>
+          <summary data-i18n="filterGenre">Жанр</summary>
+          <div class="filter-group__body">
             <select id="genre" class="select"></select>
           </div>
-          <div class="field">
-            <label class="label" data-i18n="filterModel">Модель монетизації</label>
+        </details>
+        <details class="filter-group" open>
+          <summary data-i18n="filterModel">Модель монетизації</summary>
+          <div class="filter-group__body">
             <select id="model" class="select"></select>
           </div>
-          <div class="field">
-            <label class="label" data-i18n="filterMaxPrice">Макс ціна ($)</label>
+        </details>
+        <details class="filter-group" open>
+          <summary data-i18n="filterMaxPrice">Макс ціна ($)</summary>
+          <div class="filter-group__body">
             <input id="priceMax" class="input" type="number" min="0" step="1" placeholder="60" />
+            <label class="check">
+              <input type="checkbox" id="onlyTop" />
+              <span data-i18n="filterTop">Тільки Top picks</span>
+            </label>
           </div>
-          <label class="check">
-            <input type="checkbox" id="onlyTop" />
-            <span data-i18n="filterTop">Тільки Top picks</span>
-          </label>
-          <div class="sideactions">
-            <button class="btn btn--primary w100" id="applyFilters" data-i18n="filterApply">Застосувати</button>
-            <button class="btn btn--ghost w100" id="clearFilters" data-i18n="filterReset">Скинути</button>
-          </div>
-        </div>
-        <div class="sidecard">
-          <div class="sidecard__title">Actions</div>
+        </details>
+        <div class="sideactions">
+          <button class="btn btn--primary w100" id="applyFilters" data-i18n="filterApply">Застосувати</button>
+          <button class="btn btn--ghost w100" id="toolbarReset" data-i18n="filterReset">Очистити</button>
           <button class="btn btn--ghost w100" id="openCompare" data-i18n="compareBtn">Compare</button>
           <button class="btn btn--ghost w100" id="openPitch" data-open="pitch" data-i18n="pitchBtn">Pitch</button>
         </div>
-        <div class="sidecard">
-          <div class="sidecard__title">Marketplace</div>
-          <p class="muted" style="margin:0;">Top-up та лоти → <a href="market.html">market.html</a></p>
-        </div>
       </aside>
-      <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-    </div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="site-footer__wrap">
       <div class="footer__brand">
-        <div class="brand__logo">GF</div>
+        <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt=""></div>
         <div>
-          <div class="footer__title">© GameForest — Steam price intelligence</div>
-          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільні обкладинки SteamStatic. Дані кешуються, продакшен-розгортання не потребує сторонніх залежностей.</div>
+          <div class="footer__title">© GameForest. Усі права захищені.</div>
+          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільний CDN, кешовані дані та продакшн-ready фронтенд без зайвих залежностей.</div>
         </div>
       </div>
-      <div>
-        <div class="footer__payments">
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">VISA</text></svg>Visa</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#f4c16c" font-weight="700" font-size="10">MC</text></svg>MasterCard</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">PP</text></svg>PayPal</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#52c99f" font-weight="700" font-size="10">₿</text></svg>Crypto</span>
-        </div>
-        <div class="footer__legal">Marketplace, API та партнерські інтеграції — за прямим запитом до Malbaro.</div>
+      <div class="footer__payments">
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">VISA</text></svg>Visa</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">MC</text></svg>MasterCard</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9"></text></svg>Apple Pay</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">G</text></svg>Google Pay</span>
+      </div>
+      <div class="footer__links">
+        <a href="#" aria-label="Terms">Terms</a>
+        <a href="#" aria-label="Privacy">Privacy</a>
+        <a href="#" aria-label="Support">Support</a>
+      </div>
+      <div class="footer__legal">
+        Marketplace, API та партнерські інтеграції — за прямим запитом до Malbaro.
       </div>
     </div>
   </footer>

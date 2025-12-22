@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GameForest — Marketplace</title>
   <meta name="description" content="Marketplace and balance top-ups in a production-ready layout." />
   <meta name="keywords" content="marketplace, top-up" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%234c7dff'/><text x='50' y='62' text-anchor='middle' font-size='56' fill='white' font-family='Arial' font-weight='bold'>GF</text></svg>">
-  <link rel="stylesheet" href="./styles.css?v=3" />
+  <link rel="icon" type="image/svg+xml" href="./assets/gameforest-logo.svg">
+  <link rel="stylesheet" href="./styles.css?v=official" />
 </head>
 <body data-page="market">
   <header class="topbar">
     <div class="topbar__left">
       <button class="iconbtn iconbtn--bare" id="btnMenu" title="Menu">☰</button>
       <a class="brand" href="index.html">
-        <div class="brand__logo">GF</div>
+        <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt="GameForest logo"></div>
         <div class="brand__name">GameForest</div>
       </a>
       <nav class="topnav">
@@ -26,6 +26,7 @@
     </div>
     <div class="topbar__center"></div>
     <div class="topbar__right">
+      <button class="chip chip--ghost" id="themeToggle" title="Dark / Light">Dark</button>
       <button class="chip chip--ghost" id="langToggle" title="UA / EN">UA</button>
       <div class="userpill" id="userToggle" role="button" tabindex="0">
         <div class="avatar" aria-hidden="true" id="userAvatar">
@@ -77,35 +78,75 @@
     </aside>
   </div>
 
-  <main class="layout">
-    <section class="hero">
-      <div class="hero__eyebrow">💰 Marketplace desk</div>
-      <div class="hero__title" data-i18n="heroMarketTitle">Маркетплейс / Top-up</div>
-      <div class="hero__sub" data-i18n="heroMarketSub">Поповнення балансів та цифрові предмети у продакшн-оформленні.</div>
-      <div class="hero__meta">
-        <span class="pill pill--glow pill--icon">💰 Robux</span>
-        <span class="pill pill--icon">🎯 CS2 skins</span>
-        <span class="pill pill--icon">📦 CS2 cases</span>
-        <span class="pill pill--icon">📈 User context</span>
+  <main class="layout page-grid">
+    <section class="page-header">
+      <div>
+        <div class="hero__eyebrow">Marketplace desk</div>
+        <h1 class="page-header__title" data-i18n="heroMarketTitle">Маркетплейс / Top-up</h1>
+        <div class="page-header__meta" data-i18n="heroMarketSub">Реальні категорії: Roblox валюта, CS2 скіни та кейси. Пошук, фільтри, кошик.</div>
+      </div>
+      <div class="page-header__actions">
+        <span class="pill">Robux</span>
+        <span class="pill">CS2 Skins</span>
+        <span class="pill">CS2 Cases</span>
       </div>
     </section>
 
-    <section class="panel">
-      <div class="panel__body statrow statrow--inline">
-        <div class="statcard">
-          <div class="statcard__label">Account email</div>
-          <div class="statcard__value" id="marketUserEmail">guest@gameforest.app</div>
-          <div class="statcard__hint">Avatar у хедері відображає контекст користувача</div>
+    <section class="market-hero">
+      <div class="panel">
+        <div class="panel__head">
+          <div>
+            <div class="panel__title">Вертикалі</div>
+            <div class="panel__muted">Robux пакети, скіни CS2, кейси — готово до checkout.</div>
+          </div>
         </div>
-        <div class="statcard">
-          <div class="statcard__label" data-i18n="wishlist">Wishlist</div>
-          <div class="statcard__value" id="marketWishCount">0</div>
-          <div class="statcard__hint">синхронізовано з каталогом</div>
+        <div class="panel__body cardgrid">
+          <div class="card card--accent">
+            <div class="card__head">
+              <div class="card__title">Roblox Robux</div>
+              <span class="pill">Currency</span>
+            </div>
+            <div class="card__desc">Пакети 800–10 000 R$ з фіксованими курсами та миттєвим підтвердженням.</div>
+          </div>
+          <div class="card">
+            <div class="card__head">
+              <div class="card__title">CS2 Skins</div>
+              <span class="pill">Skins</span>
+            </div>
+            <div class="card__desc">AWP Dragon Lore, Prime Karambit, перевірені продавці і метрики попиту.</div>
+          </div>
+          <div class="card">
+            <div class="card__head">
+              <div class="card__title">CS2 Cases</div>
+              <span class="pill">Cases</span>
+            </div>
+            <div class="card__desc">Horizon/Mirage колекції, ціна за кейс та бандли з CTA «Купити».</div>
+          </div>
         </div>
-        <div class="statcard">
-          <div class="statcard__label" data-i18n="cart">Кошик</div>
-          <div class="statcard__value" id="marketCartCount">0</div>
-          <div class="statcard__hint">готово для checkout</div>
+      </div>
+      <div class="panel">
+        <div class="panel__head">
+          <div>
+            <div class="panel__title">Контекст користувача</div>
+            <div class="panel__muted">Email, wishlist, кошик — синхронізовано з каталогом.</div>
+          </div>
+        </div>
+        <div class="panel__body market-meta">
+          <div class="statcard">
+            <div class="statcard__label">Account email</div>
+            <div class="statcard__value" id="marketUserEmail">guest@gameforest.app</div>
+            <div class="statcard__hint">Supabase session</div>
+          </div>
+          <div class="statcard">
+            <div class="statcard__label" data-i18n="wishlist">Wishlist</div>
+            <div class="statcard__value" id="marketWishCount">0</div>
+            <div class="statcard__hint">з каталогу</div>
+          </div>
+          <div class="statcard">
+            <div class="statcard__label" data-i18n="cart">Кошик</div>
+            <div class="statcard__value" id="marketCartCount">0</div>
+            <div class="statcard__hint">готово до checkout</div>
+          </div>
         </div>
       </div>
     </section>
@@ -113,48 +154,11 @@
     <section class="panel">
       <div class="panel__head">
         <div>
-          <div class="panel__title">Вертикалі</div>
-          <div class="panel__muted">Реальні категорії лотів: Robux, CS2 Skins, CS2 Cases.</div>
+          <div class="panel__title" data-i18n="topupTab">Top-up</div>
+          <div class="panel__muted" data-i18n="topupNote">Симуляція оплати: оберіть сервіс, регіон та суму.</div>
         </div>
       </div>
-      <div class="panel__body cardgrid cardgrid--tiles">
-        <div class="card card--accent">
-          <div class="card__head">
-            <div class="card__title">Roblox Robux</div>
-            <span class="pill pill--icon">💰</span>
-          </div>
-          <div class="card__desc">Топ-ап пакети (800–10 000) з фіксованими курсами, готові для оплати.</div>
-        </div>
-        <div class="card">
-          <div class="card__head">
-            <div class="card__title">CS2 Skins</div>
-            <span class="pill pill--icon">🎯</span>
-          </div>
-          <div class="card__desc">AWP Dragon Lore, Prime Karambit та інші скіни з позначкою Verified seller.</div>
-        </div>
-        <div class="card">
-          <div class="card__head">
-            <div class="card__title">CS2 Cases</div>
-            <span class="pill pill--icon">📦</span>
-          </div>
-          <div class="card__desc">Колекції Horizon/Mirage із підрахунком валюти та миттєвою кнопкою «Купити».</div>
-        </div>
-      </div>
-    </section>
-
-    <div class="tablist" role="tablist">
-      <button class="tabbtn is-active" data-tab="topup" data-i18n="topupTab">Top-up</button>
-      <button class="tabbtn" data-tab="market" data-i18n="marketplaceTab">Marketplace</button>
-    </div>
-
-    <section class="panel" data-panel="topup">
-      <div class="panel__head">
-        <div class="panel__left">
-          <div class="panel__title" data-i18n="topupTest">Checkout sandbox</div>
-          <div class="panel__muted" data-i18n="topupNote">Для продакшену потрібен бекенд (Vercel/Netlify/Firebase) з endpoint для Stripe session.</div>
-        </div>
-      </div>
-      <div class="panel__body grid grid--2">
+      <div class="panel__body market-grid">
         <div class="formblock">
           <div class="field">
             <label class="label" data-i18n="topupService">Гра/сервіс</label>
@@ -185,15 +189,22 @@
       </div>
     </section>
 
-    <section class="panel hidden" data-panel="market">
+    <section class="panel">
       <div class="panel__head">
-        <div class="panel__left">
+        <div>
           <div class="panel__title" data-i18n="marketFilters">Пошук / фільтр лотів</div>
           <div class="panel__muted" id="marketDisclaimer" data-i18n="marketDisclaimer">Лоти для прев'ю.</div>
         </div>
+        <div class="market-cart">
+          <div>
+            <div class="statcard__label">Кошик маркетплейсу</div>
+            <div class="statcard__value" id="marketCartValue">0</div>
+          </div>
+          <button class="btn btn--ghost btn--mini" id="marketCartClear">Очистити</button>
+        </div>
       </div>
       <div class="panel__body">
-        <div class="grid grid--2">
+        <div class="market-filters">
           <input id="listingSearch" class="input" type="search" data-i18n-placeholder="marketSearchPlaceholder" placeholder="Пошук" />
           <select id="listingType" class="select">
             <option value="">All</option>
@@ -202,17 +213,20 @@
             <option value="Currency">Currency</option>
             <option value="Account">Account</option>
           </select>
+          <select id="listingPlatform" class="select">
+            <option value="">Platform</option>
+            <option value="PC">PC</option>
+            <option value="PC/Mobile">PC/Mobile</option>
+            <option value="PC/Console">PC/Console</option>
+            <option value="Global">Global</option>
+          </select>
+          <select id="listingSort" class="select">
+            <option value="price">Price ↑</option>
+            <option value="price_desc">Price ↓</option>
+            <option value="title">Title</option>
+          </select>
         </div>
         <div id="listingWrap" class="marketlist"></div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel__body">
-        <div class="list">
-          <strong>Stripe Checkout (Test)</strong>: POST /api/create-checkout-session → success.html / cancel.html.
-          <br />Serverless: Vercel / Netlify Functions / Firebase / Supabase Edge.
-        </div>
       </div>
     </section>
   </main>
@@ -220,20 +234,25 @@
   <footer class="site-footer">
     <div class="site-footer__wrap">
       <div class="footer__brand">
-        <div class="brand__logo">GF</div>
+        <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt=""></div>
         <div>
-          <div class="footer__title">© GameForest — All rights reserved</div>
-          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільні обкладинки SteamStatic. Дані кешуються, продакшен-розгортання не потребує сторонніх залежностей.</div>
+          <div class="footer__title">© GameForest. Усі права захищені.</div>
+          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільний CDN, кешовані дані та продакшн-ready фронтенд без зайвих залежностей.</div>
         </div>
       </div>
-      <div>
-        <div class="footer__payments">
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">VISA</text></svg>Visa</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#f4c16c" font-weight="700" font-size="10">MC</text></svg>MasterCard</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">PP</text></svg>PayPal</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#52c99f" font-weight="700" font-size="10">₿</text></svg>Crypto</span>
-        </div>
-        <div class="footer__legal">Відображаємо аватар та email, приймаємо валюти, показуємо реальні категорії лотів.</div>
+      <div class="footer__payments">
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">VISA</text></svg>Visa</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">MC</text></svg>MasterCard</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9"></text></svg>Apple Pay</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">G</text></svg>Google Pay</span>
+      </div>
+      <div class="footer__links">
+        <a href="#" aria-label="Terms">Terms</a>
+        <a href="#" aria-label="Privacy">Privacy</a>
+        <a href="#" aria-label="Support">Support</a>
+      </div>
+      <div class="footer__legal">
+        Відображаємо аватар та email, приймаємо валюти, показуємо реальні категорії лотів.
       </div>
     </div>
   </footer>

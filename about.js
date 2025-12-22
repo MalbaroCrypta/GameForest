@@ -69,11 +69,27 @@
     }
   }
 
+  function bindDiscordCopy(){
+    const handleCopy = () => {
+      const nick = "d1m0s_l1m0s";
+      navigator.clipboard?.writeText(nick).then(() => {
+        window.GF_STORE?.toast?.("Copied");
+      }).catch(() => {
+        window.GF_STORE?.toast?.("Discord: " + nick);
+      });
+    };
+    ["#discordCopy", "#discordCopySecondary"].forEach(sel => {
+      const btn = $(sel);
+      btn?.addEventListener("click", handleCopy);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     window.GF_SHELL.initShell("about");
     renderLists();
     renderRoadmap();
     bindContactForm();
+    bindDiscordCopy();
     window.GF_I18N.apply(document);
     document.addEventListener("gf:lang", () => { renderLists(); renderRoadmap(); window.GF_I18N.apply(document); });
   });

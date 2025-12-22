@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GameForest — About</title>
   <meta name="description" content="Про GameForest" />
   <meta name="keywords" content="GameForest, about" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%234c7dff'/><text x='50' y='62' text-anchor='middle' font-size='56' fill='white' font-family='Arial' font-weight='bold'>GF</text></svg>">
-  <link rel="stylesheet" href="./styles.css?v=3" />
+  <link rel="icon" type="image/svg+xml" href="./assets/gameforest-logo.svg">
+  <link rel="stylesheet" href="./styles.css?v=official" />
 </head>
 <body data-page="about">
   <header class="topbar">
     <div class="topbar__left">
       <button class="iconbtn iconbtn--bare" id="btnMenu" title="Menu">☰</button>
       <a class="brand" href="index.html">
-        <div class="brand__logo">GF</div>
+        <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt="GameForest logo"></div>
         <div class="brand__name">GameForest</div>
       </a>
       <nav class="topnav">
@@ -26,6 +26,7 @@
     </div>
     <div class="topbar__center"></div>
     <div class="topbar__right">
+      <button class="chip chip--ghost" id="themeToggle" title="Dark / Light">Dark</button>
       <button class="chip chip--ghost" id="langToggle" title="UA / EN">UA</button>
       <div class="userpill" id="userToggle" role="button" tabindex="0">
         <div class="avatar" aria-hidden="true" id="userAvatar">
@@ -77,15 +78,16 @@
     </aside>
   </div>
 
-  <main class="layout">
-    <section class="hero hero--xl">
-      <div class="hero__eyebrow" data-i18n="aboutEyebrow">Investor-grade · Data desk</div>
-      <div class="hero__title" data-i18n="heroAboutTitle">GameForest для інвесторів</div>
-      <div class="hero__sub" data-i18n="heroAboutSub">Аналітична платформа для Steam з фокусом на ціни, знижки, тренди та майбутню комерційну екосистему.</div>
-      <div class="hero__meta">
-        <span class="pill pill--glow" data-i18n="aboutHeroPill1">Аналітика цін Steam</span>
-        <span class="pill" data-i18n="aboutHeroPill2">Комерційний каталог</span>
-        <span class="pill" data-i18n="aboutHeroPill3">Готовність до B2B</span>
+  <main class="layout page-grid">
+    <section class="page-header">
+      <div>
+        <div class="hero__eyebrow" data-i18n="aboutEyebrow">Investor-ready</div>
+        <h1 class="page-header__title" data-i18n="heroAboutTitle">GameForest для інвестора</h1>
+        <div class="page-header__meta" data-i18n="heroAboutSub">Продуктовий каталог та маркетплейс з прозорими цінами, зрілим UX і готовими інтеграціями.</div>
+      </div>
+      <div class="page-header__actions">
+        <button class="btn btn--primary" data-contact="open" data-i18n="aboutCtaPrimary">Звʼязатися</button>
+        <button class="btn btn--ghost" data-open="pitch" data-i18n="aboutCtaPitch">Відкрити інвест-дек</button>
       </div>
     </section>
 
@@ -93,22 +95,21 @@
       <div class="panel__head">
         <div>
           <div class="panel__title" data-i18n="aboutIntroSection">Що таке GameForest</div>
-          <div class="panel__muted" data-i18n="aboutIntroHint">Конкретна цінність для інвестора та партнера.</div>
+          <div class="panel__muted" data-i18n="aboutIntroHint">Аналітична платформа та маркетплейс з єдиною дизайн-системою.</div>
         </div>
-        <button class="btn btn--primary" data-contact="open" data-i18n="aboutCtaPrimary">Звʼязатися</button>
       </div>
       <div class="panel__body about-lead">
-        <p class="lede" data-i18n="aboutIntroHeroBody">GameForest — це аналітична платформа для відстеження цін, знижок і трендів ігор на Steam з фокусом на дані, порівняння та комерційну екосистему.</p>
-        <ul class="about-core" id="coreList"></ul>
+        <p class="lede" data-i18n="aboutIntroHeroBody">GameForest — це офіційний SaaS у стилі SteamDB: аналітика цін, каталог з live-фільтрами, маркетплейс і кабінет користувача з Supabase Auth.</p>
+        <ul class="list list--dense" id="coreList"></ul>
       </div>
     </section>
 
-    <div class="grid grid--2 about-grid">
+    <div class="grid grid--2">
       <section class="panel">
         <div class="panel__head">
           <div>
             <div class="panel__title" data-i18n="aboutProblemTitle">Проблема</div>
-            <div class="panel__muted" data-i18n="aboutProblemHint">Ціни, знижки й дані розпорошені.</div>
+            <div class="panel__muted" data-i18n="aboutProblemHint">Ціни, знижки й маркетплейси розпорошені.</div>
           </div>
         </div>
         <div class="panel__body">
@@ -119,7 +120,7 @@
         <div class="panel__head">
           <div>
             <div class="panel__title" data-i18n="aboutSolutionTitle">Рішення</div>
-            <div class="panel__muted" data-i18n="aboutSolutionHint">Єдиний каталог та прозорі сигнали.</div>
+            <div class="panel__muted" data-i18n="aboutSolutionHint">Єдиний стіл для каталогу й транзакцій.</div>
           </div>
         </div>
         <div class="panel__body">
@@ -128,12 +129,12 @@
       </section>
     </div>
 
-    <div class="grid grid--2 about-grid">
+    <div class="grid grid--2">
       <section class="panel">
         <div class="panel__head">
           <div>
             <div class="panel__title" data-i18n="aboutAudienceTitle">Для кого продукт</div>
-            <div class="panel__muted" data-i18n="aboutAudienceHint">Сегменти, для яких важлива аналітика.</div>
+            <div class="panel__muted" data-i18n="aboutAudienceHint">Геймери, трейдери, партнери.</div>
           </div>
         </div>
         <div class="panel__body">
@@ -144,7 +145,7 @@
         <div class="panel__head">
           <div>
             <div class="panel__title" data-i18n="aboutMonetization">Монетизація</div>
-            <div class="panel__muted" data-i18n="aboutMonetHint">Коротко про джерела доходу.</div>
+            <div class="panel__muted" data-i18n="aboutMonetHint">Абонплата + fee за транзакції.</div>
           </div>
         </div>
         <div class="panel__body">
@@ -158,7 +159,7 @@
       <div class="panel__head">
         <div>
           <div class="panel__title" data-i18n="aboutRoadmap">Roadmap</div>
-          <div class="panel__muted" data-i18n="aboutRoadmapNote">Послідовні кроки від каталогу до B2B.</div>
+          <div class="panel__muted" data-i18n="aboutRoadmapNote">Прозорий беклог: каталог → маркетплейс → API.</div>
         </div>
       </div>
       <div class="panel__body">
@@ -182,33 +183,21 @@
               <div class="owner__meta" data-i18n="aboutOwnerTitle">Founder & Product Lead</div>
             </div>
           </div>
-          <div class="card__desc" data-i18n="aboutOwnerCopy">Незалежний розробник та ініціатор GameForest. Фокус — аналітичні продукти, цифрові маркетплейси та ігрова економіка.</div>
+          <div class="card__desc" data-i18n="aboutOwnerCopy">Продуктовий підхід, метрики, які можна перевірити, і швидкі ітерації. Фокус — ігрова економіка, аналітика та платежі.</div>
           <div class="card__desc" data-i18n="aboutOwnerFocus">Готовність показати бізнес-модель, KPI та дорожню карту. Відкритий до партнерств та інвестицій.</div>
         </div>
         <div class="ownerblock__cta summary">
           <div class="card__title" data-i18n="aboutCtaTitle">Звʼязок</div>
-          <div class="card__desc" data-i18n="aboutCtaCopy">Хочете партнерство, інвестицію чи інтеграцію API? Напишіть — покажемо готову аналітику, плани релізів і комерційні сценарії.</div>
+          <div class="card__desc" data-i18n="aboutCtaCopy">Напишіть, якщо потрібна інтеграція API, white-label чи участь в раунді. Підготуємо цифри, ліди та прогнозні доходи.</div>
           <div class="sideactions">
-            <button class="btn btn--primary w100" data-contact="open" data-i18n="aboutCtaPrimary">Звʼязатися з Malbaro</button>
-            <button class="btn btn--ghost w100" data-open="pitch" data-i18n="aboutCtaPitch">Відкрити інвест-дек</button>
+            <a class="btn btn--primary w100" href="https://t.me/Malbaro_SGX" target="_blank" rel="noopener">Telegram</a>
+            <button class="btn btn--ghost w100" id="discordCopy" type="button">Discord: d1m0s_l1m0s</button>
           </div>
           <div class="socialrow">
             <a class="socialbtn" href="https://t.me/Malbaro_SGX" target="_blank" rel="noopener" aria-label="Telegram">
-              <span class="socialbtn__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20.5 4.5 3.8 11.1c-.7.3-.7 1.3 0 1.5l3.8 1.3 1.7 3.6c.3.7 1.2.7 1.5 0l1.6-3.3 4.2 3.1c.6.5 1.5.1 1.7-.7l2.5-12.1c.2-.8-.5-1.4-1.3-1.1Z" fill="currentColor"/>
-                </svg>
-              </span>
               <span>Telegram</span>
             </a>
-            <a class="socialbtn" href="https://discordapp.com/users/d1m0s_l1m0s" target="_blank" rel="noopener" aria-label="Discord">
-              <span class="socialbtn__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18.2 6.1c-.8-.4-1.7-.7-2.6-.9-.1.2-.3.5-.4.8-1-.2-2-.2-3 0-.1-.3-.3-.5-.4-.8-.9.2-1.8.5-2.6.9-1.7 2.4-2.2 4.7-2 7.1 1 .7 1.9 1.1 2.9 1.4.2-.3.4-.7.6-1-.3-.1-.7-.3-1-.5.1-.1.3-.3.4-.4.8.4 1.7.7 2.6.8.9-.1 1.8-.3 2.6-.8.1.1.3.3.4.4-.3.2-.6.4-1 .5.2.3.4.7.6 1 1-.3 2-.7 2.9-1.4.2-2.3-.3-4.6-2-7.1Zm-7.2 5.6c-.6 0-1.1-.6-1.1-1.3 0-.7.5-1.3 1.1-1.3.6 0 1.1.6 1.1 1.3 0 .7-.5 1.3-1.1 1.3Zm4 0c-.6 0-1.1-.6-1.1-1.3 0-.7.5-1.3 1.1-1.3.6 0 1.1.6 1.1 1.3 0 .7-.5 1.3-1.1 1.3Z" fill="currentColor"/>
-                </svg>
-              </span>
-              <span>Discord</span>
-            </a>
+            <button class="socialbtn" type="button" id="discordCopySecondary">Discord</button>
           </div>
         </div>
       </div>
@@ -218,20 +207,25 @@
   <footer class="site-footer">
     <div class="site-footer__wrap">
       <div class="footer__brand">
-        <div class="brand__logo">GF</div>
+        <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt=""></div>
         <div>
-          <div class="footer__title">© GameForest — Steam price intelligence</div>
-          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільні обкладинки SteamStatic. Дані кешуються, продакшен-розгортання не потребує сторонніх залежностей.</div>
+          <div class="footer__title">© GameForest. Усі права захищені.</div>
+          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільний CDN, кешовані дані та продакшн-ready фронтенд без зайвих залежностей.</div>
         </div>
       </div>
-      <div>
-        <div class="footer__payments">
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">VISA</text></svg>Visa</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#f4c16c" font-weight="700" font-size="10">MC</text></svg>MasterCard</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">PP</text></svg>PayPal</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#52c99f" font-weight="700" font-size="10">₿</text></svg>Crypto</span>
-        </div>
-        <div class="footer__legal">Marketplace, API та партнерські інтеграції — за прямим запитом до Malbaro.</div>
+      <div class="footer__payments">
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">VISA</text></svg>Visa</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">MC</text></svg>MasterCard</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9"></text></svg>Apple Pay</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">G</text></svg>Google Pay</span>
+      </div>
+      <div class="footer__links">
+        <a href="#" aria-label="Terms">Terms</a>
+        <a href="#" aria-label="Privacy">Privacy</a>
+        <a href="#" aria-label="Support">Support</a>
+      </div>
+      <div class="footer__legal">
+        Marketplace, API та партнерські інтеграції — за прямим запитом до Malbaro.
       </div>
     </div>
   </footer>
