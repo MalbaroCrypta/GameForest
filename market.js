@@ -5,6 +5,7 @@
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
   const data = window.GF_MARKET_DATA || { topupProducts: [], listings: [] };
   const listings = Array.isArray(data.listings) ? data.listings : (data.demoListings || []);
+  const LS_MARKET_CART = "gf_market_cart";
 
   const state = {
     tab: "topup",
@@ -12,7 +13,8 @@
     region: data.topupProducts[0]?.regions?.[0] || "",
     amount: data.topupProducts[0]?.amounts?.[0] || 0,
     customAmount: "",
-    checkoutMode: "sandbox"
+    checkoutMode: "sandbox",
+    marketCart: new Set()
   };
 
   const t = (k) => window.GF_I18N.t(k);
@@ -29,13 +31,42 @@
     listingWrap: $("#listingWrap"),
     listingSearch: $("#listingSearch"),
     listingType: $("#listingType"),
+    listingPlatform: $("#listingPlatform"),
+    listingSort: $("#listingSort"),
     checkoutModal: $("#checkoutModal"),
     checkoutBody: $("#checkoutBody"),
     disclaimer: $("#marketDisclaimer"),
     marketUserEmail: $("#marketUserEmail"),
     marketWishCount: $("#marketWishCount"),
-    marketCartCount: $("#marketCartCount")
+    marketCartCount: $("#marketCartCount"),
+    marketCartValue: $("#marketCartValue"),
+    marketCartClear: $("#marketCartClear")
   };
+
+  function loadMarketCart(){
+    try{
+      const raw = JSON.parse(localStorage.getItem(LS_MARKET_CART) || "[]");
+      return new Set(Array.isArray(raw) ? raw : []);
+    }catch{
+      return new Set();
+    }
+  }
+
+  function saveMarketCart(set){
+    try{ localStorage.setItem(LS_MARKET_CART, JSON.stringify(Array.from(set))); }catch{}
+  }
+
+  function addToMarketCart(id){
+    state.marketCart.add(id);
+    saveMarketCart(state.marketCart);
+    renderCartUi();
+  }
+
+  function clearMarketCart(){
+    state.marketCart.clear();
+    saveMarketCart(state.marketCart);
+    renderCartUi();
+  }
 
   function nameOfProduct(p){ return p?.name?.[GF_I18N.lang] || p?.name?.en || p?.id; }
 
@@ -171,11 +202,18 @@
   function renderListings(){
     const query = (dom.listingSearch?.value || "").toLowerCase();
     const type = dom.listingType?.value || "";
+    const platform = dom.listingPlatform?.value || "";
+    const sortKey = dom.listingSort?.value || "price";
     const items = listings.filter(l => {
       const text = `${l.title?.[GF_I18N.lang] || l.title?.en} ${l.game}`.toLowerCase();
       const okQ = !query || text.includes(query);
       const okType = !type || l.type === type;
-      return okQ && okType;
+      const okPlatform = !platform || l.platform === platform;
+      return okQ && okType && okPlatform;
+    }).sort((a,b) => {
+      if (sortKey === "price_desc") return (b.priceUSD || 0) - (a.priceUSD || 0);
+      if (sortKey === "price") return (a.priceUSD || 0) - (b.priceUSD || 0);
+      return (a.title?.en || "").localeCompare(b.title?.en || "");
     });
     if (!dom.listingWrap) return;
     if (!items.length){
@@ -203,13 +241,15 @@
         <div class="marketrow__meta"><span class="marketrow__tag marketrow__tag--accent">${item.badge || t("marketBadge")}</span></div>
         <div class="marketrow__meta">${item.currency || "USD"}</div>
         <div class="marketrow__price">${priceLabel}</div>
-        <div class="marketrow__cta"><button class="btn btn--primary btn--mini" type="button">${t("marketAction")}</button></div>
+        <div class="marketrow__cta"><button class="btn btn--primary btn--mini" type="button" data-market-id="${item.id}">${t("marketAction")}</button></div>
       </div>`;
     }).join("");
     dom.listingWrap.innerHTML = header + rows + `<div class="muted" style="padding:10px 14px; border-top:1px solid var(--line);">${t("marketDisclaimer")}</div>`;
-    dom.listingWrap.querySelectorAll(".marketrow__cta button").forEach(btn => {
+    dom.listingWrap.querySelectorAll("[data-market-id]").forEach(btn => {
       btn.addEventListener("click", () => {
-        window.GF_STORE?.toast?.(t("marketDisclaimer"));
+        const id = btn.getAttribute("data-market-id");
+        addToMarketCart(id);
+        window.GF_STORE?.toast?.(t("cartAdded"));
       });
     });
   }
@@ -217,6 +257,9 @@
   function bindListingFilters(){
     dom.listingSearch?.addEventListener("input", renderListings);
     dom.listingType?.addEventListener("change", renderListings);
+    dom.listingPlatform?.addEventListener("change", renderListings);
+    dom.listingSort?.addEventListener("change", renderListings);
+    dom.marketCartClear?.addEventListener("click", clearMarketCart);
   }
 
   function applyTranslations(){
@@ -226,8 +269,18 @@
     if (dom.disclaimer) dom.disclaimer.textContent = t("marketDisclaimer");
   }
 
+  function renderCartUi(){
+    const ids = Array.from(state.marketCart);
+    const total = ids.reduce((sum, id) => {
+      const item = listings.find(x => x.id === id);
+      return sum + (item?.priceUSD || 0);
+    }, 0);
+    if (dom.marketCartValue) dom.marketCartValue.textContent = ids.length ? `${ids.length} • $${total.toFixed(2)}` : "0";
+    if (dom.marketCartClear) dom.marketCartClear.disabled = ids.length === 0;
+  }
+
   function renderUserContext(){
-    const email = window.GF_SHELL?.getSession?.()?.email || "guest@gameforest.app";
+    const email = window.GF_SHELL?.getSession?.()?.user?.email || "guest@gameforest.app";
     const wish = window.GF_STORE?.wishlist?.get()?.length || 0;
     const cart = window.GF_STORE?.cart?.get()?.length || 0;
     if (dom.marketUserEmail) dom.marketUserEmail.textContent = email;
@@ -237,6 +290,7 @@
 
   function init(){
     GF_SHELL.initShell("market");
+    state.marketCart = loadMarketCart();
     renderTabs();
     switchTab(state.tab);
     renderTopupSelectors();
@@ -245,6 +299,7 @@
     renderListings();
     bindListingFilters();
     applyTranslations();
+    renderCartUi();
     renderUserContext();
     document.addEventListener("gf:lang", () => {
       applyTranslations();

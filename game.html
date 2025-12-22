@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GameForest — Game</title>
   <meta name="description" content="GameForest game detail" />
   <meta name="keywords" content="game, price history, analytics" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%234c7dff'/><text x='50' y='62' text-anchor='middle' font-size='56' fill='white' font-family='Arial' font-weight='bold'>GF</text></svg>">
-  <link rel="stylesheet" href="./styles.css?v=3" />
+  <link rel="icon" type="image/svg+xml" href="./assets/gameforest-logo.svg">
+  <link rel="stylesheet" href="./styles.css?v=official" />
 </head>
 <body data-page="catalog">
   <header class="topbar">
     <div class="topbar__left">
       <button class="iconbtn iconbtn--bare" id="btnMenu" title="Menu">☰</button>
       <a class="brand" href="index.html">
-        <div class="brand__logo">GF</div>
+        <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt="GameForest logo"></div>
         <div class="brand__name">GameForest</div>
       </a>
       <nav class="topnav">
@@ -26,6 +26,7 @@
     </div>
     <div class="topbar__center"></div>
     <div class="topbar__right">
+      <button class="chip chip--ghost" id="themeToggle" title="Dark / Light">Dark</button>
       <button class="chip chip--ghost" id="langToggle" title="UA / EN">UA</button>
       <div class="userpill" id="userToggle" role="button" tabindex="0">
         <div class="avatar" aria-hidden="true" id="userAvatar">
@@ -206,21 +207,24 @@
   <footer class="site-footer">
     <div class="site-footer__wrap">
       <div class="footer__brand">
-        <div class="brand__logo">GF</div>
+        <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt=""></div>
         <div>
-          <div class="footer__title">© GameForest — All rights reserved</div>
-          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільні обкладинки SteamStatic. Дані кешуються, продакшен-розгортання не потребує сторонніх залежностей.</div>
+          <div class="footer__title">© GameForest. Усі права захищені.</div>
+          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільний CDN, кешовані дані та продакшн-ready фронтенд без зайвих залежностей.</div>
         </div>
       </div>
-      <div>
-        <div class="footer__payments">
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">VISA</text></svg>Visa</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#f4c16c" font-weight="700" font-size="10">MC</text></svg>MasterCard</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#7cc8ff" font-weight="700" font-size="10">PP</text></svg>PayPal</span>
-          <span class="payicon"><svg viewBox="0 0 36 24" aria-hidden="true"><rect x="2" y="4" width="32" height="16" rx="3" fill="#0d1722" stroke="#1b2532"/><text x="18" y="16" text-anchor="middle" fill="#52c99f" font-weight="700" font-size="10">₿</text></svg>Crypto</span>
-        </div>
-        <div class="footer__legal">Сторінка деталей гри: офіційне оформлення, прозорі дисклеймери, аватар користувача у хедері.</div>
+      <div class="footer__payments">
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">VISA</text></svg>Visa</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">MC</text></svg>MasterCard</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9"></text></svg>Apple Pay</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">G</text></svg>Google Pay</span>
       </div>
+      <div class="footer__links">
+        <a href="#" aria-label="Terms">Terms</a>
+        <a href="#" aria-label="Privacy">Privacy</a>
+        <a href="#" aria-label="Support">Support</a>
+      </div>
+      <div class="footer__legal">Сторінка деталей гри: офіційне оформлення, прозорі дисклеймери, аватар користувача у хедері.</div>
     </div>
   </footer>
 

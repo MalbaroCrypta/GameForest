@@ -45,9 +45,6 @@
     langToggle: $("#langToggle"),
     openCompare: $("#openCompare"),
     openPitch: $("#openPitch"),
-    sidebar: $(".sidebar"),
-    sidebarBackdrop: $("#sidebarBackdrop"),
-    openFilters: $("#openFilters"),
     mobileHint: $("#mobileHint"),
     compareModal: $("#compareModal"),
     compareBody: $("#compareBody"),
@@ -185,7 +182,8 @@
     if (dom.filtersState){
       const label = count ? t("filtersBadgeSome").replace("{count}", count) : t("filtersBadgeNone");
       dom.filtersState.textContent = label;
-      dom.filtersState.classList.toggle("filterbadge--active", !!count);
+      dom.filtersState.classList.toggle("pill--accent", !!count);
+      dom.filtersState.classList.toggle("pill--muted", !count);
     }
     if (dom.sortState){
       const sortMap = {
@@ -432,8 +430,6 @@
 
   // ---- events ----
   function bindEvents(){
-    if (dom.openFilters) dom.openFilters.addEventListener("click", () => toggleSidebar(true));
-    if (dom.sidebarBackdrop) dom.sidebarBackdrop.addEventListener("click", () => toggleSidebar(false));
     const clearAll = () => {
       state.q = ""; dom.q.value = "";
       state.platform = ""; dom.platform.value = "";
@@ -444,9 +440,8 @@
       state.pageIndex = 0;
       saveFilters();
       render();
-      toggleSidebar(false);
     };
-    dom.applyFilters?.addEventListener("click", () => { applyStateFromUI(); render(); toggleSidebar(false); });
+    dom.applyFilters?.addEventListener("click", () => { applyStateFromUI(); render(); });
     dom.clearFilters?.addEventListener("click", clearAll);
     dom.toolbarReset?.addEventListener("click", clearAll);
     dom.q?.addEventListener("input", () => { state.q = (dom.q.value || "").trim(); state.pageIndex = 0; saveFilters(); render(); });
@@ -475,13 +470,6 @@
   function updateMobileHint(){
     if (!dom.mobileHint) return;
     dom.mobileHint.textContent = t("mobileHint");
-  }
-
-  function toggleSidebar(open){
-    if (!dom.sidebar) return;
-    dom.sidebar.classList.toggle("is-open", open);
-    document.body.classList.toggle("sidebar-open", open);
-    if (dom.sidebarBackdrop) dom.sidebarBackdrop.classList.toggle("is-visible", open);
   }
 
   function init(){

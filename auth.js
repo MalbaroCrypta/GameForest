@@ -8,6 +8,40 @@
   let profile = null;
   let ready = false;
   let hasExchanged = false;
+  let postAuthHandled = false;
+  const REDIRECT_KEY = "gf_post_auth_redirect";
+
+  function siteBase(){
+    try{
+      const url = new URL(window.location.href);
+      const dir = url.pathname.slice(0, url.pathname.lastIndexOf("/") + 1);
+      return url.origin + dir;
+    }catch{
+      return window.location.origin + "/";
+    }
+  }
+
+  function defaultRedirect(){
+    return siteBase() + "account.html";
+  }
+
+  function setPostAuthRedirect(url){
+    try{ localStorage.setItem(REDIRECT_KEY, url); }catch{}
+  }
+
+  function consumeRedirect(){
+    let target = null;
+    try{
+      target = localStorage.getItem(REDIRECT_KEY);
+      localStorage.removeItem(REDIRECT_KEY);
+    }catch{}
+    if (!target && hasExchanged) target = defaultRedirect();
+    if (!target) return;
+    const cleanCurrent = window.location.href.split("#")[0];
+    if (cleanCurrent !== target){
+      window.location.replace(target);
+    }
+  }
 
   function emit(){
     document.dispatchEvent(new CustomEvent("gf:auth", { detail: { session, profile } }));
@@ -86,6 +120,7 @@
       profile = session?.user ? (profile || await fetchProfile(session.user)) : null;
       ready = true;
       emit();
+      if (session?.user && !postAuthHandled){ postAuthHandled = true; consumeRedirect(); }
     }catch(err){
       ready = true;
       emit();
@@ -95,6 +130,7 @@
       session = newSession;
       profile = newSession?.user ? await fetchProfile(newSession.user) : null;
       emit();
+      if (newSession?.user && !postAuthHandled){ postAuthHandled = true; consumeRedirect(); }
     });
   }
 
@@ -121,9 +157,11 @@
 
   async function signInWithGoogle(){
     if (!client) throw new Error("Supabase не сконфігуровано.");
+    const redirectTo = defaultRedirect();
+    setPostAuthRedirect(redirectTo);
     const { error } = await client.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: window.location.origin + window.location.pathname }
+      options: { redirectTo }
     });
     if (error) throw error;
   }

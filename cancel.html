@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GameForest — Cancelled</title>
-  <link rel="stylesheet" href="./styles.css?v=3" />
+  <link rel="icon" type="image/svg+xml" href="./assets/gameforest-logo.svg">
+  <link rel="stylesheet" href="./styles.css?v=official" />
 </head>
 <body class="layout" style="max-width:760px;">
   <section class="panel" style="margin-top:30px;">
@@ -14,6 +15,29 @@
       <a class="btn btn--ghost" href="market.html">← Marketplace</a>
     </div>
   </section>
+  <footer class="site-footer">
+    <div class="site-footer__wrap">
+      <div class="footer__brand">
+        <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt=""></div>
+        <div>
+          <div class="footer__title">© GameForest. Усі права захищені.</div>
+          <div class="footer__disclaimer" data-i18n="footerDisclaimer">Стабільний CDN, кешовані дані та продакшн-ready фронтенд без зайвих залежностей.</div>
+        </div>
+      </div>
+      <div class="footer__payments">
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">VISA</text></svg>Visa</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">MC</text></svg>MasterCard</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9"></text></svg>Apple Pay</span>
+        <span class="payicon"><svg viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="2" width="30" height="16" rx="4" fill="none" stroke="currentColor"/><text x="16" y="14" text-anchor="middle" fill="currentColor" font-weight="800" font-size="9">G</text></svg>Google Pay</span>
+      </div>
+      <div class="footer__links">
+        <a href="#" aria-label="Terms">Terms</a>
+        <a href="#" aria-label="Privacy">Privacy</a>
+        <a href="#" aria-label="Support">Support</a>
+      </div>
+      <div class="footer__legal"></div>
+    </div>
+  </footer>
   <script src="./i18n.js"></script>
   <script>GF_I18N.apply(document);</script>
 </body>
