@@ -35,14 +35,17 @@ python -m http.server 8000
 - **Firebase / Supabase**: host static files; implement equivalent edge function for Stripe session creation. Use Supabase/Firebase Auth for real accounts (local auth stores passwords in the browser; do not use in production).
 
 ## Supabase auth & profile storage
-The UI is wired to Supabase Auth. Configure your project values in `supabase-config.js`:
+The UI is wired to Supabase Auth. The repo already ships with the GameForest demo project config (see `supabase-config.js`):
 
 ```js
-window.GF_SUPABASE_CONFIG = { url: "https://<PROJECT>.supabase.co", anonKey: "<PUBLIC_ANON_KEY>" };
+window.GF_SUPABASE_CONFIG = {
+  url: "https://kzwotblfcbectvcwinxr.supabase.co",
+  anonKey: "sb_publishable_u3GeBpf_LSAQ_kbYlls6QQ_a1bBQHns"
+};
 ```
 
 - Users: Supabase dashboard → **Authentication → Users**.
-- Profile data: table **profiles** (columns `id` (uuid, PK, references auth.users), `email`, `avatar_url`, `bio`, `updated_at`).
+- Profile data: table **profiles** (columns `id` (uuid, PK, references auth.users), `email`, `username`, `avatar_url`, `bio`, `created_at`/`updated_at`).
 - Avatars: storage bucket **avatars** (public policy recommended for this demo). File names are `{userId}/{timestamp}.ext`.
 
 Sessions persist via Supabase client auto-refresh; Google OAuth is enabled via the `Sign in with Google` button in the auth modal.
