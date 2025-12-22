@@ -77,12 +77,39 @@
   </div>
 
   <main class="layout">
+    <section class="panel panel--gate" id="accountGate" hidden>
+      <div class="panel__head">
+        <div class="panel__title" data-i18n="accountGateTitle">Доступ до кабінету</div>
+        <div class="pill pill--accent" id="accountGateStatus">Supabase Auth · Secure</div>
+      </div>
+      <div class="panel__body gate">
+        <div class="gate__copy">
+          <div class="gate__title" data-i18n="accountLockedTitle">Увійдіть, щоб керувати профілем</div>
+          <div class="muted" data-i18n="accountLockedBody">Ми використовуємо Supabase Auth + profiles. Без акаунта кабінет не відкривається.</div>
+          <ul class="gate__list">
+            <li data-i18n="accountLockedPoint1">Сесія зберігається після перезавантаження.</li>
+            <li data-i18n="accountLockedPoint2">Профіль створюється автоматично.</li>
+            <li data-i18n="accountLockedPoint3">Дані зберігаються у Supabase, а не у localStorage.</li>
+          </ul>
+        </div>
+        <div class="gate__actions">
+          <div class="gate__row">
+            <button class="btn btn--primary" id="gateLogin" type="button" data-i18n="login">Увійти</button>
+            <button class="btn btn--ghost" id="gateRegister" type="button" data-i18n="register">Реєстрація</button>
+          </div>
+          <button class="btn btn--google w100" id="gateGoogle" type="button" data-i18n="googleSignIn">Увійти через Google</button>
+          <div class="muted gate__hint" data-i18n="accountSecurityNote">Захищено Supabase: токени автоматично оновлюються, профіль зберігається на сервері.</div>
+        </div>
+      </div>
+    </section>
+
     <section class="hero hero--xl hero--grid">
       <div>
         <div class="hero__eyebrow" data-i18n="accountEyebrow">Кабінет користувача</div>
         <div class="hero__title" data-i18n="accountTitle">My Account</div>
         <div class="hero__sub" id="accountEmail">guest@gameforest.app</div>
         <div class="hero__meta">
+          <span class="pill pill--accent" id="sessionStatus">Supabase session</span>
           <span class="pill"><span data-i18n="wishlist"></span>: <strong id="wishCount">0</strong></span>
           <span class="pill"><span data-i18n="cart"></span>: <strong id="cartCount">0</strong></span>
           <span class="pill"><span data-i18n="compareBtn"></span>: <strong id="compareCount">0</strong></span>
@@ -162,6 +189,36 @@
           </div>
         </div>
         <div class="profilecard__form">
+          <div class="formgrid">
+            <div class="field">
+              <label class="label" for="profileEmail" data-i18n="profileEmailLabel">Основний email</label>
+              <input class="input" id="profileEmail" type="email" disabled value="guest@gameforest.app" />
+            </div>
+            <div class="field">
+              <label class="label" for="profileUsername" data-i18n="profileUsernameLabel">Нікнейм</label>
+              <input class="input" id="profileUsername" type="text" placeholder="gameforest_user" maxlength="30" />
+              <div class="muted" data-i18n="profileUsernameHint">Відображається у списках бажань і кошику.</div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="profileAvatarUrl" data-i18n="avatarUrlLabel">URL аватару</label>
+            <input class="input" id="profileAvatarUrl" type="url" placeholder="https://..." />
+            <div class="muted" data-i18n="avatarUrlHint">Можна вставити посилання або обрати готовий варіант нижче.</div>
+          </div>
+          <div class="avataroptions" id="profileAvatarOptions">
+            <button class="avataroption" type="button" data-avatar-option="https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=200&q=80">
+              <img src="https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=200&q=80" alt="Option 1">
+              <span>Calm gradient</span>
+            </button>
+            <button class="avataroption" type="button" data-avatar-option="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=200&q=80">
+              <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=200&q=80" alt="Option 2">
+              <span>Soft portrait</span>
+            </button>
+            <button class="avataroption" type="button" data-avatar-option="https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=200&q=80">
+              <img src="https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=200&q=80" alt="Option 3">
+              <span>Minimal lines</span>
+            </button>
+          </div>
           <div class="field">
             <label class="label" for="profileBio" data-i18n="bioLabel">Біографія</label>
             <textarea class="input input--textarea" id="profileBio" placeholder="Додайте коротку біографію"></textarea>

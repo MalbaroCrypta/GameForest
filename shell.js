@@ -331,8 +331,22 @@
     bindModalClosers();
     bindDropdown();
     bindDrawer();
+    bindAccountGate();
     updateAuthUI();
     document.addEventListener("gf:auth", updateAuthUI);
+  }
+
+  function bindAccountGate(){
+    const links = $$('a[data-page="account"]');
+    links.forEach(link => {
+      link.addEventListener("click", (e) => {
+        const loggedIn = !!getSession()?.user;
+        if (!loggedIn){
+          e.preventDefault();
+          openAuth("login");
+        }
+      });
+    });
   }
 
   const wishlistApi = listApi(LS_WISHLIST);
