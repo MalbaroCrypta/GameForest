@@ -6,6 +6,7 @@
   const LS_CART = "gf_cart";
   const LS_STATS = "gf_stats";
   const LS_THEME = "gf_theme";
+  let headerHeightRaf = null;
 
   function toast(msg){
     if (!msg) return;
@@ -75,6 +76,23 @@
     localStorage.setItem(LS_THEME, next);
     const btn = $("#themeToggle");
     if (btn) btn.textContent = next === "light" ? "Light" : "Dark";
+  }
+
+  function syncHeaderHeight(){
+    const topbar = document.querySelector(".topbar");
+    if (!topbar) return;
+    const h = Math.round(topbar.getBoundingClientRect().height);
+    document.documentElement.style.setProperty("--header-height", `${h}px`);
+  }
+
+  function bindHeaderHeight(){
+    const schedule = () => {
+      if (headerHeightRaf) cancelAnimationFrame(headerHeightRaf);
+      headerHeightRaf = requestAnimationFrame(syncHeaderHeight);
+    };
+    window.addEventListener("load", schedule);
+    window.addEventListener("resize", schedule);
+    schedule();
   }
 
   function bindThemeToggle(){
@@ -246,6 +264,7 @@
     [...accountLinks, ...drawerAccountLinks].forEach(link => {
       link.style.display = logged ? "" : "none";
     });
+    syncHeaderHeight();
   }
 
   function bindPitch(){
@@ -365,6 +384,7 @@
 
   function initShell(page){
     setNavActive(page);
+    bindHeaderHeight();
     bindThemeToggle();
     bindLangToggle();
     bindAuthButtons();
@@ -375,6 +395,7 @@
     bindAccountGate();
     updateAuthUI();
     document.addEventListener("gf:auth", updateAuthUI);
+    document.addEventListener("gf:lang", syncHeaderHeight);
   }
 
   function bindAccountGate(){

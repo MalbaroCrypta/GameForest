@@ -202,6 +202,16 @@
     if (loggedIn) gatePrompted = false;
     if (profileDom.gate) profileDom.gate.hidden = loggedIn;
     if (profileDom.main) profileDom.main.classList.toggle("is-locked", !loggedIn);
+    if (profileDom.main){
+      profileDom.main.querySelectorAll(".hero, .panel:not(.panel--gate)").forEach(section => {
+        section.hidden = !loggedIn;
+        if (!loggedIn){
+          section.setAttribute("aria-hidden", "true");
+        }else{
+          section.removeAttribute("aria-hidden");
+        }
+      });
+    }
     if (!loggedIn && window.GF_AUTH?.isReady?.() && !gatePrompted){
       window.GF_SHELL?.openAuth?.("login");
       gatePrompted = true;
