@@ -70,11 +70,24 @@
         <button class="iconbtn iconbtn--bare" data-close="drawer">✕</button>
       </div>
       <div class="drawer__links">
-        <a href="index.html" data-page="catalog" data-i18n="navCatalog">Каталог</a>
-        <a href="market.html" data-page="market" data-i18n="navMarket">Маркетплейс</a>
-        <a href="about.html" data-page="about" data-i18n="navAbout">Про проєкт</a>
-        <a href="account.html" data-page="account" data-i18n="navAccount">Мій акаунт</a>
+        <a href="index.html" data-page="catalog">
+          <span data-i18n="navCatalog">Каталог</span>
+          <span class="drawer__link-meta">SteamDB-таблиця</span>
+        </a>
+        <a href="market.html" data-page="market">
+          <span data-i18n="navMarket">Маркетплейс</span>
+          <span class="drawer__link-meta">Bundles &amp; DLC</span>
+        </a>
+        <a href="about.html" data-page="about">
+          <span data-i18n="navAbout">Про проєкт</span>
+          <span class="drawer__link-meta">Опис та FAQ</span>
+        </a>
+        <a href="account.html" data-page="account">
+          <span data-i18n="navAccount">Мій акаунт</span>
+          <span class="drawer__link-meta">Wishlist, cart</span>
+        </a>
       </div>
+      <div class="drawer__hint">Зберігайте ігри, додавайте в wishlist та порівнюйте позиції навіть з мобільного.</div>
       <div class="drawer__actions">
         <button class="btn btn--ghost w100" data-drawer="wishlist" data-i18n="wishlist">Wishlist</button>
         <button class="btn btn--ghost w100" data-drawer="compare" data-i18n="compareBtn">Compare</button>
@@ -138,44 +151,55 @@
         </div>
       </section>
 
-      <aside class="filters-panel">
-        <div class="filters-panel__title">
-          <span data-i18n="filtersTitle">Фільтри</span>
-          <button class="btn btn--ghost btn--mini" id="clearFilters" data-i18n="filterReset">Скинути</button>
+      <aside class="filters-panel" data-auth-gate="filters">
+        <div class="filters-panel__locked" id="filtersLocked" hidden>
+          <div class="filters-panel__locked-icon">🔒</div>
+          <div class="filters-panel__locked-title">Фільтри доступні після реєстрації</div>
+          <div class="filters-panel__locked-desc">Створіть акаунт, щоб зберігати вибір, відкривати wishlist та користуватися розширеними фільтрами.</div>
+          <div class="filters-panel__locked-actions">
+            <button class="btn btn--primary w100" id="filtersRegister" data-i18n="register">Реєстрація</button>
+            <button class="btn btn--ghost w100" id="filtersLogin" data-i18n="login">Увійти</button>
+          </div>
         </div>
-        <details class="filter-group" open>
-          <summary data-i18n="filterPlatform">Платформа</summary>
-          <div class="filter-group__body">
-            <select id="platform" class="select"></select>
+        <div class="filters-panel__content" id="filtersContent">
+          <div class="filters-panel__title">
+            <span data-i18n="filtersTitle">Фільтри</span>
+            <button class="btn btn--ghost btn--mini" id="clearFilters" data-i18n="filterReset">Скинути</button>
           </div>
-        </details>
-        <details class="filter-group" open>
-          <summary data-i18n="filterGenre">Жанр</summary>
-          <div class="filter-group__body">
-            <select id="genre" class="select"></select>
+          <details class="filter-group" open>
+            <summary data-i18n="filterPlatform">Платформа</summary>
+            <div class="filter-group__body">
+              <select id="platform" class="select"></select>
+            </div>
+          </details>
+          <details class="filter-group" open>
+            <summary data-i18n="filterGenre">Жанр</summary>
+            <div class="filter-group__body">
+              <select id="genre" class="select"></select>
+            </div>
+          </details>
+          <details class="filter-group" open>
+            <summary data-i18n="filterModel">Модель монетизації</summary>
+            <div class="filter-group__body">
+              <select id="model" class="select"></select>
+            </div>
+          </details>
+          <details class="filter-group" open>
+            <summary data-i18n="filterMaxPrice">Макс ціна ($)</summary>
+            <div class="filter-group__body">
+              <input id="priceMax" class="input" type="number" min="0" step="1" placeholder="60" />
+              <label class="check">
+                <input type="checkbox" id="onlyTop" />
+                <span data-i18n="filterTop">Тільки Top picks</span>
+              </label>
+            </div>
+          </details>
+          <div class="sideactions">
+            <button class="btn btn--primary w100" id="applyFilters" data-i18n="filterApply">Застосувати</button>
+            <button class="btn btn--ghost w100" id="toolbarReset" data-i18n="filterReset">Очистити</button>
+            <button class="btn btn--ghost w100" id="openCompare" data-i18n="compareBtn">Compare</button>
+            <button class="btn btn--ghost w100" id="openPitch" data-open="pitch" data-i18n="pitchBtn">Pitch</button>
           </div>
-        </details>
-        <details class="filter-group" open>
-          <summary data-i18n="filterModel">Модель монетизації</summary>
-          <div class="filter-group__body">
-            <select id="model" class="select"></select>
-          </div>
-        </details>
-        <details class="filter-group" open>
-          <summary data-i18n="filterMaxPrice">Макс ціна ($)</summary>
-          <div class="filter-group__body">
-            <input id="priceMax" class="input" type="number" min="0" step="1" placeholder="60" />
-            <label class="check">
-              <input type="checkbox" id="onlyTop" />
-              <span data-i18n="filterTop">Тільки Top picks</span>
-            </label>
-          </div>
-        </details>
-        <div class="sideactions">
-          <button class="btn btn--primary w100" id="applyFilters" data-i18n="filterApply">Застосувати</button>
-          <button class="btn btn--ghost w100" id="toolbarReset" data-i18n="filterReset">Очистити</button>
-          <button class="btn btn--ghost w100" id="openCompare" data-i18n="compareBtn">Compare</button>
-          <button class="btn btn--ghost w100" id="openPitch" data-open="pitch" data-i18n="pitchBtn">Pitch</button>
         </div>
       </aside>
     </section>

@@ -51,6 +51,11 @@
     filtersState: $("#filtersState"),
     sortState: $("#sortState"),
     toolbarReset: $("#toolbarReset"),
+    filtersPanel: document.querySelector("[data-auth-gate=\"filters\"]"),
+    filtersLocked: $("#filtersLocked"),
+    filtersContent: $("#filtersContent"),
+    filtersRegister: $("#filtersRegister"),
+    filtersLogin: $("#filtersLogin"),
   };
 
   // ---- helpers ----
@@ -198,6 +203,13 @@
     }
     if (dom.clearFilters) dom.clearFilters.disabled = count === 0;
     if (dom.toolbarReset) dom.toolbarReset.disabled = count === 0;
+  }
+
+  function refreshFiltersGate(){
+    const logged = !!GF_SHELL.getSession?.()?.user;
+    if (dom.filtersPanel) dom.filtersPanel.classList.toggle("is-locked", !logged);
+    if (dom.filtersLocked) dom.filtersLocked.hidden = logged;
+    if (dom.filtersContent) dom.filtersContent.hidden = !logged;
   }
 
   // ---- sorting ----
@@ -465,6 +477,8 @@
       state.wishlist = new Set(e?.detail?.ids || []);
       render();
     });
+    dom.filtersRegister?.addEventListener("click", () => GF_SHELL.openAuth?.("register"));
+    dom.filtersLogin?.addEventListener("click", () => GF_SHELL.openAuth?.("login"));
   }
 
   function updateMobileHint(){
@@ -480,6 +494,7 @@
     state.wishlist = new Set(window.GF_STORE?.wishlist?.get() || []);
     bindEvents();
     updateMobileHint();
+    refreshFiltersGate();
     render();
     if (window.location.hash === "#compare") { renderCompareModal(); GF_SHELL.showModal(dom.compareModal); }
     document.addEventListener("gf:lang", () => {
@@ -488,6 +503,7 @@
       updateMobileHint();
       GF_SHELL.updateAuthUI();
     });
+    document.addEventListener("gf:auth", refreshFiltersGate);
   }
 
   document.addEventListener("DOMContentLoaded", init);
