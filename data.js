@@ -2332,6 +2332,70 @@
     }
   ];
 
+  const genrePool = ["Action", "Adventure", "RPG", "Strategy", "Shooter", "Indie", "Sim", "Sports", "Rogue"];
+  const modelPool = ["Premium", "F2P"];
+  const platformPool = [
+    ["PC"],
+    ["PC", "PS5"],
+    ["PC", "Xbox Series"],
+    ["PC", "PS5", "Xbox Series"],
+    ["PC", "Switch"],
+    ["PC", "PS5", "Switch"],
+    ["PC", "Mobile"],
+    ["PC", "VR"]
+  ];
+  const publisherPool = [
+    "Nebula Works",
+    "Signal Peak",
+    "Northwind Labs",
+    "IndieFlux",
+    "Velocity Forge",
+    "Moonbyte Studio",
+    "Atlas Forge",
+    "Solaris Line",
+    "Checkpoint Labs",
+    "Vector Quill"
+  ];
+
+  const extraGames = Array.from({ length: 200 }, (_, i) => {
+    const idx = i + 1;
+    const padded = String(idx).padStart(3, "0");
+    const genre = genrePool[i % genrePool.length];
+    const model = modelPool[i % modelPool.length];
+    const platforms = platformPool[i % platformPool.length];
+    const basePriceUSD = 12 + ((i * 3) % 55);
+    const releaseYear = 2010 + (i % 15);
+    const sentiment = 65 + (i % 25);
+    const demandIndex = 50 + ((i * 2) % 45);
+    const priceStability = 52 + ((i * 5) % 35);
+    const communityHealth = 58 + ((i * 4) % 38);
+    return {
+      id: `gf_extra_${padded}`,
+      name: { uk: `GameForest добірка #${padded}`, en: `GameForest Picks #${padded}` },
+      genre,
+      model,
+      basePriceUSD,
+      releaseYear,
+      publisher: publisherPool[i % publisherPool.length],
+      steamAppId: 990000 + idx,
+      topPick: idx % 12 === 0,
+      platforms,
+      coverUrl: `https://placehold.co/600x900/111827/FFFFFF?text=GF+${padded}`,
+      summary: {
+        uk: `Експериментальний інді-реліз #${padded} з розширеного каталогу GameForest.`,
+        en: `Experimental indie drop #${padded} from the expanded GameForest slate.`
+      },
+      metrics: {
+        sentiment,
+        demandIndex,
+        priceStability,
+        communityHealth
+      }
+    };
+  });
+
+  raw.push(...extraGames);
+
   const byYearDesc = (a,b) => (b.releaseYear || 0) - (a.releaseYear || 0);
   const seen = new Set();
   const curatedStack = [];
@@ -2348,7 +2412,7 @@
   pushUnique(raw.filter(g => !g.topPick && (g.releaseYear || 0) >= 2019).sort(byYearDesc));
   pushUnique(raw.filter(g => !g.topPick && (g.releaseYear || 0) < 2019).sort(byYearDesc));
 
-  const curated = curatedStack.slice(0, 120);
+  const curated = curatedStack.slice(0, Math.min(curatedStack.length, 320));
 
   window.GF_DATA = curated.map(game => {
     const history = generatePriceHistory(game.id, game.basePriceUSD);
