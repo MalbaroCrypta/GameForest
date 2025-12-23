@@ -262,7 +262,9 @@
     if (userPill) userPill.hidden = !logged;
     if (dropdown) dropdown.classList.toggle("hidden", !logged);
     [...accountLinks, ...drawerAccountLinks].forEach(link => {
-      link.style.display = logged ? "" : "none";
+      if (!link) return;
+      link.hidden = !logged;
+      link.setAttribute("aria-hidden", (!logged).toString());
     });
     syncHeaderHeight();
   }
