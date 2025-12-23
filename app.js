@@ -1,7 +1,10 @@
 // GameForest Catalog logic (table + filters + compare)
 // Depends on: i18n.js, shell.js, data.js
 (function(){
-  const data = Array.isArray(window.GF_DATA) ? window.GF_DATA : [];
+  const popularData = Array.isArray(window.GF_DATA) ? window.GF_DATA : [];
+  let steamIndex = [];
+  let steamIndexLoading = false;
+  let steamIndexLoaded = false;
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
   const clamp = (n,a,b) => Math.max(a, Math.min(b, n));
@@ -19,6 +22,7 @@
     sortKey: "discount",
     sortDir: "desc",
     pageSize: 50,
+    mode: "popular",
     pageIndex: 0,
     compare: new Set(),
     wishlist: new Set(),
@@ -56,6 +60,10 @@
     filtersContent: $("#filtersContent"),
     filtersRegister: $("#filtersRegister"),
     filtersLogin: $("#filtersLogin"),
+    modePopular: $("#modePopular"),
+    modeAll: $("#modeAll"),
+    modeBadge: $("#modeBadge"),
+    modeNotice: $("#modeNotice"),
   };
 
   // ---- helpers ----
@@ -83,11 +91,12 @@
 
   // ---- filter options ----
   function buildSelectOptions(){
+    if (state.mode === "all") return;
     const opt = (value, label) => {
       const o = document.createElement("option"); o.value = value; o.textContent = label; return o; };
-    const platforms = Array.from(new Set(data.flatMap(g => g.platforms || []))).sort();
-    const genres = Array.from(new Set(data.map(g => g.genre).filter(Boolean))).sort();
-    const models = Array.from(new Set(data.map(g => g.model).filter(Boolean))).sort();
+    const platforms = Array.from(new Set(popularData.flatMap(g => g.platforms || []))).sort();
+    const genres = Array.from(new Set(popularData.map(g => g.genre).filter(Boolean))).sort();
+    const models = Array.from(new Set(popularData.map(g => g.model).filter(Boolean))).sort();
 
     dom.platform.innerHTML = "";
     dom.platform.appendChild(opt("", t("any")));
@@ -121,8 +130,8 @@
 
   function saveFilters(){
     try{
-      const { q, platform, genre, model, priceMax, onlyTop, pageSize } = state;
-      localStorage.setItem(LS_FILTERS, JSON.stringify({ q, platform, genre, model, priceMax, onlyTop, pageSize }));
+      const { q, platform, genre, model, priceMax, onlyTop, pageSize, mode } = state;
+      localStorage.setItem(LS_FILTERS, JSON.stringify({ q, platform, genre, model, priceMax, onlyTop, pageSize, mode }));
     }catch{}
   }
 
@@ -138,6 +147,7 @@
       if (!raw) return;
       const v = JSON.parse(raw);
       Object.assign(state, v);
+      if (v.mode) state.mode = v.mode;
       if (dom.q) dom.q.value = state.q;
       if (dom.platform) dom.platform.value = state.platform;
       if (dom.genre) dom.genre.value = state.genre;
@@ -156,6 +166,17 @@
   }
 
   function filtered(){
+    if (state.mode === "all"){
+      const q = state.q.toLowerCase();
+      const source = window.GF_STEAM?.searchIndex?.(q, 500) || steamIndex || [];
+      return source.map(row => ({
+        id: `steam-${row.appid}`,
+        steamAppId: row.appid,
+        name: { en: row.name, uk: row.name },
+        coverUrl: window.GF_STEAM?.cover?.(row.appid),
+      }));
+    }
+    const data = popularData;
     const q = state.q.toLowerCase();
     const maxP = state.priceMax ? safeNum(state.priceMax, null) : null;
     return data.filter(g => {
@@ -174,6 +195,7 @@
   function activeFilterCount(){
     let count = 0;
     if (state.q) count += 1;
+    if (state.mode === "all") return count;
     if (state.platform) count += 1;
     if (state.genre) count += 1;
     if (state.model) count += 1;
@@ -207,13 +229,18 @@
 
   function refreshFiltersGate(){
     const logged = !!GF_SHELL.getSession?.()?.user;
-    if (dom.filtersPanel) dom.filtersPanel.classList.toggle("is-locked", !logged);
-    if (dom.filtersLocked) dom.filtersLocked.hidden = logged;
-    if (dom.filtersContent) dom.filtersContent.hidden = !logged;
+    const locked = !logged || state.mode === "all";
+    if (dom.filtersPanel) dom.filtersPanel.classList.toggle("is-locked", locked);
+    if (dom.filtersLocked) dom.filtersLocked.hidden = logged && state.mode !== "all";
+    if (dom.filtersContent) dom.filtersContent.hidden = !logged || state.mode === "all";
+    if (dom.modeNotice) dom.modeNotice.hidden = state.mode !== "all";
   }
 
   // ---- sorting ----
   function sortItems(items){
+    if (state.mode === "all"){
+      return items.slice().sort((a,b) => nameOf(a).localeCompare(nameOf(b)));
+    }
     const dir = state.sortDir === "asc" ? 1 : -1;
     const key = state.sortKey;
     const getter = (g) => {
@@ -262,13 +289,72 @@
   }
 
   // ---- table ----
-  function renderTable(items){
-    if (!data.length){
-      dom.kpiCount.textContent = "0";
-      dom.pageInfo.textContent = "1 / 1";
+  function renderTableAll(items){
+    const pageSize = clamp(state.pageSize, 50, 100);
+    const total = items.length;
+    dom.kpiCount.textContent = String(total);
+    const pages = Math.max(1, Math.ceil(total / pageSize));
+    state.pageIndex = clamp(state.pageIndex, 0, pages - 1);
+    const start = state.pageIndex * pageSize;
+    const end = Math.min(total, start + pageSize);
+    const slice = items.slice(start, end);
+
+    dom.pageInfo.textContent = `${state.pageIndex + 1} / ${pages}`;
+    dom.prevPage.disabled = state.pageIndex === 0;
+    dom.nextPage.disabled = state.pageIndex >= pages - 1;
+
+    if (!total){
       dom.tbody.innerHTML = `<tr><td colspan="7" class="empty">${t("emptyData")}</td></tr>`;
       return;
     }
+
+    dom.tbody.innerHTML = "";
+    slice.forEach(row => {
+      const name = nameOf(row);
+      const id = row.id || `steam-${row.steamAppId}`;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>
+          <div class="covercell">
+            <img loading="lazy" src="${row.coverUrl || ""}" alt="${name}">
+          </div>
+        </td>
+        <td title="${name}">
+          <div class="namecell">
+            <div class="namecell__title"><a class="link--ghost" data-action="detail" href="game.html?id=${encodeURIComponent(id)}">${name}</a></div>
+            <div class="rowmeta">Steam #${row.steamAppId}</div>
+            <div class="namecell__tags"><span class="pillstat pillstat--muted">Index</span></div>
+          </div>
+        </td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>`;
+      const tdActions = document.createElement("td");
+      const actionsWrap = document.createElement("div");
+      actionsWrap.className = "actionlist";
+      const openBtn = document.createElement("button");
+      openBtn.className = "btn btn--ghost btn--mini";
+      openBtn.textContent = t("viewDetails");
+      openBtn.addEventListener("click", (ev) => { ev.stopPropagation(); goToDetail(id); });
+      actionsWrap.appendChild(openBtn);
+      tdActions.appendChild(actionsWrap);
+      tr.appendChild(tdActions);
+      tr.addEventListener("click", () => goToDetail(id));
+      dom.tbody.appendChild(tr);
+    });
+  }
+
+  function renderTable(items){
+    const data = state.mode === "all" ? steamIndex : popularData;
+    if (!data.length){
+      dom.kpiCount.textContent = "0";
+      dom.pageInfo.textContent = "1 / 1";
+      dom.tbody.innerHTML = `<tr><td colspan="7" class="empty">${state.mode === "all" ? t("emptyData") : t("emptyData")}</td></tr>`;
+      return;
+    }
+
+    if (state.mode === "all") return renderTableAll(items);
 
     const total = items.length;
     dom.kpiCount.textContent = String(total);
@@ -376,7 +462,7 @@
 
   // ---- compare modal ----
   function renderCompareModal(){
-    const items = Array.from(state.compare).map(id => data.find(x => x.id === id)).filter(Boolean);
+    const items = Array.from(state.compare).map(id => popularData.find(x => x.id === id)).filter(Boolean);
     if (!items.length || !dom.compareBody) return;
     if (items.length < 2){
       dom.compareBody.innerHTML = `<div class="empty">${t("compareHint")}</div>`;
@@ -433,7 +519,25 @@
   }
 
   function render(){
+    if (state.mode === "all" && !steamIndexLoaded && !steamIndexLoading){
+      steamIndexLoading = true;
+      dom.tbody.innerHTML = `<tr><td colspan="7" class="empty">${t("loading") || "Loading..."}</td></tr>`;
+      window.GF_STEAM?.loadIndex?.().then(list => {
+        steamIndex = Array.isArray(list) ? list : [];
+        steamIndexLoaded = true;
+        steamIndexLoading = false;
+        render();
+      }).catch(() => {
+        steamIndexLoaded = true;
+        steamIndexLoading = false;
+      });
+    }
     applyStaticLabels();
+    if (state.mode === "all" && steamIndexLoading){
+      dom.kpiCount.textContent = "...";
+      dom.pageInfo.textContent = "…";
+      return;
+    }
     updateBadges();
     renderChips();
     const items = sortItems(filtered());
@@ -441,6 +545,35 @@
   }
 
   // ---- events ----
+  function switchMode(mode){
+    if (mode !== state.mode){
+      state.mode = mode;
+      state.pageIndex = 0;
+    }
+    if (mode === "all"){
+      state.platform = "";
+      state.genre = "";
+      state.model = "";
+      state.priceMax = "";
+      state.onlyTop = false;
+      state.sortKey = "name";
+      state.sortDir = "asc";
+      state.pageSize = clamp(state.pageSize, 50, 100);
+      if (dom.platform) dom.platform.value = "";
+      if (dom.genre) dom.genre.value = "";
+      if (dom.model) dom.model.value = "";
+      if (dom.priceMax) dom.priceMax.value = "";
+      if (dom.onlyTop) dom.onlyTop.checked = false;
+      if (dom.pageSize) dom.pageSize.value = String(state.pageSize);
+    }
+    if (dom.modePopular) dom.modePopular.classList.toggle("chip--primary", mode === "popular");
+    if (dom.modeAll) dom.modeAll.classList.toggle("chip--primary", mode === "all");
+    if (dom.modeBadge) dom.modeBadge.textContent = mode === "all" ? "All Steam (Index)" : "Popular";
+    buildSelectOptions();
+    refreshFiltersGate();
+    render();
+  }
+
   function bindEvents(){
     const clearAll = () => {
       state.q = ""; dom.q.value = "";
@@ -464,10 +597,13 @@
     dom.thSort.forEach(th => th.addEventListener("click", () => {
       const key = th.getAttribute("data-sort");
       if (!key) return;
+      if (state.mode === "all" && key !== "name") return;
       if (state.sortKey === key) state.sortDir = (state.sortDir === "asc") ? "desc" : "asc";
       else { state.sortKey = key; state.sortDir = "desc"; }
       render();
     }));
+    dom.modePopular?.addEventListener("click", () => switchMode("popular"));
+    dom.modeAll?.addEventListener("click", () => switchMode("all"));
     dom.langToggle?.addEventListener("click", () => { /* handled by shell */ });
     dom.openPitch?.addEventListener("click", () => {});
     dom.openCompare?.addEventListener("click", () => { renderCompareModal(); GF_SHELL.showModal(dom.compareModal); });
@@ -490,6 +626,7 @@
     GF_SHELL.initShell("catalog");
     buildSelectOptions();
     loadFilters();
+    switchMode(state.mode);
     loadCompare();
     state.wishlist = new Set(window.GF_STORE?.wishlist?.get() || []);
     bindEvents();

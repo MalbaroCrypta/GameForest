@@ -2,7 +2,7 @@
 (function(){
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-  const data = Array.isArray(window.GF_DATA) ? window.GF_DATA : [];
+  const popularData = Array.isArray(window.GF_DATA) ? window.GF_DATA : [];
   let currentRange = "1y";
   let resizeTimer = null;
 
@@ -26,10 +26,19 @@
     const disc = discountPct(g);
     return Math.max(0, Math.round(base * (1 - disc/100)));
   }
-  function findGame(){
+  async function loadGame(){
     const params = new URLSearchParams(location.search);
-    const id = params.get("id");
-    return data.find(g => g.id === id) || null;
+    let id = params.get("id");
+    if (!id) return null;
+    if (!id.startsWith("steam-")) id = `steam-${id}`;
+    const appid = id.replace("steam-", "");
+    const found = popularData.find(g => g.id === id || `steam-${g.steamAppId}` === id);
+    if (found) return found;
+    if (window.GF_STEAM?.fetchDetails){
+      const detail = await window.GF_STEAM.fetchDetails(appid);
+      if (detail) return detail;
+    }
+    return null;
   }
 
   function renderHero(g){
@@ -115,11 +124,19 @@
     return sorted;
   }
 
+  function ensureHistory(g){
+    if (Array.isArray(g.priceHistory) && g.priceHistory.length) return g.priceHistory;
+    const built = window.GF_STEAM?.buildPriceHistory?.(g.steamAppId || g.id, g.basePriceUSD);
+    g.priceHistory = built || [];
+    return g.priceHistory;
+  }
+
   function renderChart(g, range=currentRange){
     currentRange = range;
     const svg = $("#priceChart");
     if (!svg) return;
     const box = $("#chartBox");
+    ensureHistory(g);
     const pts = chartPoints(g, range);
     if (!pts.length){
       svg.innerHTML = "";
@@ -298,13 +315,15 @@
     });
   }
 
-  function init(){
+  async function init(){
     GF_SHELL.initShell("catalog");
-    const game = findGame();
+    $("#gameTitle").textContent = "Loading...";
+    const game = await loadGame();
     if (!game){
       $("#gameTitle").textContent = "Not found";
       return;
     }
+    ensureHistory(game);
     window.GF_STORE?.stats?.view(game.id);
     renderHero(game);
     bindTabs(game);
@@ -314,6 +333,7 @@
     bindWishlist(game);
     bindCart(game);
     bindBack();
+    renderChart(game, currentRange);
     GF_I18N.apply(document);
     document.addEventListener("gf:lang", () => { renderHero(game); renderChart(game, currentRange); });
     window.addEventListener("resize", () => {
