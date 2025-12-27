@@ -70,16 +70,16 @@
   }
 
   function bindDiscordCopy(){
-    const handleCopy = () => {
-      const nick = "d1m0s_l1m0s";
+    const handleCopy = (nick) => {
       navigator.clipboard?.writeText(nick).then(() => {
         window.GF_STORE?.toast?.("Copied");
       }).catch(() => {
         window.GF_STORE?.toast?.("Discord: " + nick);
       });
     };
-    const btn = $("#discordCopy");
-    btn?.addEventListener("click", handleCopy);
+    document.querySelectorAll("[data-discord]").forEach((btn) => {
+      btn.addEventListener("click", () => handleCopy(btn.dataset.discord));
+    });
   }
 
   document.addEventListener("DOMContentLoaded", () => {
