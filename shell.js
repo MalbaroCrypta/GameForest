@@ -6,6 +6,7 @@
   const LS_CART = "gf_cart";
   const LS_STATS = "gf_stats";
   const LS_THEME = "gf_theme";
+  const LS_FILTERS = "gf_filters";
   let headerHeightRaf = null;
 
   function toast(msg){
@@ -357,6 +358,33 @@
     });
   }
 
+  function bindGlobalSearch(){
+    const input = $("#q");
+    const btn = $("#btnSearch");
+    if (!input || !btn) return;
+    if (document.body?.dataset?.page === "catalog") return;
+    const run = () => {
+      const q = (input.value || "").trim();
+      try{
+        localStorage.setItem(LS_FILTERS, JSON.stringify({
+          q,
+          platform: "",
+          genre: "",
+          model: "",
+          priceMax: "",
+          onlyTop: false,
+          pageSize: 50,
+          mode: "popular",
+        }));
+      }catch{}
+      window.location.href = "index.html";
+    };
+    btn.addEventListener("click", run);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") run();
+    });
+  }
+
   function bindDrawer(){
     const drawer = $("#navDrawer");
     const btn = $("#btnMenu");
@@ -395,6 +423,7 @@
     bindDropdown();
     bindDrawer();
     bindAccountGate();
+    bindGlobalSearch();
     updateAuthUI();
     document.addEventListener("gf:auth", updateAuthUI);
     document.addEventListener("gf:lang", syncHeaderHeight);

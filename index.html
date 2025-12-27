@@ -12,7 +12,6 @@
 <body data-page="catalog">
   <header class="topbar">
     <div class="topbar__left">
-      <button class="iconbtn iconbtn--bare" id="btnMenu" title="Menu">☰</button>
       <a class="brand" href="index.html">
         <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt="GameForest logo"></div>
         <div class="brand__name">GameForest</div>
@@ -21,7 +20,6 @@
         <a class="topnav__btn" data-page="catalog" href="index.html" data-i18n="navCatalog">Каталог</a>
         <a class="topnav__btn" data-page="market" href="market.html" data-i18n="navMarket">Маркетплейс</a>
         <a class="topnav__btn" data-page="about" href="about.html" data-i18n="navAbout">Про проєкт</a>
-        <a class="topnav__btn" data-page="account" href="account.html" data-i18n="navAccount" hidden aria-hidden="true">Мій акаунт</a>
       </nav>
     </div>
     <div class="topbar__center">
@@ -31,37 +29,13 @@
       </div>
     </div>
     <div class="topbar__right">
-      <button class="chip chip--ghost" id="themeToggle" title="Dark / Light">Dark</button>
-      <button class="chip chip--ghost" id="langToggle" title="UA / EN">UA</button>
-      <div class="userpill" id="userToggle" role="button" tabindex="0" hidden>
-        <div class="avatar" aria-hidden="true" id="userAvatar">
-          <img id="userAvatarImg" alt="" hidden>
-          <svg viewBox="0 0 40 40" role="presentation" focusable="false">
-            <circle cx="20" cy="14" r="9" class="avatar__face"></circle>
-            <rect x="8" y="24" width="24" height="10" rx="5" class="avatar__body"></rect>
-          </svg>
-        </div>
-        <div class="userpill__meta">
-          <div class="userpill__email" id="userMenuEmail">guest@gameforest.app</div>
-          <div class="userpill__hint" data-i18n="navAccount">Мій акаунт</div>
-        </div>
-        <span class="chevron">▾</span>
-      </div>
       <div class="auth">
         <span class="auth__user" id="userBadge" hidden></span>
         <button class="btn btn--ghost" id="btnLogin" data-i18n="login">Увійти</button>
         <button class="btn btn--primary" id="btnRegister" data-i18n="register">Реєстрація</button>
-        <button class="btn btn--ghost" id="btnLogout" hidden data-i18n="logout">Вийти</button>
       </div>
     </div>
   </header>
-  <div class="dropdown hidden" id="userDropdown">
-    <a class="dropdown__item" href="account.html" data-i18n="navAccount">Мій акаунт</a>
-    <button class="dropdown__item" type="button" data-go="wishlist" data-i18n="wishlist">Wishlist</button>
-    <button class="dropdown__item" type="button" data-go="cart" data-i18n="cart">Кошик</button>
-    <button class="dropdown__item" type="button" data-open="pitch" data-i18n="pitchBtn">Pitch</button>
-    <button class="dropdown__item" type="button" id="dropdownLogout" data-i18n="logout">Вийти</button>
-  </div>
   <div class="drawer" id="navDrawer">
     <div class="drawer__backdrop" data-close="drawer"></div>
     <aside class="drawer__panel">
@@ -81,10 +55,6 @@
         <a href="about.html" data-page="about">
           <span data-i18n="navAbout">Про проєкт</span>
           <span class="drawer__link-meta">Опис та FAQ</span>
-        </a>
-        <a href="account.html" data-page="account" hidden aria-hidden="true">
-          <span data-i18n="navAccount">Мій акаунт</span>
-          <span class="drawer__link-meta">Wishlist, cart</span>
         </a>
       </div>
       <div class="drawer__hint">Зберігайте ігри, додавайте в wishlist та порівнюйте позиції навіть з мобільного.</div>
@@ -234,7 +204,7 @@
         <a href="#" aria-label="Support">Support</a>
       </div>
       <div class="footer__legal">
-        Marketplace, API та партнерські інтеграції — за прямим запитом до Malbaro.
+        Marketplace, API та партнерські інтеграції — за прямим запитом до Дмитра Шалагінова.
       </div>
     </div>
   </footer>
