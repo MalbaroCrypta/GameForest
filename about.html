@@ -12,7 +12,6 @@
 <body data-page="about">
   <header class="topbar">
     <div class="topbar__left">
-      <button class="iconbtn iconbtn--bare" id="btnMenu" title="Menu">☰</button>
       <a class="brand" href="index.html">
         <div class="brand__logo"><img src="./assets/gameforest-logo.svg" alt="GameForest logo"></div>
         <div class="brand__name">GameForest</div>
@@ -21,42 +20,22 @@
         <a class="topnav__btn" data-page="catalog" href="index.html" data-i18n="navCatalog">Каталог</a>
         <a class="topnav__btn" data-page="market" href="market.html" data-i18n="navMarket">Маркетплейс</a>
         <a class="topnav__btn" data-page="about" href="about.html" data-i18n="navAbout">Про проєкт</a>
-        <a class="topnav__btn" data-page="account" href="account.html" data-i18n="navAccount" hidden aria-hidden="true">Мій акаунт</a>
       </nav>
     </div>
-    <div class="topbar__center"></div>
-    <div class="topbar__right">
-      <button class="chip chip--ghost" id="themeToggle" title="Dark / Light">Dark</button>
-      <button class="chip chip--ghost" id="langToggle" title="UA / EN">UA</button>
-      <div class="userpill" id="userToggle" role="button" tabindex="0" hidden>
-        <div class="avatar" aria-hidden="true" id="userAvatar">
-          <img id="userAvatarImg" alt="" hidden>
-          <svg viewBox="0 0 40 40" role="presentation" focusable="false">
-            <circle cx="20" cy="14" r="9" class="avatar__face"></circle>
-            <rect x="8" y="24" width="24" height="10" rx="5" class="avatar__body"></rect>
-          </svg>
-        </div>
-        <div class="userpill__meta">
-          <div class="userpill__email" id="userMenuEmail">guest@gameforest.app</div>
-          <div class="userpill__hint" data-i18n="navAccount">Мій акаунт</div>
-        </div>
-        <span class="chevron">▾</span>
+    <div class="topbar__center">
+      <div class="search">
+        <input id="q" class="search__input" type="search" placeholder="Пошук гри..." data-i18n-placeholder="searchPlaceholder" />
+        <button class="search__btn" id="btnSearch">🔎</button>
       </div>
+    </div>
+    <div class="topbar__right">
       <div class="auth">
         <span class="auth__user" id="userBadge" hidden></span>
         <button class="btn btn--ghost" id="btnLogin" data-i18n="login">Увійти</button>
         <button class="btn btn--primary" id="btnRegister" data-i18n="register">Реєстрація</button>
-        <button class="btn btn--ghost" id="btnLogout" hidden data-i18n="logout">Вийти</button>
       </div>
     </div>
   </header>
-  <div class="dropdown hidden" id="userDropdown">
-    <a class="dropdown__item" href="account.html" data-i18n="navAccount">Мій акаунт</a>
-    <button class="dropdown__item" type="button" data-go="wishlist" data-i18n="wishlist">Wishlist</button>
-    <button class="dropdown__item" type="button" data-go="cart" data-i18n="cart">Кошик</button>
-    <button class="dropdown__item" type="button" data-open="pitch" data-i18n="pitchBtn">Pitch deck</button>
-    <button class="dropdown__item" type="button" id="dropdownLogout" data-i18n="logout">Вийти</button>
-  </div>
   <div class="drawer" id="navDrawer">
     <div class="drawer__backdrop" data-close="drawer"></div>
     <aside class="drawer__panel">
@@ -68,7 +47,6 @@
         <a href="index.html" data-page="catalog" data-i18n="navCatalog">Каталог</a>
         <a href="market.html" data-page="market" data-i18n="navMarket">Маркетплейс</a>
         <a href="about.html" data-page="about" data-i18n="navAbout">Про проєкт</a>
-        <a href="account.html" data-page="account" data-i18n="navAccount" hidden aria-hidden="true">Мій акаунт</a>
       </div>
       <div class="drawer__actions">
         <button class="btn btn--ghost w100" data-drawer="wishlist" data-i18n="wishlist">Wishlist</button>
@@ -171,15 +149,15 @@
       <div class="panel__head">
         <div>
           <div class="panel__title" data-i18n="aboutOwner">Власник проєкту</div>
-          <div class="panel__muted" data-i18n="aboutOwnerMeta">Malbaro — продукт, аналітика, go-to-market.</div>
+          <div class="panel__muted" data-i18n="aboutOwnerMeta">Дмитро Шалагінов — продукт, аналітика, go-to-market.</div>
         </div>
       </div>
       <div class="panel__body ownerblock">
         <div class="ownerblock__bio">
           <div class="owner">
-            <div class="owner__avatar">M</div>
+            <div class="owner__avatar">ДШ</div>
             <div>
-              <div class="owner__name">Malbaro</div>
+              <div class="owner__name">Дмитро Шалагінов</div>
               <div class="owner__meta" data-i18n="aboutOwnerTitle">Founder & Product Lead</div>
             </div>
           </div>
@@ -190,10 +168,51 @@
           <div class="card__title" data-i18n="aboutCtaTitle">Звʼязок</div>
           <div class="card__desc" data-i18n="aboutCtaCopy">Напишіть, якщо потрібна інтеграція API, white-label чи участь в раунді. Підготуємо цифри, ліди та прогнозні доходи.</div>
           <div class="socialrow">
-            <a class="socialbtn" href="https://t.me/Malbaro_SGX" target="_blank" rel="noopener" aria-label="Telegram">
+            <a class="socialbtn" href="https://t.me/dmytro_shalahinov" target="_blank" rel="noopener" aria-label="Telegram">
               <span>Telegram</span>
             </a>
             <button class="socialbtn" type="button" id="discordCopy">Discord: d1m0s_l1m0s</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel__head">
+        <div>
+          <div class="panel__title">Про засновників</div>
+          <div class="panel__muted">Команда, що розвиває GameForest як преміум-продукт.</div>
+        </div>
+      </div>
+      <div class="panel__body">
+        <div class="founders">
+          <div class="founder">
+            <div class="founder__avatar">ВК</div>
+            <div>
+              <div class="founder__name">Владислав Костів</div>
+              <div class="founder__role">Product & бізнес-напрям</div>
+            </div>
+          </div>
+          <div class="founder">
+            <div class="founder__avatar">ВН</div>
+            <div>
+              <div class="founder__name">Владислав Новохатко</div>
+              <div class="founder__role">Аналітика та UX</div>
+            </div>
+          </div>
+          <div class="founder">
+            <div class="founder__avatar">Н</div>
+            <div>
+              <div class="founder__name">Нєфор</div>
+              <div class="founder__role">Дані та каталогізація</div>
+            </div>
+          </div>
+          <div class="founder">
+            <div class="founder__avatar">ДШ</div>
+            <div>
+              <div class="founder__name">Дмитро Шалагінов</div>
+              <div class="founder__role">Фінальна архітектура продукту</div>
+            </div>
           </div>
         </div>
       </div>
@@ -221,7 +240,7 @@
         <a href="#" aria-label="Support">Support</a>
       </div>
       <div class="footer__legal">
-        Marketplace, API та партнерські інтеграції — за прямим запитом до Malbaro.
+        Marketplace, API та партнерські інтеграції — за прямим запитом до Дмитра Шалагінова.
       </div>
     </div>
   </footer>

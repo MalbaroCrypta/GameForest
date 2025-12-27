@@ -146,9 +146,9 @@
       box?.classList.remove("is-loading");
       return;
     }
-    const w = svg.clientWidth || 640;
-    const h = svg.clientHeight || 260;
-    const prices = pts.map(p => p.price);
+    const w = Math.max(svg.clientWidth || 0, box?.clientWidth || 0, 640);
+    const h = Math.max(svg.clientHeight || 0, 260);
+    const prices = pts.map(p => safeNum(p.price, 0));
     const min = Math.min(...prices);
     const max = Math.max(...prices);
     $("#minVal").textContent = fmtMoney(min);
@@ -161,9 +161,10 @@
     const xStep = (w - pad*2) / Math.max(pts.length - 1, 1);
     const yScale = (h - pad*2) / Math.max(max - min, 1);
     const coords = pts.map((p, i) => {
+      const price = safeNum(p.price, 0);
       const x = pad + i * xStep;
-      const y = h - pad - (p.price - min) * yScale;
-      return { ...p, x, y };
+      const y = h - pad - (price - min) * yScale;
+      return { ...p, x, y, price };
     });
 
     const path = coords.map((c,i) => `${i===0 ? "M" : "L"}${c.x},${c.y}`).join(" ");
